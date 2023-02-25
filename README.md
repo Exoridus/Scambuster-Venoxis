@@ -1,12 +1,27 @@
 # Scambuster-Venoxis
 
-Extension addon provided by [Venoxis Discord](https://discord.gg/NGtvvQYnmP) for [Scambuster](https://github.com/hypernormalisation/Scambuster), packaging information\
-on scammers and scam histories into [Scambuster](https://github.com/hypernormalisation/Scambuster), to protect players in-game.
+Extension addon for Scambuster, packaging information on scammers and scam histories into [Scambuster](https://github.com/hypernormalisation/Scambuster), to protect players in-game. provided by Venoxis Discord:
 
-Available at [curseforge.com/wow/addons/scambuster-venoxis](https://www.curseforge.com/wow/addons/scambuster-venoxis)
+- https://discord.gg/NGtvvQYnmP
+
+Available on Curseforge:
+
+- [https://www.curseforge.com/wow/addons/scambuster-venoxis](https://www.curseforge.com/wow/addons/scambuster-venoxis)
+
+Github Project Page:
+
+-   [https://github.com/Exoridus/Scambuster-Venoxis](https://github.com/Exoridus/Scambuster-Venoxis)
 
 ## Getting Started
 
-This addon packages realm data on scammers to be used with the [Scambuster](https://github.com/hypernormalisation/Scambuster) addon framework.
-As such, it requires both addons to work. Once you install [Scambuster-Venoxis](https://www.curseforge.com/wow/addons/scambuster-venoxis) alongside [Scambuster](https://www.curseforge.com/wow/addons/scambuster), the game will alert you in real-time whenever you encounter a scammer.
-To access the configuration options type `/scambuster` into the chat panel or open it via the interface addon menu.
+This addon packages realm data on scammers to be used with the [Scambuster](https://github.com/hypernormalisation/Scambuster) addon framework. As such, it requires Scambuster to work:
+
+-   [https://www.curseforge.com/wow/addons/scambuster](https://www.curseforge.com/wow/addons/scambuster)
+-   [https://github.com/hypernormalisation/Scambuster](https://github.com/hypernormalisation/Scambuster)
+
+Once you install Scambuster-Golemagg alongside Scambuster, the game will alert you in real-time whenever you encounter a scammer. To access the configuration options simply type into the chat panel:
+
+-   `\scambuster` or
+-   `\sb`
+
+to access the config menu (which can also be accessed in the game options via Interface/Addons).

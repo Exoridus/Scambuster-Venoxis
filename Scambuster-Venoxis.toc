@@ -5,6 +5,8 @@
 ## Version: @project-version@
 ## DefaultState: enabled
 ## Dependencies: Scambuster
+## X-Curse-Project-ID: 831364
+## X-Wago-ID: 4N2mEdGL
 
 LibStub.lua
 settings.lua
