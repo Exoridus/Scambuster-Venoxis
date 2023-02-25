@@ -1,0 +1,12 @@
+## Interface: 30401
+## Title: Scambuster-Venoxis
+## Notes: Extension for Scambuster packaging Venoxis realm data
+## Author: Exoridus
+## Version: @project-version@
+## DefaultState: enabled
+## Dependencies: Scambuster
+
+LibStub.lua
+settings.lua
+list.lua
+core.lua
