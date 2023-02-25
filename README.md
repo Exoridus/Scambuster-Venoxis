@@ -21,7 +21,7 @@ This addon packages realm data on scammers to be used with the [Scambuster](http
 
 Once you install Scambuster-Golemagg alongside Scambuster, the game will alert you in real-time whenever you encounter a scammer. To access the configuration options simply type into the chat panel:
 
--   `\scambuster` or
--   `\sb`
+-   `/scambuster` or
+-   `/sb`
 
 to access the config menu (which can also be accessed in the game options via Interface/Addons).
