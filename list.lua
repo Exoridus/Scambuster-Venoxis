@@ -1,12 +1,12 @@
-local _, t = ...
+---@type string, AddonTable
+local _, t = ...;
 
---=========================================================================================
--- Venoxis Discord Blocklist based on the official blacklist:
--- https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit#gid=0
---=========================================================================================
+--================================================================================================--
+-- Venoxis Discord Blocklist based on the official google sheets blacklist:                       --
+-- https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit#gid=0 --
+--================================================================================================--
 
-t.version = "@project-version@"
-
+---@type CaseTable
 t.case_table = {
   [1] = {
     name = "Alcyona",
@@ -14,18 +14,19 @@ t.case_table = {
     class = "PALADIN",
     faction = "Horde",
     description = "Booster kickt Leute / geht Offline nach Bezahlung ohne Leistung",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/984066550950662194",
     category = "trade",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/984066550950662194",
   },
   [2] = {
     name = "Alle",
     guid = "Player-4477-046C5B97",
+    class = "DEATHKNIGHT",
     faction = "Horde",
     description = "Veranstaltet als Gilde BT Prio Runs und scamt hart bei der Lootvergabe (Randoms dürfen nur auf ihre Prios rollen aber Gilde darf auf alles Bieten und Prios überschreiben.",
+    url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit#gid=0",
     category = "raid",
     level = 3,
-    url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit#gid=0",
   },
   [3] = {
     name = "Alonewoolf",
@@ -33,9 +34,9 @@ t.case_table = {
     class = "DRUID",
     faction = "Horde",
     description = "Stellt im 5er vor dem Endboss den PM ein und Ninjat fast alles / bisher 3 Meldungen zu diesem Spieler",
+    url = "https://discord.com/channels/613060619738021890/1029711210918191154/1073129858361737276",
     category = "dungeon",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/1029711210918191154/1073129858361737276",
   },
   [4] = {
     name = "Arbeitslos",
@@ -43,18 +44,19 @@ t.case_table = {
     class = "MAGE",
     faction = "Horde",
     description = "Bekommt vom RL ein Item falsch zugewiesen und geht nach der Aufforderung dieses zu traden direkt offline",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1078668551566671962",
     category = "trade",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1078668551566671962",
   },
   [5] = {
     name = "Boomboompøw",
     guid = "Player-4477-04C424C5",
+    class = "HUNTER",
     faction = "Horde",
     description = "Scamt Prio1 Item und vergibt es an ein Gildenmitglied (Mainchar = Nøxic)",
+    url = "https://discord.com/channels/613060619738021890/972036752283926578/1062805295056818266",
     category = "raid",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/972036752283926578/1062805295056818266",
   },
   [6] = {
     name = "Brodyrich",
@@ -62,9 +64,9 @@ t.case_table = {
     class = "DEATHKNIGHT",
     faction = "Horde",
     description = "Geht mit 75k vom Gdkp offline und kickt alle vom DC-Server / Dc-Tag = Gigawizard#8360",
-    category = "gdkp",
-    level = 4,
     url = "https://discord.com/channels/613060619738021890/972036752283926578/1059169678292942878",
+    category = "gdkp",
+    level = 3,
   },
   [7] = {
     name = "Cruzitô",
@@ -72,9 +74,9 @@ t.case_table = {
     class = "MAGE",
     faction = "Horde",
     description = "Steckt gern Items sich selbst oder seinen Kumpels zu. ",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1044684405840564316",
     category = "trade",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1044684405840564316",
   },
   [8] = {
     name = "Dakiny",
@@ -82,9 +84,9 @@ t.case_table = {
     class = "PALADIN",
     faction = "Alliance",
     description = "Kara Mount geninjat + leave",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/984075667069095936",
     category = "raid",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/984075667069095936",
   },
   [9] = {
     name = "Danser",
@@ -92,9 +94,9 @@ t.case_table = {
     class = "ROGUE",
     faction = "Horde",
     description = "Danser und Intonraiha ninjan sich gern mal gegenseitig Items zu als Plündermeister. Scam Pugs!",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1046099363648245930",
     category = "raid",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1046099363648245930",
   },
   [10] = {
     name = "Daserus",
@@ -102,9 +104,9 @@ t.case_table = {
     class = "PALADIN",
     faction = "Horde",
     description = "Geheime Absprachen bezüglich Gold-Gebote in seinen Gdkp-Raids (sein Twink heißt Fleta)",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1054029597320163408",
     category = "gdkp",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1054029597320163408",
   },
   [11] = {
     name = "Deinorc",
@@ -112,9 +114,9 @@ t.case_table = {
     class = "WARRIOR",
     faction = "Horde",
     description = "Ninjat durch PM-Bug das Prio1 Item eines anderen Spielers und geht instant offline",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1064114144883785838",
     category = "raid",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1064114144883785838",
   },
   [12] = {
     name = "Elrether",
@@ -122,9 +124,9 @@ t.case_table = {
     class = "MAGE",
     faction = "Horde",
     description = "Booster kickt Leute / geht Offline nach Bezahlung ohne Leistung",
+    url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit#gid=0",
     category = "dungeon",
     level = 3,
-    url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit#gid=0",
   },
   [13] = {
     name = "Faktorial",
@@ -132,9 +134,9 @@ t.case_table = {
     class = "MAGE",
     faction = "Horde",
     description = "Kassiert 120 Gold - pullt - stirbt und geht dann offline",
+    url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit#gid=0",
     category = "dungeon",
     level = 3,
-    url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit#gid=0",
   },
   [14] = {
     name = "Fleta",
@@ -142,9 +144,9 @@ t.case_table = {
     class = "WARRIOR",
     faction = "Horde",
     description = "Geheime Absprachen bezüglich Gold-Gebote in seinen Gdkp-Raids (sein Main heißt Daserus)",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1054029597320163408",
     category = "gdkp",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1054029597320163408",
   },
   [15] = {
     name = "Fyfy",
@@ -152,27 +154,29 @@ t.case_table = {
     class = "DRUID",
     faction = "Horde",
     description = "Needet alle Items in 5mann HC+",
+    url = "https://discord.com/channels/613060619738021890/1029711210918191154/1065655958795194378",
     category = "dungeon",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/1029711210918191154/1065655958795194378",
   },
   [16] = {
     name = "Gromgrul",
     guid = "Player-4477-03DE0567",
+    class = "WARRIOR",
     faction = "Horde",
     description = "Plündert gern mal die Gildenbank",
-    category = "trade",
-    level = 4,
     url = "https://discord.com/channels/613060619738021890/915181409155563521/972958108475330570",
+    category = "trade",
+    level = 3,
   },
   [17] = {
     name = "Hellsângel",
     guid = "Player-4477-04D9ADE0",
+    class = "PALADIN",
     faction = "Horde",
     description = "Geht mit 23.5k vom Gdkp offline und kommt nicht wieder",
-    category = "gdkp",
-    level = 4,
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1078427424926220409",
+    category = "gdkp",
+    level = 3,
   },
   [18] = {
     name = "Intonraiha",
@@ -180,18 +184,19 @@ t.case_table = {
     class = "PALADIN",
     faction = "Horde",
     description = "Danser und Intonraiha ninjan sich gern mal gegenseitig Items zu als Plündermeister. Scam Pugs!",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1046099363648245930",
     category = "raid",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1046099363648245930",
   },
   [19] = {
     name = "Jenpai",
     guid = "Player-4477-03B2BFD8",
+    class = "PALADIN",
     faction = "Horde",
     description = "Booster kickt Leute / geht Offline nach Bezahlung ohne Leistung",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/983417620437032970",
     category = "dungeon",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/983417620437032970",
   },
   [20] = {
     name = "Jensha",
@@ -199,9 +204,9 @@ t.case_table = {
     class = "MAGE",
     faction = "Horde",
     description = "Booster kickt Leute / geht Offline nach Bezahlung ohne Leistung",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/980863146111672370",
     category = "dungeon",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/980863146111672370",
   },
   [21] = {
     name = "Kessler",
@@ -209,19 +214,19 @@ t.case_table = {
     class = "DRUID",
     faction = "Horde",
     description = "Hält sich nicht an Prio-Listen und verteilt Items nach seinem Ermessen",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1055966524466274315",
     category = "raid",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1055966524466274315",
   },
   [22] = {
     name = "Kugit",
     guid = "Player-4477-044F88CE",
-    class = "Jäger",
+    class = "HUNTER",
     faction = "Horde",
     description = "Erstellt NaxxPUG ohne Lootsystem und tradet Endbossloot an jemanden der nicht per Roll gewonnen hat",
+    url = "https://discord.com/channels/613060619738021890/972036752283926578/1068688364716445807",
     category = "raid",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/972036752283926578/1068688364716445807",
   },
   [23] = {
     name = "Lachman",
@@ -229,9 +234,9 @@ t.case_table = {
     class = "WARRIOR",
     faction = "Horde",
     description = "Ninjat Items als Plündermeister",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/980200744185630781",
     category = "raid",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/980200744185630781",
   },
   [24] = {
     name = "Laredai",
@@ -239,9 +244,9 @@ t.case_table = {
     class = "PRIEST",
     faction = "Horde",
     description = "Lockt Betrayer aber gibt diese Info nicht an nachträglich in den Raid geladene Spieler weiter. Nachzügler setzt Betrayer auf Prio1 - erhält trotzdem keine Info / Betrayer ist droppt und wurde an Stahlklang-Gildenmember vergeben",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1057476414938546236",
     category = "raid",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1057476414938546236",
   },
   [25] = {
     name = "Lookìí",
@@ -249,9 +254,9 @@ t.case_table = {
     class = "DRUID",
     faction = "Horde",
     description = "Verrollt Items nicht - zieht sie einfach an / lässt Items im Raid ablaufen - sodass kein verrollen mehr möglich ist / DC-Tag: Lookii#9050",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1068320436456259654",
     category = "raid",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1068320436456259654",
   },
   [26] = {
     name = "Lovetap",
@@ -259,9 +264,9 @@ t.case_table = {
     class = "SHAMAN",
     faction = "Horde",
     description = "Antisemit",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/982000954377396244",
     category = "harassment",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/982000954377396244",
   },
   [27] = {
     name = "Lyzak",
@@ -269,9 +274,9 @@ t.case_table = {
     class = "PALADIN",
     faction = "Horde",
     description = "Kassiert 2k Gold als Eintrittsgeld für 25Prio-Run + scamt dann Prio1 Item Turning Tide / Empfänger des Items: Lorani - gleiche Gilde / Discord-Tag: EinfachCanTV#8479",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1066022134540931243",
     category = "raid",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1066022134540931243",
   },
   [28] = {
     name = "Mczwuggi",
@@ -279,9 +284,9 @@ t.case_table = {
     class = "WARRIOR",
     faction = "Horde",
     description = "Steckt kompletten Pot im 10er GDKP ein. Scam",
-    category = "gdkp",
-    level = 4,
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1045384854042324992",
+    category = "gdkp",
+    level = 3,
   },
   [29] = {
     name = "Melthise",
@@ -289,9 +294,9 @@ t.case_table = {
     class = "MAGE",
     faction = "Horde",
     description = "Booster kickt Leute / geht Offline nach Bezahlung ohne Leistung",
+    url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit#gid=0",
     category = "dungeon",
     level = 3,
-    url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit#gid=0",
   },
   [30] = {
     name = "Nakrotss",
@@ -299,9 +304,9 @@ t.case_table = {
     class = "MAGE",
     faction = "Horde",
     description = "Booster kickt Leute / geht Offline nach Bezahlung ohne Leistung",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/987944740307759145",
     category = "dungeon",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/987944740307759145",
   },
   [31] = {
     name = "Nøxic",
@@ -309,9 +314,9 @@ t.case_table = {
     class = "PRIEST",
     faction = "Horde",
     description = "Scamt Prio1 Item und vergibt es an ein Gildenmitglied / Twink = Boomboompøw",
+    url = "https://discord.com/channels/613060619738021890/972036752283926578/1062805295056818266",
     category = "raid",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/972036752283926578/1062805295056818266",
   },
   [32] = {
     name = "Palaslust",
@@ -319,9 +324,9 @@ t.case_table = {
     class = "PALADIN",
     faction = "Horde",
     description = "Prio 1 Run: Der RL teilt das Sartharion-3D-Mount dem falschen Spieler zu und dieser geht instant offline. ",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1071209778996580422",
     category = "raid",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1071209778996580422",
   },
   [33] = {
     name = "Sandmanncs",
@@ -329,18 +334,19 @@ t.case_table = {
     class = "MAGE",
     faction = "Horde",
     description = "Schließt Raider willkürlich vom Cut aus DC-Tag: Sandmann#7274",
+    url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit#gid=0",
     category = "gdkp",
     level = 3,
-    url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit#gid=0",
   },
   [34] = {
     name = "Saucenbinder",
     guid = "Player-4477-045558EF",
+    class = "WARLOCK",
     faction = "Horde",
     description = "Plündert gern mal die Gildenbank",
-    category = "trade",
-    level = 4,
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1035874189783093248",
+    category = "trade",
+    level = 3,
   },
   [35] = {
     name = "Sintussa",
@@ -348,9 +354,9 @@ t.case_table = {
     class = "WARRIOR",
     faction = "Horde",
     description = "Kickt rnd Leute aus dem GDKP und zwingt zum kauf von Trashitems",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/982419099516801095",
     category = "gdkp",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/982419099516801095",
   },
   [36] = {
     name = "Strønghøld",
@@ -358,27 +364,29 @@ t.case_table = {
     class = "WARRIOR",
     faction = "Horde",
     description = "Ändert im Priorun die Prios ab nachdem die Liste veröffentlich wurde (wieder hidden und reopen). Gilde steht dahinter ... komplett meiden den Verein.",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1038474981937528913",
     category = "raid",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1038474981937528913",
   },
   [37] = {
     name = "Sunnytätär",
     guid = "Player-4477-039FE91B",
+    class = "PRIEST",
     faction = "Horde",
     description = "Locken mitten im ZA Prio Run Items",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/976518445510328401",
     category = "raid",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/976518445510328401",
   },
   [38] = {
     name = "Trytofly",
     guid = "Player-4477-03BDE4D2",
+    class = "PALADIN",
     faction = "Horde",
     description = "Scammer! Klaut Craftmats",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/962628189962768405",
     category = "trade",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/962628189962768405",
   },
   [39] = {
     name = "Ukrgul",
@@ -386,9 +394,9 @@ t.case_table = {
     class = "MAGE",
     faction = "Horde",
     description = "Booster kickt Leute / geht Offline nach Bezahlung ohne Leistung",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/982727605914599557",
     category = "dungeon",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/982727605914599557",
   },
   [40] = {
     name = "Ultraboost",
@@ -396,9 +404,9 @@ t.case_table = {
     class = "MAGE",
     faction = "Horde",
     description = "Zahlt falschen Cut aus und beleidigt auf Nachfrage",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/967767521560240169",
     category = "gdkp",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/967767521560240169",
   },
   [41] = {
     name = "Valentinmlk",
@@ -406,9 +414,9 @@ t.case_table = {
     class = "MAGE",
     faction = "Horde",
     description = "Booster kickt Leute / geht Offline nach Bezahlung ohne Leistung",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/982727605914599557",
     category = "dungeon",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/982727605914599557",
   },
   [42] = {
     name = "Vejrekaiah",
@@ -416,9 +424,9 @@ t.case_table = {
     class = "MAGE",
     faction = "Horde",
     description = "Macht Gdkp auf und verschwindet mit dem ganzen Pot / 108.750 Gold",
-    category = "gdkp",
-    level = 4,
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1069276743430570035",
+    category = "gdkp",
+    level = 3,
   },
   [43] = {
     name = "Wandan",
@@ -426,18 +434,19 @@ t.case_table = {
     class = "MAGE",
     faction = "Horde",
     description = "Booster kickt Leute / geht Offline nach Bezahlung ohne Leistung",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/984875343175352361",
     category = "dungeon",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/984875343175352361",
   },
   [44] = {
     name = "Wortalmombat",
     guid = "Player-4477-04554B62",
+    class = "WARRIOR",
     faction = "Horde",
     description = "Beleidigt aufs übelste den Gildenlead nach Kick (Homophob diesdas)",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1035617814171623474",
     category = "harassment",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1035617814171623474",
   },
   [45] = {
     name = "Zizmo",
@@ -445,9 +454,9 @@ t.case_table = {
     class = "HUNTER",
     faction = "Horde",
     description = "Scammed bei Deathrolls (rolled /2-2 und so faxen) der Frechfuchs",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/995699503577436180",
     category = "trade",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/995699503577436180",
   },
   [46] = {
     name = "Zullser",
@@ -455,9 +464,9 @@ t.case_table = {
     class = "MAGE",
     faction = "Horde",
     description = "Booster kickt Leute / geht Offline nach Bezahlung ohne Leistung",
+    url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit#gid=0",
     category = "dungeon",
     level = 3,
-    url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit#gid=0",
   },
   [47] = {
     name = "Dejox",
@@ -465,9 +474,9 @@ t.case_table = {
     class = "ROGUE",
     faction = "Horde",
     description = "Plündert gern mal die Gildenbank Alts: Dkgoesbrbr / Buyvet.",
-    category = "trade",
-    level = 4,
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1036332378873942187",
+    category = "trade",
+    level = 3,
   },
   [48] = {
     name = "Dkgoesbrbr",
@@ -475,9 +484,9 @@ t.case_table = {
     class = "DEATHKNIGHT",
     faction = "Horde",
     description = "Plündert gern mal die Gildenbank Alts: Dejox / Buyvet.",
-    category = "trade",
-    level = 4,
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1036332378873942187",
+    category = "trade",
+    level = 3,
   },
   [49] = {
     name = "Buyvet",
@@ -485,18 +494,19 @@ t.case_table = {
     class = "PALADIN",
     faction = "Horde",
     description = "Plündert gern mal die Gildenbank Alts: Dejox / Dkgoesbrbr.",
-    category = "trade",
-    level = 4,
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1036332378873942187",
+    category = "trade",
+    level = 3,
   },
   [50] = {
     name = "Vitalyv",
     guid = "Player-4477-043BDE5B",
+    class = "PALADIN",
     faction = "Horde",
     description = "Würfelt auf alles Bedarf und versucht die Items dann gegen Gold an die Spieler zu verkaufen die Need haben. Ganze Gilde besteht aus Ninjalootern. 2-3 Spieler.",
+    url = "https://discord.com/channels/613060619738021890/1029711210918191154/1080245642896613417",
     category = "trade",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/1029711210918191154/1080245642896613417",
   },
   [51] = {
     name = "Cînderrella",
@@ -504,9 +514,9 @@ t.case_table = {
     class = "MAGE",
     faction = "Horde",
     description = "Eröffnet Gdkp run und haut dann mit dem gesamten Pot ab.  81.402 Gold / Zweiter Gdkp Scam: 56.500 / Siehe auch Charakter: Pumperlumper, Dannymage",
-    category = "gdkp",
-    level = 4,
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1080868571279790210",
+    category = "gdkp",
+    level = 3,
   },
   [52] = {
     name = "Convexyz",
@@ -514,9 +524,9 @@ t.case_table = {
     class = "PRIEST",
     faction = "Horde",
     description = "Steckt sich nach PrioRun den Drachen und die Beutetasche aus Obsi 3D 10er ein obwohl er es nicht auf Prio hatte",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1084141800903684136",
     category = "raid",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1084141800903684136",
   },
   [53] = {
     name = "Amaluca",
@@ -524,9 +534,9 @@ t.case_table = {
     class = "PRIEST",
     faction = "Horde",
     description = "Vergibt zuerst sein Item falsch und behält sich dann einen Token aus Frust ein, der ihm nicht gehört",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1086865128026275930",
     category = "raid",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1086865128026275930",
   },
   [54] = {
     name = "Arcturuz",
@@ -534,9 +544,9 @@ t.case_table = {
     class = "SHAMAN",
     faction = "Horde",
     description = "Bekommt eine Waffe unabsichtlich falsch getradet und geht sofort damit offline",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1042597576882528296",
     category = "trade",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1042597576882528296",
   },
   [55] = {
     name = "Jondeepfreez",
@@ -544,35 +554,32 @@ t.case_table = {
     class = "MAGE",
     faction = "Horde",
     description = "Scammt in einer 5er Gruppe alle Items und geht und dann offlne ohne die Splitter zu verteilen / zudem gibt er es auch per whisper zu (siehe BL in Venoxis DC)",
+    url = "https://discord.com/channels/613060619738021890/1029711210918191154/1087391435378143393",
     category = "dungeon",
     level = 3,
-    url = "https://discord.com/channels/613060619738021890/1029711210918191154/1087391435378143393",
   },
+};
 
-  -- Characters on which the data request failed. Most likely due to deletion / transfer / renaming:
-  --  [Cradran]: Rollt gern ohne zu Zahlen
-  --  [Dannymage]: Eröffnet Gdkp run und haut dann mit dem gesamten Pot ab. 81.402 Gold / Siehe auch Charakter: Pumperlumper
-  --  [Diggernick]: Rollt gern ohne zu Zahlen
-  --  [Dirtyrouge]: Lootdrama / spricht kein Deutsch / versucht zu scammen
-  --  [Dreamyx]: ZA GDKP Orga: Will loot behalten statt diss aber nicht zahlen. Geht off vorm Endboss mitm Pot
-  --  [Fikky]: Blacklisted sich selbst: Verkauft ZA Bär für 2K und fügt es nicht dem GDKP Pot hinzu.
-  --  [Greves]: ZA GDKP Orga: Will loot behalten statt diss aber nicht zahlen.
-  --  [Handwerkerr]: GDKP Betrüger / vorheriger Name war: Würfelbotqt / unterschlägt 116k Gold und zahlt keinen Cut aus
-  --  [Hoibedere]: Gönnt sich als ZA alle Splitter Greens und Hexerstecken
-  --  [Javoor]: Rollt gern ohne zu Zahlen
-  --  [Lebkuchen]: Locken mitten im ZA Prio Run Items
-  --  [LilToxec]: Geht als Buyer mit und hat kein Gold - beleidigt dann nach Aufforderung zu kaufen.
-  --  [Lister]: Booster kickt Leute / geht Offline nach Bezahlung ohne Leistung
-  --  [Niemandmc]: Ninjat weil PM vergessen wurde und verkauft die Tokens
-  --  [PPQOR]: Booster kickt Leute / geht Offline nach Bezahlung ohne Leistung
-  --  [Pumperlumper]: Eröffnet Gdkp run und haut dann mit dem gesamten Pot ab. 81.402 Gold / Namechange zu: Dannymage
-  --  [Rôôz]: Geht als Buyer mit und hat kein Gold - beleidigt dann nach Aufforderung zu kaufen.
-  --  [Stysthy]: Würfelt 2x für ein Item bei Malygos. Der RL übersieht das und weist ihm ungerechtfertigt ein Item zu. Danach verlässt er direkt den Raid. Wurde wegen diesem Vorfall aus der Gilde gekickt.
-  --  [Thilon]: Lockt Betrayer aber gibt diese Info nicht an nachträglich in den Raid geladene Spieler weiter. Nachzügler setzt Betrayer auf Prio1 - erhält trotzdem keine Info / Betrayer ist droppt und wurde an Stahlklang-Gildenmember vergeben
-  --  [Ungeiimpfter]: Plündert gern mal die Gildenbank Alts: Dejox(Rogue) / Dkgoesbrbr(DK obv) / Buyvet (Paladin).
-  --  [Vibecheckk]: Lockt rnd Items ohne Vorabinfo
-  --  [Würfelbotqt]: Geht mit 116k Gold offline und verteilt keinen Cut / GDKP Betrüger / hat Namen in Handwerkerr geändert
-}
-
-
-
+-- Characters on which the data request failed. Most likely due to deletion / transfer / renaming:
+--  [Cradran]: Rollt gern ohne zu Zahlen
+--  [Dannymage]: Eröffnet Gdkp run und haut dann mit dem gesamten Pot ab. 81.402 Gold / Siehe auch Charakter: Pumperlumper
+--  [Diggernick]: Rollt gern ohne zu Zahlen
+--  [Dirtyrouge]: Lootdrama / spricht kein Deutsch / versucht zu scammen
+--  [Dreamyx]: ZA GDKP Orga: Will loot behalten statt diss aber nicht zahlen. Geht off vorm Endboss mitm Pot
+--  [Fikky]: Blacklisted sich selbst: Verkauft ZA Bär für 2K und fügt es nicht dem GDKP Pot hinzu.
+--  [Greves]: ZA GDKP Orga: Will loot behalten statt diss aber nicht zahlen.
+--  [Handwerkerr]: GDKP Betrüger / vorheriger Name war: Würfelbotqt / unterschlägt 116k Gold und zahlt keinen Cut aus
+--  [Hoibedere]: Gönnt sich als ZA alle Splitter Greens und Hexerstecken
+--  [Javoor]: Rollt gern ohne zu Zahlen
+--  [Lebkuchen]: Locken mitten im ZA Prio Run Items
+--  [LilToxec]: Geht als Buyer mit und hat kein Gold - beleidigt dann nach Aufforderung zu kaufen.
+--  [Lister]: Booster kickt Leute / geht Offline nach Bezahlung ohne Leistung
+--  [Niemandmc]: Ninjat weil PM vergessen wurde und verkauft die Tokens
+--  [PPQOR]: Booster kickt Leute / geht Offline nach Bezahlung ohne Leistung
+--  [Pumperlumper]: Eröffnet Gdkp run und haut dann mit dem gesamten Pot ab. 81.402 Gold / Namechange zu: Dannymage
+--  [Rôôz]: Geht als Buyer mit und hat kein Gold - beleidigt dann nach Aufforderung zu kaufen.
+--  [Stysthy]: Würfelt 2x für ein Item bei Malygos. Der RL übersieht das und weist ihm ungerechtfertigt ein Item zu. Danach verlässt er direkt den Raid. Wurde wegen diesem Vorfall aus der Gilde gekickt.
+--  [Thilon]: Lockt Betrayer aber gibt diese Info nicht an nachträglich in den Raid geladene Spieler weiter. Nachzügler setzt Betrayer auf Prio1 - erhält trotzdem keine Info / Betrayer ist droppt und wurde an Stahlklang-Gildenmember vergeben
+--  [Ungeiimpfter]: Plündert gern mal die Gildenbank Alts: Dejox(Rogue) / Dkgoesbrbr(DK obv) / Buyvet (Paladin).
+--  [Vibecheckk]: Lockt rnd Items ohne Vorabinfo
+--  [Würfelbotqt]: Geht mit 116k Gold offline und verteilt keinen Cut / GDKP Betrüger / hat Namen in Handwerkerr geändert

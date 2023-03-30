@@ -1,4 +1,6 @@
-local _, t = ...
+---@type string, AddonTable
+local _, t = ...;
+
 t.my_name = "Venoxis Discord Blocklist"
 t.my_provider = "Venoxis Discord"
 t.my_realm = "Venoxis"
