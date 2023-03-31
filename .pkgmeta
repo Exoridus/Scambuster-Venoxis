@@ -4,7 +4,7 @@ enable-nolib-creation: yes
 
 ignore:
   - README.md
-  - types.lua
+  - Types
 
 externals:
   Libs/LibStub: https://repos.wowace.com/wow/libstub/trunk

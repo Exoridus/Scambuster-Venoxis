@@ -3,9 +3,6 @@
 ---@alias Category "dungeon" | "raid" | "trade" | "gdkp" | "harassment"
 ---@alias Level 1 | 2 | 3
 
----@class Dict<K, V>
----@field [K] V
-
 ---@shape Player
 ---@field name string The last known name of the listed toon.
 ---@field guid string The GUID of the player is a more powerful identifier than the toon's name, and persists through most types of reroll.
@@ -42,3 +39,12 @@
 ---@field description string
 ---@field url string
 ---@field realm_data table<string, CaseTable>
+
+---@class Scambuster
+---@field register_case_data fun(arg: ProviderTable)
+
+---@class AceAddon
+---@field GetAddon fun(name: string): Scambuster
+
+---@class LibStub
+---@overload fun(major: "AceAddon-3.0"): AceAddon

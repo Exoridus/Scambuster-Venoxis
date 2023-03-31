@@ -10,7 +10,12 @@ local provider_table = {
     realm_data = {
         [t.my_realm] = t.case_table
     }
-}
+};
 
-local SB = LibStub("AceAddon-3.0"):GetAddon("Scambuster");
-SB:register_case_data(provider_table);
+---@type AceAddon
+local AceAddon = LibStub("AceAddon-3.0");
+
+---@type Scambuster
+local Scambuster = AceAddon:GetAddon("Scambuster");
+
+Scambuster:register_case_data(provider_table);
