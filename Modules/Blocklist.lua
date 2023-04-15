@@ -1,13 +1,11 @@
----@type string, AddonTable
-local _, t = ...;
+local n, ns = ...;
 
 --================================================================================================--
 -- Venoxis Discord Blocklist based on the official google sheets blacklist:                       --
 -- https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit#gid=0 --
 --================================================================================================--
 
----@type CaseTable
-t.case_table = {
+ns.blocklist = {
   [1] = {
     name = "Alcyona",
     guid = "Player-4477-03C5CE1A",
@@ -153,7 +151,7 @@ t.case_table = {
     guid = "Player-4477-04983B8E",
     class = "DRUID",
     faction = "Horde",
-    description = "Needet alle Items in 5mann HC+",
+    description = "	Needet alle Items in 5mann HC+ / mehrfach reportet",
     url = "https://discord.com/channels/613060619738021890/1029711210918191154/1065655958795194378",
     category = "dungeon",
     level = 3,
@@ -513,10 +511,11 @@ t.case_table = {
     guid = "Player-4477-046669DD",
     class = "MAGE",
     faction = "Horde",
-    description = "Eröffnet Gdkp run und haut dann mit dem gesamten Pot ab.  81.402 Gold / Zweiter Gdkp Scam: 56.500 / Siehe auch Charakter: Pumperlumper, Dannymage",
+    description = "Eröffnet Gdkp run und haut dann mit dem gesamten Pot ab.  81.402 Gold / Zweiter Gdkp Scam: 56.500",
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1080868571279790210",
     category = "gdkp",
     level = 3,
+    aliases = {"Pumperlumper", "Dannymage"}
   },
   [52] = {
     name = "Convexyz",
@@ -553,16 +552,56 @@ t.case_table = {
     guid = "Player-4477-0464DE81",
     class = "MAGE",
     faction = "Horde",
-    description = "Scammt in einer 5er Gruppe alle Items und geht und dann offlne ohne die Splitter zu verteilen / zudem gibt er es auch per whisper zu (siehe BL in Venoxis DC)",
+    description = "Scammt in einer 5er Gruppe alle Items und geht und dann offlne ohne die Splitter zu verteilen / zudem gibt er es auch per whisper zu",
     url = "https://discord.com/channels/613060619738021890/1029711210918191154/1087391435378143393",
     category = "dungeon",
+    level = 3,
+  },
+  [56] = {
+    name = "Jondeepfreez",
+    guid = "Player-4477-0464DE81",
+    class = "MAGE",
+    faction = "Horde",
+    description = "Gildenbankplünderer",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1094685096780513331",
+    category = "trade",
+    level = 3,
+  },
+  [57] = {
+    name = "Autoritä",
+    guid = "Player-4477-049EDE13",
+    class = "ROGUE",
+    faction = "Horde",
+    description = "Gildenbankplünderer",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1094685096780513331",
+    category = "trade",
+    level = 3,
+  },
+  [58] = {
+    name = "Patapeng",
+    guid = "Player-4477-022E45F0",
+    class = "MAGE",
+    faction = "Horde",
+    description = "Ninjat ein Item vom Endboss in Naxx25, gibt es zu und sagt er schickt 1k Gold compensation / schickt dann ein Wurmfleisch mit 1k Gold Nachnahme",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1092478052723867798",
+    category = "raid",
+    level = 3,
+    aliases = {"Bakery"}
+  },
+  [59] = {
+    name = "Gladix",
+    guid = "Player-4477-04E405A6",
+    class = "ROGUE",
+    faction = "Horde",
+    description = "Ninjat in Archavons Kammer 25 zwei Items",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1093498181402251294",
+    category = "raid",
     level = 3,
   },
 };
 
 -- Characters on which the data request failed. Most likely due to deletion / transfer / renaming:
 --  [Cradran]: Rollt gern ohne zu Zahlen
---  [Dannymage]: Eröffnet Gdkp run und haut dann mit dem gesamten Pot ab. 81.402 Gold / Siehe auch Charakter: Pumperlumper
 --  [Diggernick]: Rollt gern ohne zu Zahlen
 --  [Dirtyrouge]: Lootdrama / spricht kein Deutsch / versucht zu scammen
 --  [Dreamyx]: ZA GDKP Orga: Will loot behalten statt diss aber nicht zahlen. Geht off vorm Endboss mitm Pot
@@ -576,7 +615,6 @@ t.case_table = {
 --  [Lister]: Booster kickt Leute / geht Offline nach Bezahlung ohne Leistung
 --  [Niemandmc]: Ninjat weil PM vergessen wurde und verkauft die Tokens
 --  [PPQOR]: Booster kickt Leute / geht Offline nach Bezahlung ohne Leistung
---  [Pumperlumper]: Eröffnet Gdkp run und haut dann mit dem gesamten Pot ab. 81.402 Gold / Namechange zu: Dannymage
 --  [Rôôz]: Geht als Buyer mit und hat kein Gold - beleidigt dann nach Aufforderung zu kaufen.
 --  [Stysthy]: Würfelt 2x für ein Item bei Malygos. Der RL übersieht das und weist ihm ungerechtfertigt ein Item zu. Danach verlässt er direkt den Raid. Wurde wegen diesem Vorfall aus der Gilde gekickt.
 --  [Thilon]: Lockt Betrayer aber gibt diese Info nicht an nachträglich in den Raid geladene Spieler weiter. Nachzügler setzt Betrayer auf Prio1 - erhält trotzdem keine Info / Betrayer ist droppt und wurde an Stahlklang-Gildenmember vergeben
