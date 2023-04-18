@@ -42,6 +42,7 @@ luac.out
 # Editor
 .vscode
 .idea
+.vs
 
 # Packaging
 .release

@@ -1,8 +1,6 @@
-local n, ns = ...;
+local ns = select(2, ...);
 local AceAddon = LibStub("AceAddon-3.0");
-local Addon = AceAddon:GetAddon(n);
-local Module = Addon:NewModule("Provider", "AceConsole-3.0");
----@type Scambuster
+local Module = AceAddon:GetAddon("Scambuster-Venoxis"):NewModule("Provider");
 local SB = AceAddon:GetAddon("Scambuster");
 
 function Module:OnInitialize()

@@ -1,4 +1,4 @@
-local n, ns = ...;
+local ns = select(2, ...);
 
 --================================================================================================--
 -- Venoxis Discord Blocklist based on the official google sheets blacklist:                       --

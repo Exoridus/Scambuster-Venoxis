@@ -1,18 +1,18 @@
-local n, ns = ...;
+local ns = select(2, ...);
 local AceAddon = LibStub("AceAddon-3.0");
 local AceGUI = LibStub("AceGUI-3.0");
-local Addon = AceAddon:NewAddon(n, "AceConsole-3.0");
+local Addon = AceAddon:NewAddon("Scambuster-Venoxis", "AceConsole-3.0");
 local raceToFaction = {
-  ["Human"] = "Alliance",
-  ["Dwarf"] = "Alliance",
-  ["NightElf"] = "Alliance",
-  ["Draenei"] = "Alliance",
-  ["Gnome"] = "Alliance",
-  ["Orc"] = "Horde",
-  ["Scourge"] = "Horde",
-  ["Tauren"] = "Horde",
-  ["Troll"] = "Horde",
-  ["BloodElf"] = "Horde",
+  Human = "Alliance",
+  Dwarf = "Alliance",
+  NightElf = "Alliance",
+  Draenei = "Alliance",
+  Gnome = "Alliance",
+  Orc = "Horde",
+  Scourge = "Horde",
+  Tauren = "Horde",
+  Troll = "Horde",
+  BloodElf = "Horde",
 };
 local template = [=[
   [%d] = {
@@ -28,8 +28,22 @@ local template = [=[
 local offset = 0;
 
 function Addon:OnInitialize()
-  self:RegisterChatCommand("venoxis", "SlashVenoxis");
-  self:RegisterChatCommand("blocklist", "SlashBlocklist");
+  self:RegisterChatCommand("venoxis", "SlashCommand");
+end
+
+function Addon:SlashCommand(input)
+  local action, param = self:GetArgs(input, 2);
+
+  if not action or action == "help" then
+    self:PrintInfo("/venoxis help (triggers this help text)");
+    self:PrintInfo("/venoxis add NAME (shows player info as entry inside a copy & paste window)");
+    self:PrintInfo("/venoxis info NAME (shows player info inside the chat)");
+    self:PrintInfo("/venoxis check NAME (shows player cases found in blocklist if they exist)");
+  elseif action == "info" then
+    self:printPlayerInfo(param);
+  elseif action == "check" then
+    self:printPlayerCases(param);
+  end
 end
 
 function Addon:PrintInfo(text, ...)
@@ -121,12 +135,12 @@ function Addon:printPlayerCases(name)
     if type(v.players) == "table" then
       for _,p in pairs(v.players) do
         if self:includesName(p, name) then
-          tinsert(indices, i);
+          table.insert(indices, i);
           break;
         end
       end
     elseif self:includesName(v, name) then
-      tinsert(indices, i);
+      table.insert(indices, i);
     end
   end
 
@@ -135,27 +149,4 @@ function Addon:printPlayerCases(name)
   else
     self:PrintInfo("No entries found on player %s", name);
   end
-end
-
-function Addon:SlashCommand(command, input)
-  local action, param = self:GetArgs(input, 2);
-
-  if not action or action == "help" then
-    self:PrintInfo("%s or %s help (triggers this help text)", command);
-    self:PrintInfo("%s add NAME (shows player info as entry inside a copy & paste window)", command);
-    self:PrintInfo("%s info NAME (shows player info inside the chat)", command);
-    self:PrintInfo("%s check NAME (shows player cases found in blocklist if they exist)", command);
-  elseif action == "info" then
-    self:printPlayerInfo(param);
-  elseif action == "check" then
-    self:printPlayerCases(param);
-  end
-end
-
-function Addon:SlashVenoxis(input)
-  self:SlashCommand("/venoxis", input);
-end
-
-function Addon:SlashBlocklist(input)
-  self:SlashCommand("/blocklist", input);
 end
