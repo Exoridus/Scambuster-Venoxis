@@ -3,8 +3,9 @@
 
 
 
-## 1.4.0 (2023-04-15)
+## 1.4.0 (2023-04-18)
 
+* refactor(addon): Add CHANGELOG.md content and small code cleanups ([24a32c5](https://github.com/Exoridus/Scambuster-Venoxis/commit/24a32c5))
 * refactor(addon): use ace framework to split up addon into multiple modules and add custom slash comm ([528ecd2](https://github.com/Exoridus/Scambuster-Venoxis/commit/528ecd2))
 
 
