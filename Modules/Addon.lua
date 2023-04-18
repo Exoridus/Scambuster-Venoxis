@@ -14,18 +14,17 @@ local raceToFaction = {
   Troll = "Horde",
   BloodElf = "Horde",
 };
-local template = [=[
-  [%d] = {
-    name = "%s",
-    guid = "%s",
-    class = "%s",
-    faction = "%s",
-    description = "",
-    url = "",
-    category = "",
-    level = 3,
-  },]=];
-local offset = 0;
+local infoTemplate = [[
+{
+  name = "%s",
+  guid = "%s",
+  class = "%s",
+  faction = "%s",
+  description = "",
+  url = "",
+  category = "",
+  level = 3,
+}]];
 
 function Addon:OnInitialize()
   self:RegisterChatCommand("venoxis", "SlashCommand");
@@ -36,10 +35,17 @@ function Addon:SlashCommand(input)
 
   if not action or action == "help" then
     self:PrintInfo("/venoxis help (triggers this help text)");
-    self:PrintInfo("/venoxis add NAME (shows player info as entry inside a copy & paste window)");
-    self:PrintInfo("/venoxis info NAME (shows player info inside the chat)");
-    self:PrintInfo("/venoxis check NAME (shows player cases found in blocklist if they exist)");
+    self:PrintInfo("/venoxis print NAME (prints player info inside the chat)");
+    self:PrintInfo("/venoxis info NAME (prints player info in copy & paste window)");
+    self:PrintInfo("/venoxis check NAME (check if player was found on blocklist)");
+    return;
+  end
+
+  if not param then
+    self:PrintInfo("Please provide a name to check against.");
   elseif action == "info" then
+    self:showPlayerInfo(param);
+  elseif action == "print" then
     self:printPlayerInfo(param);
   elseif action == "check" then
     self:printPlayerCases(param);
@@ -54,6 +60,14 @@ function Addon:PrintInfo(text, ...)
   end
 end
 
+function Addon:PrintNameNotFoundInfo(name)
+  self:PrintInfo("Failed requesting GUID for \"%s\". Possible reasons:", name);
+  self:PrintInfo("1. The character name is misspelled and contains typos.");
+  self:PrintInfo("2. The character is on the opposite faction as you.");
+  self:PrintInfo("3. The character was renamed, deleted or transferred.");
+  self:PrintInfo("4. Your friendlist has no free slots left which is required.");
+end
+
 function Addon:fetchGUID(name, callback)
   local info = C_FriendList.GetFriendInfo(name);
 
@@ -66,7 +80,7 @@ function Addon:fetchGUID(name, callback)
 
   C_FriendList.AddFriend(name, "From Scambuster-Venoxis");
 
-  C_Timer.After(1.5, function ()
+  C_Timer.After(1, function ()
     local info = C_FriendList.GetFriendInfo(name);
 
     callback(info and info.guid);
@@ -99,22 +113,26 @@ function Addon:showCopyTextFrame(text)
 end
 
 function Addon:printPlayerInfo(name)
-  if not name then
-    self:PrintInfo("Please provide a name to check against.");
-    return;
-  end
-
   self:fetchGUID(name, function(guid)
     if guid then
-      offset = offset + 1;
       local _, class, _, race = GetPlayerInfoByGUID(guid);
-      self:showCopyTextFrame(template:format(#ns.blocklist + offset, name, guid, class, raceToFaction[race]));
+      self:PrintInfo("name: %s", name);
+      self:PrintInfo("guid: %s", guid);
+      self:PrintInfo("class: %s", class);
+      self:PrintInfo("faction: %s", raceToFaction[race]);
     else
-      self:PrintInfo("Failed requesting GUID for %s which is may be caused by:", name);
-      self:PrintInfo("1. The character name is misspelled and contains typos.");
-      self:PrintInfo("2. The character is on the opposite faction as you.");
-      self:PrintInfo("3. The character was renamed, deleted or transferred.");
-      self:PrintInfo("4. Your friendlist has no free slots left which is required.");
+      self:PrintNameNotFoundInfo(name);
+    end
+  end);
+end
+
+function Addon:showPlayerInfo(name)
+  self:fetchGUID(name, function(guid)
+    if guid then
+      local _, class, _, race = GetPlayerInfoByGUID(guid);
+      self:showCopyTextFrame(infoTemplate:format(name, guid, class, raceToFaction[race]));
+    else
+      self:PrintNameNotFoundInfo(name);
     end
   end);
 end
