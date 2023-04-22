@@ -1,5 +1,13 @@
-##  (2023-04-18)
+##  (2023-04-22)
 
+* chore(blocklist): Added new entries ([01f7fb0](https://github.com/Exoridus/Scambuster-Venoxis/commit/01f7fb0))
+
+
+
+## <small>1.4.1 (2023-04-18)</small>
+
+* fix(addon): Fix player info print commands ([d228fdb](https://github.com/Exoridus/Scambuster-Venoxis/commit/d228fdb))
+* chore(release): Update CHANGELOG.md ([f57a09d](https://github.com/Exoridus/Scambuster-Venoxis/commit/f57a09d))
 
 
 
