@@ -598,6 +598,26 @@ ns.blocklist = {
     category = "raid",
     level = 3,
   },
+  [60] = {
+    name = "Zorodan",
+    guid = "Player-4477-0381BCBA",
+    class = "PALADIN",
+    faction = "Horde",
+    description = "Vergisst PM in einem Prio Run, called dann passen, einige würfeln trotzdem (eh klar) und Rhoran verschwindet dann mit einem Item (siehe auch BL Eintrag zu Rhoran)",
+    url = "https://discord.com/channels/613060619738021890/972036752283926578/1097457448266235945",
+    category = "raid",
+    level = 3,
+  },
+  [61] = {
+    name = "Rhoran",
+    guid = "Player-4477-04E405A6",
+    class = "DEATHKNIGHT",
+    faction = "Horde",
+    description = "RL hat PM vergessen und called passen. Rhoran würfelt einfach need und haut dann mit dem Item ab",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1097453560188375122",
+    category = "raid",
+    level = 3,
+  },
 };
 
 -- Characters on which the data request failed. Most likely due to deletion / transfer / renaming:
