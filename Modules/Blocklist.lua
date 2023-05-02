@@ -1,9 +1,9 @@
 local ns = select(2, ...);
 
---================================================================================================--
--- Venoxis Discord Blocklist based on the official google sheets blacklist:                       --
--- https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit#gid=0 --
---================================================================================================--
+--=====================================================================================--
+-- Venoxis Discord blocklist based on the official google sheet blocklist viewable at: --
+-- https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY --
+--=====================================================================================--
 
 ns.blocklist = {
   [1] = {
@@ -22,7 +22,7 @@ ns.blocklist = {
     class = "DEATHKNIGHT",
     faction = "Horde",
     description = "Veranstaltet als Gilde BT Prio Runs und scamt hart bei der Lootvergabe (Randoms dürfen nur auf ihre Prios rollen aber Gilde darf auf alles Bieten und Prios überschreiben.",
-    url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit#gid=0",
+    url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit",
     category = "raid",
     level = 3,
   },
@@ -122,7 +122,7 @@ ns.blocklist = {
     class = "MAGE",
     faction = "Horde",
     description = "Booster kickt Leute / geht Offline nach Bezahlung ohne Leistung",
-    url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit#gid=0",
+    url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit",
     category = "dungeon",
     level = 3,
   },
@@ -132,7 +132,7 @@ ns.blocklist = {
     class = "MAGE",
     faction = "Horde",
     description = "Kassiert 120 Gold - pullt - stirbt und geht dann offline",
-    url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit#gid=0",
+    url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit",
     category = "dungeon",
     level = 3,
   },
@@ -292,7 +292,7 @@ ns.blocklist = {
     class = "MAGE",
     faction = "Horde",
     description = "Booster kickt Leute / geht Offline nach Bezahlung ohne Leistung",
-    url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit#gid=0",
+    url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit",
     category = "dungeon",
     level = 3,
   },
@@ -332,7 +332,7 @@ ns.blocklist = {
     class = "MAGE",
     faction = "Horde",
     description = "Schließt Raider willkürlich vom Cut aus DC-Tag: Sandmann#7274",
-    url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit#gid=0",
+    url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit",
     category = "gdkp",
     level = 3,
   },
@@ -462,7 +462,7 @@ ns.blocklist = {
     class = "MAGE",
     faction = "Horde",
     description = "Booster kickt Leute / geht Offline nach Bezahlung ohne Leistung",
-    url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit#gid=0",
+    url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit",
     category = "dungeon",
     level = 3,
   },
@@ -618,26 +618,256 @@ ns.blocklist = {
     category = "raid",
     level = 3,
   },
+  [62] = {
+    name = "Itsmebiatch",
+    guid = "Player-4477-03B19976",
+    class = "MAGE",
+    faction = "Horde",
+    description = "Plündert gern mal die Gildenbank",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1036332378873942187",
+    category = "trade",
+    level = 3,
+    aliases = {"Ungeiimpfter"}
+  },
+  [63] = {
+    name = "Listers",
+    guid = "Player-4477-03B198AD",
+    class = "MAGE",
+    faction = "Horde",
+    description = "Booster kickt Leute / geht Offline nach Bezahlung ohne Leistung",
+    url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY",
+    category = "dungeon",
+    level = 3,
+  },
+  [64] = {
+    name = "Pi",
+    guid = "Player-4477-00CDA567",
+    class = "PRIEST",
+    faction = "Horde",
+    description = "Zahlt Cut per Post nicht aus - lässt sich dann 3x bitten - erst nachdem der BL Eintrag erstellt wurde zahlt er die Hälfte des unterschlagenen Goldes. Konversation mit dem Typen auf der BL eher schwierig.",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1101288642649014374",
+    category = "gdkp",
+    level = 3,
+  },
+  [65] = {
+    name = "Kreiszahl",
+    guid = "Player-4477-03346F2C",
+    class = "SHAMAN",
+    faction = "Horde",
+    description = "Siehe auch Spieler Pi / Versucht Cut zu scammen (gesamt 8k)",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1101288642649014374",
+    category = "gdkp",
+    level = 3,
+  },
+  [66] = {
+    name = "Zayr",
+    guid = "Player-4477-0476BF51",
+    class = "PALADIN",
+    faction = "Horde",
+    description = "Lockt sich in Naxx25iger die Torch, als diese nicht droppt ninjat er sich einfach Turning Tide und geht mit Ansage offline	",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1100951022094008360",
+    category = "raid",
+    level = 3,
+  },
+  [67] = {
+    name = "Infernâ",
+    guid = "Player-4477-03B07A37",
+    class = "DRUID",
+    faction = "Horde",
+    description = "Scammt Endboss-Tokens / Behält sich den Loot im 25er egal ob jemand Prio darauf hatte oder nicht",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1102594033651564546",
+    category = "raid",
+    level = 3,
+  },
+  [68] = {
+    name = "Rosabienchen",
+    guid = "Player-4477-03B074F6",
+    class = "PALADIN",
+    faction = "Horde",
+    description = "Siehe Spieler Infernâ (Twink) Scammt Endboss-Tokens in 25iger Raids",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1102594033651564546",
+    category = "raid",
+    level = 3,
+  },
 };
 
--- Characters on which the data request failed. Most likely due to deletion / transfer / renaming:
---  [Cradran]: Rollt gern ohne zu Zahlen
---  [Diggernick]: Rollt gern ohne zu Zahlen
---  [Dirtyrouge]: Lootdrama / spricht kein Deutsch / versucht zu scammen
---  [Dreamyx]: ZA GDKP Orga: Will loot behalten statt diss aber nicht zahlen. Geht off vorm Endboss mitm Pot
---  [Fikky]: Blacklisted sich selbst: Verkauft ZA Bär für 2K und fügt es nicht dem GDKP Pot hinzu.
---  [Greves]: ZA GDKP Orga: Will loot behalten statt diss aber nicht zahlen.
---  [Handwerkerr]: GDKP Betrüger / vorheriger Name war: Würfelbotqt / unterschlägt 116k Gold und zahlt keinen Cut aus
---  [Hoibedere]: Gönnt sich als ZA alle Splitter Greens und Hexerstecken
---  [Javoor]: Rollt gern ohne zu Zahlen
---  [Lebkuchen]: Locken mitten im ZA Prio Run Items
---  [LilToxec]: Geht als Buyer mit und hat kein Gold - beleidigt dann nach Aufforderung zu kaufen.
---  [Lister]: Booster kickt Leute / geht Offline nach Bezahlung ohne Leistung
---  [Niemandmc]: Ninjat weil PM vergessen wurde und verkauft die Tokens
---  [PPQOR]: Booster kickt Leute / geht Offline nach Bezahlung ohne Leistung
---  [Rôôz]: Geht als Buyer mit und hat kein Gold - beleidigt dann nach Aufforderung zu kaufen.
---  [Stysthy]: Würfelt 2x für ein Item bei Malygos. Der RL übersieht das und weist ihm ungerechtfertigt ein Item zu. Danach verlässt er direkt den Raid. Wurde wegen diesem Vorfall aus der Gilde gekickt.
---  [Thilon]: Lockt Betrayer aber gibt diese Info nicht an nachträglich in den Raid geladene Spieler weiter. Nachzügler setzt Betrayer auf Prio1 - erhält trotzdem keine Info / Betrayer ist droppt und wurde an Stahlklang-Gildenmember vergeben
---  [Ungeiimpfter]: Plündert gern mal die Gildenbank Alts: Dejox(Rogue) / Dkgoesbrbr(DK obv) / Buyvet (Paladin).
---  [Vibecheckk]: Lockt rnd Items ohne Vorabinfo
---  [Würfelbotqt]: Geht mit 116k Gold offline und verteilt keinen Cut / GDKP Betrüger / hat Namen in Handwerkerr geändert
+--======================================================================================--
+-- List of player names that returned empty results when fetching for their char info.  --
+-- Those characters were renamed / transferred / deleted before their GUIDs were saved. --
+--======================================================================================--
+
+ns.invalid = {
+  [1]  = {
+    name = "Cradran",
+    guid = "",
+    class = "WARLOCK",
+    faction = "Horde",
+    description = "Rollt gern ohne zu Zahlen",
+    url = "",
+    category = "trade",
+    level = 3,
+  },
+  [2]  = {
+    name = "Diggernick",
+    guid = "",
+    class = "",
+    faction = "Horde",
+    description = "Rollt gern ohne zu Zahlen",
+    url = "https://discord.com/channels/613060619738021890/972036752283926578/976906725380722688",
+    category = "trade",
+    level = 3,
+  },
+  [3]  = {
+    name = "Dirtyrouge",
+    guid = "",
+    class = "ROGUE",
+    faction = "Horde",
+    description = "Lootdrama / spricht kein Deutsch / versucht zu scammen",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/960870173500399618",
+        -- https://discord.com/channels/613060619738021890/915181409155563521/971124210732761139
+        -- https://discord.com/channels/613060619738021890/915181409155563521/981994502308917278
+    category = "gdkp",
+    level = 3,
+  },
+  [4]  = {
+    name = "Dreamyx",
+    guid = "",
+    class = "SHAMAN",
+    faction = "Horde",
+    description = "ZA GDKP Orga: Will loot behalten statt diss aber nicht zahlen. Geht off vorm Endboss mitm Pot",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/972439422299693076",
+    category = "gdkp",
+    level = 3,
+  },
+  [5]  = {
+    name = "Fikky",
+    guid = "",
+    class = "",
+    faction = "Horde",
+    description = "Blacklisted sich selbst: Verkauft ZA Bär für 2K und fügt es nicht dem GDKP Pot hinzu.",
+    url = "https://discord.com/channels/613060619738021890/972036752283926578/1009841223105785947",
+    category = "gdkp",
+    level = 3,
+  },
+  [6]  = {
+    name = "Greves",
+    guid = "",
+    class = "",
+    faction = "Horde",
+    description = "ZA GDKP Orga: Will loot behalten statt diss aber nicht zahlen.",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/972466166641619034",
+    category = "gdkp",
+    level = 3,
+  },
+  [7]  = {
+    name = "Hoibedere",
+    guid = "",
+    class = "PALADIN",
+    faction = "Horde",
+    description = "Gönnt sich als ZA alle Splitter Greens und Hexerstecken",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/978261580716331038",
+    category = "raid",
+    level = 3,
+  },
+  [8]  = {
+    name = "Javoor",
+    guid = "",
+    class = "DRUID",
+    faction = "Horde",
+    description = "Rollt gern ohne zu Zahlen",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/997262970960760983",
+    category = "trade",
+    level = 3,
+  },
+  [9] = {
+    name = "Lebkuchen",
+    guid = "",
+    class = "SHAMAN",
+    faction = "Horde",
+    description = "Locken mitten im ZA Prio Run Items",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/976518445510328401",
+    category = "raid",
+    level = 3,
+  },
+  [10] = {
+    name = "Toxec",
+    guid = "",
+    class = "",
+    faction = "Horde",
+    description = "Geht als Buyer mit und hat kein Gold - beleidigt dann nach Aufforderung zu kaufen.",
+    url = "https://discord.com/channels/613060619738021890/972036752283926578/989965855112716409",
+    category = "gdkp",
+    level = 3,
+  },
+  [11] = {
+    name = "Niemandmc",
+    guid = "",
+    class = "WARRIOR",
+    faction = "Horde",
+    description = "Ninjat weil PM vergessen wurde und verkauft die Tokens",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/989319177368113152",
+    category = "raid",
+    level = 3,
+  },
+  [12] = {
+    name = "PPQOR",
+    guid = "",
+    class = "",
+    faction = "Horde",
+    description = "Booster kickt Leute / geht Offline nach Bezahlung ohne Leistung",
+    url = "",
+    category = "dungeon",
+    level = 3,
+  },
+  [13] = {
+    name = "Rôôz",
+    guid = "",
+    class = "WARRIOR",
+    faction = "Horde",
+    description = "Geht als Buyer mit und hat kein Gold - beleidigt dann nach Aufforderung zu kaufen.",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/989901518922743868",
+    category = "gdkp",
+    level = 3,
+  },
+  [14] = {
+    name = "Stysthy",
+    guid = "",
+    class = "DEATHKNIGHT",
+    faction = "Horde",
+    description = "Würfelt 2x für ein Item bei Malygos. Der RL übersieht das und weist ihm ungerechtfertigt ein Item zu. Danach verlässt er direkt den Raid. Wurde wegen diesem Vorfall aus der Gilde gekickt.",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1073981448580763658",
+    category = "raid",
+    level = 3,
+  },
+  [15] = {
+    name = "Thilon",
+    guid = "",
+    class = "PALADIN",
+    faction = "Horde",
+    description = "Lockt Betrayer aber gibt diese Info nicht an nachträglich in den Raid geladene Spieler weiter. Nachzügler setzt Betrayer auf Prio1 - erhält trotzdem keine Info / Betrayer ist droppt und wurde an Stahlklang-Gildenmember vergeben",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1057476414938546236",
+    category = "raid",
+    level = 3,
+  },
+  [16] = {
+    name = "Vibecheckk",
+    guid = "",
+    class = "SHAMAN",
+    faction = "Horde",
+    description = "Lockt rnd Items ohne Vorabinfo",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/982634146717401138",
+    category = "raid",
+    level = 3,
+  },
+  [17] = {
+    name = "Würfelbotqt",
+    guid = "",
+    class = "WARRIOR",
+    faction = "Horde",
+    description = "Geht mit 116k Gold offline und verteilt keinen Cut / GDKP Betrüger / hat Namen in Handwerkerr geändert",
+    url = "https://discord.com/channels/613060619738021890/972036752283926578/1068898422259732531",
+    category = "gdkp",
+    level = 3,
+    aliases = {"Handwerkerr"}
+  },
+};
