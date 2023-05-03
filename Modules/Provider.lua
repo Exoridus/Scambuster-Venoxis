@@ -1,27 +1,32 @@
-local ns = select(2, ...);
-local AceAddon = LibStub("AceAddon-3.0");
-local Module = AceAddon:GetAddon("Scambuster-Venoxis"):NewModule("Provider");
-local SB = AceAddon:GetAddon("Scambuster");
+--======================================================================================--
+-- Provider specific information describing the scope and community behind this list.   --
+--======================================================================================--
+local Addon = select(2, ...);
+local Provider = Addon:NewModule("Provider");
+local Blocklist = Addon:GetModule("Blocklist");
+local Utils = Addon:GetModule("Utils");
+local SB = LibStub("AceAddon-3.0"):GetAddon("Scambuster");
 
-function Module:OnInitialize()
-  self.name = "Venoxis Discord Blocklist";
-  self.provider = "Venoxis Discord";
-  self.description = "A list of scammers curated by the venoxis discord community.";
-  self.realm = "Venoxis";
-  self.url = "https://discord.gg/NGtvvQYnmP";
-  self.blocklist = ns.blocklist;
+local PROVIDER_DATA = {
+  Name = "Venoxis Discord Blocklist",
+  Provider = "Venoxis Discord",
+  Realm = "Venoxis",
+  Description = Utils:GetAddonInfo("Notes"),
+  Url = Utils:GetAddonInfo("X-Website"),
+}
 
-  SB.RegisterCallback(self, "SCAMBUSTER_LIST_CONSTRUCTION", "RegisterProviderData");
+function Provider:OnInitialize()
+  SB.RegisterCallback(self, "SCAMBUSTER_LIST_CONSTRUCTION", "RegisterProvider");
 end
 
-function Module:RegisterProviderData()
+function Provider:RegisterProvider()
   SB:register_case_data({
-    name = self.name,
-    provider = self.provider,
-    description = self.description,
-    url = self.url,
+    name = PROVIDER_DATA.Name,
+    provider = PROVIDER_DATA.Provider,
+    description = PROVIDER_DATA.Description,
+    url = PROVIDER_DATA.Url,
     realm_data = {
-      [self.realm] = self.blocklist,
+      [PROVIDER_DATA.Realm] = Blocklist.GetList(),
     }
   });
 end

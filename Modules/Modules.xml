@@ -1,0 +1,8 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+  <Script file="Addon.lua"/>
+  <Script file="Utils.lua"/>
+  <Script file="Blocklist.lua"/>
+  <Script file="Checklist.lua"/>
+  <Script file="Provider.lua"/>
+  <Script file="SlashCommands.lua"/>
+</Ui>

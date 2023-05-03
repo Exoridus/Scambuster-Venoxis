@@ -1,11 +1,11 @@
-local ns = select(2, ...);
-
 --=====================================================================================--
 -- Venoxis Discord blocklist based on the official google sheet blocklist viewable at: --
 -- https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY --
 --=====================================================================================--
+local Addon = select(2, ...);
+local Blocklist = Addon:NewModule("Blocklist");
 
-ns.blocklist = {
+local BLOCKLIST = {
   [1] = {
     name = "Alcyona",
     guid = "Player-4477-03C5CE1A",
@@ -689,149 +689,29 @@ ns.blocklist = {
     category = "raid",
     level = 3,
   },
-};
-
---======================================================================================--
--- List of player names that returned empty results when fetching for their char info.  --
--- Those characters were renamed / transferred / deleted before their GUIDs were saved. --
---======================================================================================--
-
-ns.invalid = {
-  [1]  = {
-    name = "Cradran",
-    guid = "",
-    class = "WARLOCK",
-    faction = "Horde",
-    description = "Rollt gern ohne zu Zahlen",
-    url = "",
-    category = "trade",
-    level = 3,
-  },
-  [2]  = {
-    name = "Diggernick",
-    guid = "",
-    class = "",
-    faction = "Horde",
-    description = "Rollt gern ohne zu Zahlen",
-    url = "https://discord.com/channels/613060619738021890/972036752283926578/976906725380722688",
-    category = "trade",
-    level = 3,
-  },
-  [3]  = {
-    name = "Dirtyrouge",
-    guid = "",
-    class = "ROGUE",
-    faction = "Horde",
-    description = "Lootdrama / spricht kein Deutsch / versucht zu scammen",
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/960870173500399618",
-        -- https://discord.com/channels/613060619738021890/915181409155563521/971124210732761139
-        -- https://discord.com/channels/613060619738021890/915181409155563521/981994502308917278
-    category = "gdkp",
-    level = 3,
-  },
-  [4]  = {
-    name = "Dreamyx",
-    guid = "",
-    class = "SHAMAN",
-    faction = "Horde",
-    description = "ZA GDKP Orga: Will loot behalten statt diss aber nicht zahlen. Geht off vorm Endboss mitm Pot",
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/972439422299693076",
-    category = "gdkp",
-    level = 3,
-  },
-  [5]  = {
-    name = "Fikky",
-    guid = "",
-    class = "",
-    faction = "Horde",
-    description = "Blacklisted sich selbst: Verkauft ZA Bär für 2K und fügt es nicht dem GDKP Pot hinzu.",
-    url = "https://discord.com/channels/613060619738021890/972036752283926578/1009841223105785947",
-    category = "gdkp",
-    level = 3,
-  },
-  [6]  = {
-    name = "Greves",
-    guid = "",
-    class = "",
-    faction = "Horde",
-    description = "ZA GDKP Orga: Will loot behalten statt diss aber nicht zahlen.",
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/972466166641619034",
-    category = "gdkp",
-    level = 3,
-  },
-  [7]  = {
-    name = "Hoibedere",
-    guid = "",
-    class = "PALADIN",
-    faction = "Horde",
-    description = "Gönnt sich als ZA alle Splitter Greens und Hexerstecken",
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/978261580716331038",
-    category = "raid",
-    level = 3,
-  },
-  [8]  = {
-    name = "Javoor",
-    guid = "",
-    class = "DRUID",
-    faction = "Horde",
-    description = "Rollt gern ohne zu Zahlen",
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/997262970960760983",
-    category = "trade",
-    level = 3,
-  },
-  [9] = {
-    name = "Lebkuchen",
-    guid = "",
-    class = "SHAMAN",
-    faction = "Horde",
-    description = "Locken mitten im ZA Prio Run Items",
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/976518445510328401",
-    category = "raid",
-    level = 3,
-  },
-  [10] = {
+  [69] = {
     name = "Toxec",
-    guid = "",
-    class = "",
-    faction = "Horde",
+    guid = "Player-4477-0454A99B",
+    class = "DRUID",
+    faction = "Alliance",
     description = "Geht als Buyer mit und hat kein Gold - beleidigt dann nach Aufforderung zu kaufen.",
     url = "https://discord.com/channels/613060619738021890/972036752283926578/989965855112716409",
     category = "gdkp",
     level = 3,
   },
-  [11] = {
-    name = "Niemandmc",
-    guid = "",
-    class = "WARRIOR",
-    faction = "Horde",
-    description = "Ninjat weil PM vergessen wurde und verkauft die Tokens",
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/989319177368113152",
+  [70] = {
+    name = "Lebkuchen",
+    guid = "Player-4477-040379B4",
+    class = "PALADIN",
+    faction = "Alliance",
+    description = "Locken mitten im ZA Prio Run Items",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/976518445510328401",
     category = "raid",
     level = 3,
   },
-  [12] = {
-    name = "PPQOR",
-    guid = "",
-    class = "",
-    faction = "Horde",
-    description = "Booster kickt Leute / geht Offline nach Bezahlung ohne Leistung",
-    url = "",
-    category = "dungeon",
-    level = 3,
-  },
-  [13] = {
-    name = "Rôôz",
-    guid = "",
-    class = "WARRIOR",
-    faction = "Horde",
-    description = "Geht als Buyer mit und hat kein Gold - beleidigt dann nach Aufforderung zu kaufen.",
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/989901518922743868",
-    category = "gdkp",
-    level = 3,
-  },
-  [14] = {
+  [71] = {
     name = "Stysthy",
-    guid = "",
+    guid = "Player-4477-04EE3626",
     class = "DEATHKNIGHT",
     faction = "Horde",
     description = "Würfelt 2x für ein Item bei Malygos. Der RL übersieht das und weist ihm ungerechtfertigt ein Item zu. Danach verlässt er direkt den Raid. Wurde wegen diesem Vorfall aus der Gilde gekickt.",
@@ -839,35 +719,63 @@ ns.invalid = {
     category = "raid",
     level = 3,
   },
-  [15] = {
-    name = "Thilon",
-    guid = "",
-    class = "PALADIN",
-    faction = "Horde",
-    description = "Lockt Betrayer aber gibt diese Info nicht an nachträglich in den Raid geladene Spieler weiter. Nachzügler setzt Betrayer auf Prio1 - erhält trotzdem keine Info / Betrayer ist droppt und wurde an Stahlklang-Gildenmember vergeben",
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1057476414938546236",
-    category = "raid",
-    level = 3,
-  },
-  [16] = {
-    name = "Vibecheckk",
-    guid = "",
-    class = "SHAMAN",
-    faction = "Horde",
-    description = "Lockt rnd Items ohne Vorabinfo",
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/982634146717401138",
-    category = "raid",
-    level = 3,
-  },
-  [17] = {
-    name = "Würfelbotqt",
-    guid = "",
-    class = "WARRIOR",
-    faction = "Horde",
-    description = "Geht mit 116k Gold offline und verteilt keinen Cut / GDKP Betrüger / hat Namen in Handwerkerr geändert",
-    url = "https://discord.com/channels/613060619738021890/972036752283926578/1068898422259732531",
-    category = "gdkp",
-    level = 3,
-    aliases = {"Handwerkerr"}
-  },
 };
+
+local function includesName(case, name)
+  return (type(case.name) == "string" and case.name == name) or (type(case.aliases) == "table" and tContains(case.aliases, name));
+end
+
+function Blocklist.FindPlayerCases(name)
+  local indices = {};
+
+  for index, entry in ipairs(BLOCKLIST) do
+    if type(entry.players) == "table" then
+      for _, case in pairs(entry.players) do
+        if includesName(case, name) then
+          indices[index] = case.description or entry.description;
+          break;
+        end
+      end
+    elseif includesName(entry, name) then
+      indices[index] = entry.description;
+    end
+  end
+
+  return indices;
+end
+
+function Blocklist.GetList()
+  return BLOCKLIST;
+end
+
+function Blocklist.GetCount()
+  return #BLOCKLIST;
+end
+
+function Blocklist.GetItem(index)
+  return BLOCKLIST[index];
+end
+
+function Blocklist.Iterator()
+  return pairs(BLOCKLIST);
+end
+
+function Blocklist.GetSortedNames()
+  local names = {};
+
+  for _, case in pairs(BLOCKLIST) do
+    tinsert(names, case.name);
+  end
+
+  table.sort(names);
+
+  return names;
+end
+
+function Blocklist.GetItemByName(name)
+  for _, case in pairs(BLOCKLIST) do
+    if case.name == name then
+      return case;
+    end
+  end
+end

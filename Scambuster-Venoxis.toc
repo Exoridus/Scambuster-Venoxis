@@ -1,12 +1,14 @@
 ## Interface: 30401
+## Title: |TInterface/Addons/Scambuster-Venoxis/Assets/Scambuster:16:16|t Scambuster-Venoxis |cFF00FF00v@project-version@|r
+## Author: Exoridus
 ## Version: @project-version@
-## Title: Scambuster-Venoxis
-## Notes: Extension for Scambuster providing a list of scammers on realm Venoxis (EU)
-## Author: Venoxis Discord Community
+## Notes: Scambuster database of scammers and inappropriate players on Venoxis
+## Notes-deDE: Scambuster Datenbank von Betrügern und unangemessen Spielern auf Venoxis
 ## Dependencies: Scambuster
 ## DefaultState: enabled
-## X-eMail: contact@codexo.de
-## X-Website: https://github.com/Exoridus/Scambuster-Venoxis
+## X-Email: contact@codexo.de
+## X-Website: https://discord.gg/NGtvvQYnmP
+## X-Feedback: https://github.com/Exoridus/Scambuster-Venoxis
 ## X-License: GPL v3
 ## X-Embeds: Ace3, LibStub
 ## X-Category: Chat/Communication
@@ -15,7 +17,4 @@
 ## X-Wago-ID: 4N2mEdGL
 
 embeds.xml
-
-Modules\Addon.lua
-Modules\Blocklist.lua
-Modules\Provider.lua
+Modules\Modules.xml
