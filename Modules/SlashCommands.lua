@@ -13,8 +13,10 @@ function SlashCommands:OnChatCommand(input)
 
   if action == "check"then
     self:CheckCommand();
-  elseif action == "sort_blocklist"then
-    self:SortBlocklistCommand();
+  elseif action == "dump_blocklist"then
+    self:DumpBlocklistCommand();
+  elseif action == "dump_checklist"then
+    self:DumpChecklistCommand();
   elseif action == "print" and param then
     self:PrintCommand(param);
   elseif action == "report" and param then
@@ -56,14 +58,14 @@ function SlashCommands:PrintPlayerInfoInChat(info)
     self:PrintInfo("CAUTION: GUID matches player from another realm (%s).", info.realm);
   end
 
-  self:PrintInfo("Name: %s", info.name);
+  self:PrintInfo("%s: %s", NAME, info.name);
   self:PrintInfo("GUID: %s", info.guid);
   if info.level > 0 then
-    self:PrintInfo("Level: %s", info.level);
+    self:PrintInfo("%s: %s", LEVEL, info.level);
   end
-  self:PrintInfo("Race: %s", info.raceName);
-  self:PrintInfo("Class: %s", WrapTextInColor(info.className, GetClassColorObj(info.class)));
-  self:PrintInfo("Faction: %s", WrapTextInColor(info.factionName, GetFactionColor(info.faction)));
+  self:PrintInfo("%s: %s", RACE, info.raceName);
+  self:PrintInfo("%s: %s", CLASS, WrapTextInColor(info.className, GetClassColorObj(info.class)));
+  self:PrintInfo("%s: %s", FACTION, WrapTextInColor(info.factionName, GetFactionColor(info.faction)));
 end
 
 function SlashCommands:PrintPlayerInfoInEditWindow(info)
@@ -137,12 +139,23 @@ function SlashCommands:CheckCommand()
   end, length);
 end
 
-function SlashCommands:SortBlocklistCommand()
+function SlashCommands:DumpBlocklistCommand()
   local names = Blocklist.GetSortedNames();
   local lines = {};
 
   for index, name in ipairs(names) do
     tinsert(lines, Utils:FormatReportByCase(index, Blocklist.GetItemByName(name)))
+  end;
+
+  Utils:OpenTextInEditWindow(table.concat(lines, "\n"));
+end
+
+function SlashCommands:DumpChecklistCommand()
+  local names = Checklist.GetSortedNames();
+  local lines = {};
+
+  for index, name in ipairs(names) do
+    tinsert(lines, Utils:FormatReportByCase(index, Checklist.GetItemByName(name)))
   end;
 
   Utils:OpenTextInEditWindow(table.concat(lines, "\n"));

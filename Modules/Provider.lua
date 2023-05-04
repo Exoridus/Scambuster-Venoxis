@@ -3,30 +3,29 @@
 --======================================================================================--
 local Addon = select(2, ...);
 local Provider = Addon:NewModule("Provider");
-local Blocklist = Addon:GetModule("Blocklist");
-local Utils = Addon:GetModule("Utils");
-local SB = LibStub("AceAddon-3.0"):GetAddon("Scambuster");
 
-local PROVIDER_DATA = {
-  Name = "Venoxis Discord Blocklist",
-  Provider = "Venoxis Discord",
-  Realm = "Venoxis",
-  Description = Utils:GetAddonInfo("Notes"),
-  Url = Utils:GetAddonInfo("X-Website"),
-}
+local PROVIDER_NAME = "Venoxis Discord Blocklist";
+local PROVIDER_PROVIDER = "Venoxis Discord";
+local PROVIDER_REALM = "Venoxis";
+local PROVIDER_DESCRIPTION = "Scambuster database of scammers and inappropriate players on Venoxis";
+local PROVIDER_URL = "https://discord.gg/NGtvvQYnmP";
 
-function Provider:OnInitialize()
-  SB.RegisterCallback(self, "SCAMBUSTER_LIST_CONSTRUCTION", "RegisterProvider");
+function Provider.GetName()
+  return PROVIDER_NAME;
 end
 
-function Provider:RegisterProvider()
-  SB:register_case_data({
-    name = PROVIDER_DATA.Name,
-    provider = PROVIDER_DATA.Provider,
-    description = PROVIDER_DATA.Description,
-    url = PROVIDER_DATA.Url,
-    realm_data = {
-      [PROVIDER_DATA.Realm] = Blocklist.GetList(),
-    }
-  });
+function Provider.GetProvider()
+  return PROVIDER_PROVIDER;
+end
+
+function Provider.GetRealm()
+  return PROVIDER_REALM;
+end
+
+function Provider.GetDescription()
+  return PROVIDER_DESCRIPTION
+end
+
+function Provider.GetUrl()
+  return PROVIDER_URL;
 end

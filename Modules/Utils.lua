@@ -2,9 +2,9 @@ local AddonName, Addon = ...;
 local Module = Addon:NewModule("Utils");
 local AceGUI = LibStub("AceGUI-3.0");
 
-Module.ADDON_NOTE = "From Scambuster-Venoxis";
+local FRIENDLIST_NOTE = ("From %s"):format(AddonName);
 
-Module.RACE_TO_FACTION = {
+local RACE_TO_FACTION = {
   Orc = "Horde",
   Scourge = "Horde",
   Tauren = "Horde",
@@ -17,7 +17,7 @@ Module.RACE_TO_FACTION = {
   Gnome = "Alliance",
 };
 
-Module.REPORT_TEMPLATE = [[
+local REPORT_TEMPLATE = [[
 [%d] = {
   name = "%s",
   guid = "%s",
@@ -29,21 +29,15 @@ Module.REPORT_TEMPLATE = [[
   level = %d,
 },]];
 
-local GetAddOnMetadata = C_AddOns and C_AddOns.GetAddOnMetadata or GetAddOnMetadata;
-
-function Module:GetAddonInfo(prop)
-  return GetAddOnMetadata(AddonName, ("%s-%s"):format(prop, GetLocale())) or GetAddOnMetadata(AddonName, prop);
-end
-
 function Module:PrepareFriendInfo(info)
   local guid = assert(info.guid);
   local className, class, raceName, race, _, name, server = GetPlayerInfoByGUID(guid);
-  local faction = self.RACE_TO_FACTION[race];
+  local faction = RACE_TO_FACTION[race];
   local factionName = FACTION_LABELS_FROM_STRING[faction];
   local realm = server ~= "" and server or GetRealmName();
   local level = info.level and info.level > 0 or 0;
 
-  if info.notes == self.ADDON_NOTE then
+  if info.notes == FRIENDLIST_NOTE then
     C_FriendList.RemoveFriend(name);
   end
 
@@ -69,7 +63,7 @@ function Module:FetchPlayerInfo(name, callback)
     return;
   end
 
-  C_FriendList.AddFriend(name, self.ADDON_NOTE);
+  C_FriendList.AddFriend(name, FRIENDLIST_NOTE);
 
   local ticks, maxTicks = 0, 8;
   local ticker;
@@ -89,7 +83,7 @@ function Module:FetchPlayerInfo(name, callback)
 end
 
 function Module:FormatReportByPlayerInfo(index, info)
-  return self.REPORT_TEMPLATE:format(
+  return REPORT_TEMPLATE:format(
     index,
     info.name,
     info.guid,
@@ -103,7 +97,7 @@ function Module:FormatReportByPlayerInfo(index, info)
 end
 
 function Module:FormatReportByCase(index, case)
-  return self.REPORT_TEMPLATE:format(
+  return REPORT_TEMPLATE:format(
     index,
     case.name,
     case.guid,

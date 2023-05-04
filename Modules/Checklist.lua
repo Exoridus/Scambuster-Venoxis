@@ -6,7 +6,7 @@ local Addon = select(2, ...);
 local Checklist = Addon:NewModule("Checklist");
 
 local CHECKLIST = {
-  [1]  = {
+  [1] = {
     name = "Cradran",
     guid = "",
     class = "WARLOCK",
@@ -16,7 +16,7 @@ local CHECKLIST = {
     category = "trade",
     level = 3,
   },
-  [2]  = {
+  [2] = {
     name = "Diggernick",
     guid = "",
     class = "",
@@ -26,19 +26,19 @@ local CHECKLIST = {
     category = "trade",
     level = 3,
   },
-  [3]  = {
+  [3] = {
     name = "Dirtyrouge",
     guid = "",
     class = "ROGUE",
     faction = "Horde",
     description = "Lootdrama / spricht kein Deutsch / versucht zu scammen",
     url = "https://discord.com/channels/613060619738021890/915181409155563521/960870173500399618",
-    -- https://discord.com/channels/613060619738021890/915181409155563521/971124210732761139
-    -- https://discord.com/channels/613060619738021890/915181409155563521/981994502308917278
+        -- https://discord.com/channels/613060619738021890/915181409155563521/971124210732761139
+        -- https://discord.com/channels/613060619738021890/915181409155563521/981994502308917278
     category = "gdkp",
     level = 3,
   },
-  [4]  = {
+  [4] = {
     name = "Dreamyx",
     guid = "",
     class = "SHAMAN",
@@ -48,7 +48,7 @@ local CHECKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [5]  = {
+  [5] = {
     name = "Fikky",
     guid = "",
     class = "",
@@ -58,7 +58,7 @@ local CHECKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [6]  = {
+  [6] = {
     name = "Greves",
     guid = "",
     class = "",
@@ -68,7 +68,7 @@ local CHECKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [7]  = {
+  [7] = {
     name = "Hoibedere",
     guid = "",
     class = "PALADIN",
@@ -78,7 +78,7 @@ local CHECKLIST = {
     category = "raid",
     level = 3,
   },
-  [8]  = {
+  [8] = {
     name = "Javoor",
     guid = "",
     class = "DRUID",
@@ -165,4 +165,24 @@ end
 
 function Checklist.Iterator()
   return pairs(CHECKLIST);
+end
+
+function Checklist.GetSortedNames()
+  local names = {};
+
+  for _, case in pairs(CHECKLIST) do
+    tinsert(names, case.name);
+  end
+
+  table.sort(names);
+
+  return names;
+end
+
+function Checklist.GetItemByName(name)
+  for _, case in pairs(CHECKLIST) do
+    if case.name == name then
+      return case;
+    end
+  end
 end
