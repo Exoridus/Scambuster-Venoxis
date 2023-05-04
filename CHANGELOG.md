@@ -1,6 +1,25 @@
-##  (2023-04-22)
+##  (2023-05-04)
+
+
+
+
+## 1.5.0 (2023-05-04)
+
+* refactor(addon): Added addon icon, slash commands and metadata ([825accc](https://github.com/Exoridus/Scambuster-Venoxis/commit/825accc))
+* refactor(addon): Sorted blocklist entries by name. Added command to dump the sorted blocklist inside ([d82757e](https://github.com/Exoridus/Scambuster-Venoxis/commit/d82757e))
+
+
+
+## <small>1.4.3 (2023-05-02)</small>
+
+* chore(blocklist): Added new entries ([cc11619](https://github.com/Exoridus/Scambuster-Venoxis/commit/cc11619))
+
+
+
+## <small>1.4.2 (2023-04-22)</small>
 
 * chore(blocklist): Added new entries ([01f7fb0](https://github.com/Exoridus/Scambuster-Venoxis/commit/01f7fb0))
+* chore(blocklist): Updated CHANGELOG.md ([198f771](https://github.com/Exoridus/Scambuster-Venoxis/commit/198f771))
 
 
 
