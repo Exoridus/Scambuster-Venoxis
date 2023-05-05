@@ -1,4 +1,4 @@
-local Addon = select(2, ...);
+local AddonName, Addon = ...;
 local SlashCommands = Addon:NewModule("SlashCommands", "AceConsole-3.0");
 local Blocklist = Addon:GetModule("Blocklist");
 local Checklist = Addon:GetModule("Checklist");
@@ -28,14 +28,16 @@ function SlashCommands:OnChatCommand(input)
   end
 end
 
-function SlashCommands:PrintInfo(text, ...)
+function SlashCommands:PrintInfo(message, ...)
   local chatFrame = SELECTED_CHAT_FRAME or DEFAULT_CHAT_FRAME;
+  local chatPrefix = WrapTextInColorCode(AddonName, "FF33FF99");
+  local chatMessage = tostring(message);
 
   if select('#', ...) > 0 then
-    self:Printf(chatFrame, text, ...);
-  else
-    self:Print(chatFrame, text);
+    chatMessage = chatMessage:format(...);
   end
+
+  chatFrame:AddMessage(("%s: %s"):format(chatPrefix, chatMessage));
 end
 
 function SlashCommands:PrintHelp()
@@ -147,7 +149,7 @@ function SlashCommands:DumpBlocklistCommand()
     tinsert(lines, Utils:FormatReportByCase(index, Blocklist.GetItemByName(name)))
   end;
 
-  Utils:OpenTextInEditWindow(table.concat(lines, "\n"));
+  Utils:OpenTextInEditWindow(tconcat(lines, "\n"));
 end
 
 function SlashCommands:DumpChecklistCommand()
@@ -158,5 +160,5 @@ function SlashCommands:DumpChecklistCommand()
     tinsert(lines, Utils:FormatReportByCase(index, Checklist.GetItemByName(name)))
   end;
 
-  Utils:OpenTextInEditWindow(table.concat(lines, "\n"));
+  Utils:OpenTextInEditWindow(tconcat(lines, "\n"));
 end

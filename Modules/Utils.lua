@@ -35,7 +35,7 @@ function Module:PrepareFriendInfo(info)
   local faction = RACE_TO_FACTION[race];
   local factionName = FACTION_LABELS_FROM_STRING[faction];
   local realm = server ~= "" and server or GetRealmName();
-  local level = info.level and info.level > 0 or 0;
+  local level = type(info.level) == "number" and info.level or 0;
 
   if info.notes == FRIENDLIST_NOTE then
     C_FriendList.RemoveFriend(name);
