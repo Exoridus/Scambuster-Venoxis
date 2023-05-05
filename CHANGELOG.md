@@ -1,5 +1,12 @@
-##  (2023-05-04)
+##  (2023-05-05)
 
+
+
+
+## <small>1.5.1 (2023-05-05)</small>
+
+* fix(commands): fixed issues that caused an error when fetching player data ([86d0d8f](https://github.com/Exoridus/Scambuster-Venoxis/commit/86d0d8f))
+* chore(changelog): Updated CHANGELOG.md ([0bd6bc2](https://github.com/Exoridus/Scambuster-Venoxis/commit/0bd6bc2))
 
 
 
