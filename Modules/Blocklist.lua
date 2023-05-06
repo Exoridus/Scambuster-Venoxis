@@ -677,6 +677,16 @@ local BLOCKLIST = {
     level = 3,
   },
   [68] = {
+    name = "Yaxrail",
+    guid = "Player-4477-04D02AC4",
+    class = "WARRIOR",
+    faction = "Horde",
+    description = "PvP Main Warrior Yaxrail macht Ulduar10 GDKP auf und täuscht Lags und Disconnects vor, nachdem Thorim seinen Runestone nicht dropt.",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1103120025340104785",
+    category = "raid",
+    level = 3,
+  },
+  [69] = {
     name = "Zayr",
     guid = "Player-4477-0476BF51",
     class = "PALADIN",
@@ -686,7 +696,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [69] = {
+  [70] = {
     name = "Zizmo",
     guid = "Player-4477-04A0BDED",
     class = "HUNTER",
@@ -696,7 +706,7 @@ local BLOCKLIST = {
     category = "trade",
     level = 3,
   },
-  [70] = {
+  [71] = {
     name = "Zorodan",
     guid = "Player-4477-0381BCBA",
     class = "PALADIN",
@@ -706,7 +716,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [71] = {
+  [72] = {
     name = "Zullser",
     guid = "Player-4477-03B58DCD",
     class = "MAGE",
