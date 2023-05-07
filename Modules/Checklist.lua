@@ -33,8 +33,6 @@ local CHECKLIST = {
     faction = "Horde",
     description = "Lootdrama / spricht kein Deutsch / versucht zu scammen",
     url = "https://discord.com/channels/613060619738021890/915181409155563521/960870173500399618",
-        -- https://discord.com/channels/613060619738021890/915181409155563521/971124210732761139
-        -- https://discord.com/channels/613060619738021890/915181409155563521/981994502308917278
     category = "gdkp",
     level = 3,
   },
@@ -147,7 +145,7 @@ local CHECKLIST = {
     url = "https://discord.com/channels/613060619738021890/972036752283926578/1068898422259732531",
     category = "gdkp",
     level = 3,
-    aliases = {"Handwerkerr"}
+    aliases = {"Handwerkerr"},
   },
 };
 
@@ -170,8 +168,8 @@ end
 function Checklist.GetSortedNames()
   local names = {};
 
-  for _, case in pairs(CHECKLIST) do
-    tinsert(names, case.name);
+  for _,case in pairs(CHECKLIST) do
+    table.insert(names, case.name);
   end
 
   table.sort(names);
@@ -179,9 +177,14 @@ function Checklist.GetSortedNames()
   return names;
 end
 
+local function includesName(case, name)
+  return (type(case.name) == "string" and case.name == name)
+      or (type(case.aliases) == "table" and tContains(case.aliases, name));
+end
+
 function Checklist.GetItemByName(name)
   for _, case in pairs(CHECKLIST) do
-    if case.name == name then
+    if includesName(case, name) then
       return case;
     end
   end

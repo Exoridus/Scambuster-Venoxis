@@ -97,6 +97,16 @@ local BLOCKLIST = {
     level = 3,
   },
   [10] = {
+    name = "Builder",
+    guid = "Player-4477-037D513B",
+    class = "ROGUE",
+    faction = "Horde",
+    description = "Würfelt in HC+ 5 Mann auf alles Bedarf weil er behauptet verzauberer zu sein und es für Splitter dissen will",
+    url = "https://discord.com/channels/613060619738021890/1029711210918191154/1077230883871924325",
+    category = "dungeon",
+    level = 3,
+  },
+  [11] = {
     name = "Buyvet",
     guid = "Player-4477-03B5135F",
     class = "PALADIN",
@@ -106,7 +116,7 @@ local BLOCKLIST = {
     category = "trade",
     level = 3,
   },
-  [11] = {
+  [12] = {
     name = "Convexyz",
     guid = "Player-4477-04D80016",
     class = "PRIEST",
@@ -116,7 +126,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [12] = {
+  [13] = {
     name = "Cruzitô",
     guid = "Player-4477-044B93D3",
     class = "MAGE",
@@ -126,7 +136,17 @@ local BLOCKLIST = {
     category = "trade",
     level = 3,
   },
-  [13] = {
+  [14] = {
+    name = "Cycral",
+    guid = "Player-4477-04E27973",
+    class = "PALADIN",
+    faction = "Horde",
+    description = "Vergibt in Naxx10er ein Endboss item an einen Spieler der es nicht gewonnen hat und der dann instant offline geht",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1096600239164629114",
+    category = "raid",
+    level = 3,
+  },
+  [15] = {
     name = "Cînderrella",
     guid = "Player-4477-046669DD",
     class = "MAGE",
@@ -135,8 +155,9 @@ local BLOCKLIST = {
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1080868571279790210",
     category = "gdkp",
     level = 3,
+    aliases = {"Pumperlumper", "Dannymage"},
   },
-  [14] = {
+  [16] = {
     name = "Dakiny",
     guid = "Player-4477-042FF318",
     class = "PALADIN",
@@ -146,7 +167,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [15] = {
+  [17] = {
     name = "Danser",
     guid = "Player-4477-043160B7",
     class = "ROGUE",
@@ -156,7 +177,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [16] = {
+  [18] = {
     name = "Daserus",
     guid = "Player-4477-04AC5F5C",
     class = "PALADIN",
@@ -166,7 +187,7 @@ local BLOCKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [17] = {
+  [19] = {
     name = "Deinorc",
     guid = "Player-4477-031A85E5",
     class = "WARRIOR",
@@ -176,7 +197,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [18] = {
+  [20] = {
     name = "Dejox",
     guid = "Player-4477-043A6C38",
     class = "ROGUE",
@@ -186,7 +207,7 @@ local BLOCKLIST = {
     category = "trade",
     level = 3,
   },
-  [19] = {
+  [21] = {
     name = "Dkgoesbrbr",
     guid = "Player-4477-047A2CE0",
     class = "DEATHKNIGHT",
@@ -196,7 +217,7 @@ local BLOCKLIST = {
     category = "trade",
     level = 3,
   },
-  [20] = {
+  [22] = {
     name = "Elrether",
     guid = "Player-4477-044348A4",
     class = "MAGE",
@@ -206,7 +227,7 @@ local BLOCKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [21] = {
+  [23] = {
     name = "Faktorial",
     guid = "Player-4477-034B6F50",
     class = "MAGE",
@@ -216,7 +237,7 @@ local BLOCKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [22] = {
+  [24] = {
     name = "Fleta",
     guid = "Player-4477-029C4B7E",
     class = "WARRIOR",
@@ -226,7 +247,7 @@ local BLOCKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [23] = {
+  [25] = {
     name = "Fyfy",
     guid = "Player-4477-04983B8E",
     class = "DRUID",
@@ -236,7 +257,7 @@ local BLOCKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [24] = {
+  [26] = {
     name = "Gladix",
     guid = "Player-4477-04E405A6",
     class = "ROGUE",
@@ -246,7 +267,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [25] = {
+  [27] = {
     name = "Gromgrul",
     guid = "Player-4477-03DE0567",
     class = "WARRIOR",
@@ -256,7 +277,17 @@ local BLOCKLIST = {
     category = "trade",
     level = 3,
   },
-  [26] = {
+  [28] = {
+    name = "Happybeast",
+    guid = "Player-4477-048E9F36",
+    class = "HUNTER",
+    faction = "Horde",
+    description = "Deathrollbetrüger",
+    url = "https://discord.com/channels/613060619738021890/972036752283926578/1038987893823242301",
+    category = "trade",
+    level = 3,
+  },
+  [29] = {
     name = "Hellsângel",
     guid = "Player-4477-04D9ADE0",
     class = "PALADIN",
@@ -266,7 +297,7 @@ local BLOCKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [27] = {
+  [30] = {
     name = "Infernâ",
     guid = "Player-4477-03B07A37",
     class = "DRUID",
@@ -276,7 +307,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [28] = {
+  [31] = {
     name = "Intonraiha",
     guid = "Player-4477-04316087",
     class = "PALADIN",
@@ -286,7 +317,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [29] = {
+  [32] = {
     name = "Itsmebiatch",
     guid = "Player-4477-03B19976",
     class = "MAGE",
@@ -295,8 +326,9 @@ local BLOCKLIST = {
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1036332378873942187",
     category = "trade",
     level = 3,
+    aliases = {"Ungeiimpfter"},
   },
-  [30] = {
+  [33] = {
     name = "Jenpai",
     guid = "Player-4477-03B2BFD8",
     class = "PALADIN",
@@ -306,7 +338,7 @@ local BLOCKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [31] = {
+  [34] = {
     name = "Jensha",
     guid = "Player-4477-03FF5FEF",
     class = "MAGE",
@@ -316,7 +348,7 @@ local BLOCKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [32] = {
+  [35] = {
     name = "Jondeepfreez",
     guid = "Player-4477-0464DE81",
     class = "MAGE",
@@ -326,7 +358,7 @@ local BLOCKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [33] = {
+  [36] = {
     name = "Jondeepfreez",
     guid = "Player-4477-0464DE81",
     class = "MAGE",
@@ -336,7 +368,7 @@ local BLOCKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [34] = {
+  [37] = {
     name = "Kessler",
     guid = "Player-4477-04BABDB4",
     class = "DRUID",
@@ -346,7 +378,17 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [35] = {
+  [38] = {
+    name = "Kisxí",
+    guid = "Player-4477-03B293E1",
+    class = "PALADIN",
+    faction = "Horde",
+    description = "Erhält in Naxx10 irrtümlicherweise ein falsches Item welches ihm nicht zusteht, zündet Ruhestein und geht offline. Endbossitem Naxx: Torch",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1096600239164629114",
+    category = "raid",
+    level = 3,
+  },
+  [39] = {
     name = "Kreiszahl",
     guid = "Player-4477-03346F2C",
     class = "SHAMAN",
@@ -356,7 +398,7 @@ local BLOCKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [36] = {
+  [40] = {
     name = "Kugit",
     guid = "Player-4477-044F88CE",
     class = "HUNTER",
@@ -366,7 +408,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [37] = {
+  [41] = {
     name = "Lachman",
     guid = "Player-4477-03EC6CF8",
     class = "WARRIOR",
@@ -376,7 +418,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [38] = {
+  [42] = {
     name = "Laredai",
     guid = "Player-4477-04BDD735",
     class = "PRIEST",
@@ -386,7 +428,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [39] = {
+  [43] = {
     name = "Lebkuchen",
     guid = "Player-4477-040379B4",
     class = "PALADIN",
@@ -396,7 +438,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [40] = {
+  [44] = {
     name = "Listers",
     guid = "Player-4477-03B198AD",
     class = "MAGE",
@@ -406,7 +448,7 @@ local BLOCKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [41] = {
+  [45] = {
     name = "Lookìí",
     guid = "Player-4477-04BC3E60",
     class = "DRUID",
@@ -416,7 +458,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [42] = {
+  [46] = {
     name = "Lovetap",
     guid = "Player-4477-03BE372B",
     class = "SHAMAN",
@@ -426,7 +468,7 @@ local BLOCKLIST = {
     category = "harassment",
     level = 3,
   },
-  [43] = {
+  [47] = {
     name = "Lyzak",
     guid = "Player-4477-048F3883",
     class = "PALADIN",
@@ -436,7 +478,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [44] = {
+  [48] = {
     name = "Mczwuggi",
     guid = "Player-4477-044CA3A0",
     class = "WARRIOR",
@@ -446,7 +488,7 @@ local BLOCKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [45] = {
+  [49] = {
     name = "Melthise",
     guid = "Player-4477-04434888",
     class = "MAGE",
@@ -456,7 +498,7 @@ local BLOCKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [46] = {
+  [50] = {
     name = "Nakrotss",
     guid = "Player-4477-0419454D",
     class = "MAGE",
@@ -466,7 +508,7 @@ local BLOCKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [47] = {
+  [51] = {
     name = "Nøxic",
     guid = "Player-4477-03355A2D",
     class = "PRIEST",
@@ -476,7 +518,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [48] = {
+  [52] = {
     name = "Palaslust",
     guid = "Player-4477-04D8C118",
     class = "PALADIN",
@@ -486,7 +528,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [49] = {
+  [53] = {
     name = "Patapeng",
     guid = "Player-4477-022E45F0",
     class = "MAGE",
@@ -495,8 +537,9 @@ local BLOCKLIST = {
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1092478052723867798",
     category = "raid",
     level = 3,
+    aliases = {"Bakery"},
   },
-  [50] = {
+  [54] = {
     name = "Pi",
     guid = "Player-4477-00CDA567",
     class = "PRIEST",
@@ -506,7 +549,7 @@ local BLOCKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [51] = {
+  [55] = {
     name = "Rhoran",
     guid = "Player-4477-04E405A6",
     class = "DEATHKNIGHT",
@@ -516,7 +559,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [52] = {
+  [56] = {
     name = "Rosabienchen",
     guid = "Player-4477-03B074F6",
     class = "PALADIN",
@@ -526,7 +569,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [53] = {
+  [57] = {
     name = "Sandmanncs",
     guid = "Player-4477-0320C13C",
     class = "MAGE",
@@ -536,7 +579,7 @@ local BLOCKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [54] = {
+  [58] = {
     name = "Saucenbinder",
     guid = "Player-4477-045558EF",
     class = "WARLOCK",
@@ -546,7 +589,7 @@ local BLOCKLIST = {
     category = "trade",
     level = 3,
   },
-  [55] = {
+  [59] = {
     name = "Sintussa",
     guid = "Player-4477-03AFB576",
     class = "WARRIOR",
@@ -556,7 +599,7 @@ local BLOCKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [56] = {
+  [60] = {
     name = "Strønghøld",
     guid = "Player-4477-04AC4DB2",
     class = "WARRIOR",
@@ -566,7 +609,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [57] = {
+  [61] = {
     name = "Stysthy",
     guid = "Player-4477-04EE3626",
     class = "DEATHKNIGHT",
@@ -576,7 +619,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [58] = {
+  [62] = {
     name = "Sunnytätär",
     guid = "Player-4477-039FE91B",
     class = "PRIEST",
@@ -586,17 +629,17 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [59] = {
-    name = "Toxec",
-    guid = "Player-4477-0454A99B",
-    class = "DRUID",
-    faction = "Alliance",
+  [63] = {
+    name = "Toxiic",
+    guid = "Player-4477-03891F47",
+    class = "WARLOCK",
+    faction = "Horde",
     description = "Geht als Buyer mit und hat kein Gold - beleidigt dann nach Aufforderung zu kaufen.",
     url = "https://discord.com/channels/613060619738021890/972036752283926578/989965855112716409",
     category = "gdkp",
     level = 3,
   },
-  [60] = {
+  [64] = {
     name = "Trytofly",
     guid = "Player-4477-03BDE4D2",
     class = "PALADIN",
@@ -606,7 +649,7 @@ local BLOCKLIST = {
     category = "trade",
     level = 3,
   },
-  [61] = {
+  [65] = {
     name = "Ukrgul",
     guid = "Player-4477-02D6082C",
     class = "MAGE",
@@ -616,7 +659,7 @@ local BLOCKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [62] = {
+  [66] = {
     name = "Ultraboost",
     guid = "Player-4477-04445671",
     class = "MAGE",
@@ -626,7 +669,7 @@ local BLOCKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [63] = {
+  [67] = {
     name = "Valentinmlk",
     guid = "Player-4477-02D60832",
     class = "MAGE",
@@ -636,7 +679,7 @@ local BLOCKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [64] = {
+  [68] = {
     name = "Vejrekaiah",
     guid = "Player-4477-0310DAC1",
     class = "MAGE",
@@ -646,7 +689,7 @@ local BLOCKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [65] = {
+  [69] = {
     name = "Vitalyv",
     guid = "Player-4477-043BDE5B",
     class = "PALADIN",
@@ -656,7 +699,7 @@ local BLOCKLIST = {
     category = "trade",
     level = 3,
   },
-  [66] = {
+  [70] = {
     name = "Wandan",
     guid = "Player-4477-041935AD",
     class = "MAGE",
@@ -666,7 +709,7 @@ local BLOCKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [67] = {
+  [71] = {
     name = "Wortalmombat",
     guid = "Player-4477-04554B62",
     class = "WARRIOR",
@@ -676,7 +719,7 @@ local BLOCKLIST = {
     category = "harassment",
     level = 3,
   },
-  [68] = {
+  [72] = {
     name = "Yaxrail",
     guid = "Player-4477-04D02AC4",
     class = "WARRIOR",
@@ -686,7 +729,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [69] = {
+  [73] = {
     name = "Zayr",
     guid = "Player-4477-0476BF51",
     class = "PALADIN",
@@ -696,7 +739,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [70] = {
+  [74] = {
     name = "Zizmo",
     guid = "Player-4477-04A0BDED",
     class = "HUNTER",
@@ -706,7 +749,7 @@ local BLOCKLIST = {
     category = "trade",
     level = 3,
   },
-  [71] = {
+  [75] = {
     name = "Zorodan",
     guid = "Player-4477-0381BCBA",
     class = "PALADIN",
@@ -716,7 +759,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [72] = {
+  [76] = {
     name = "Zullser",
     guid = "Player-4477-03B58DCD",
     class = "MAGE",
@@ -727,29 +770,6 @@ local BLOCKLIST = {
     level = 3,
   },
 };
-
-local function includesName(case, name)
-  return (type(case.name) == "string" and case.name == name) or (type(case.aliases) == "table" and tContains(case.aliases, name));
-end
-
-function Blocklist.FindPlayerCases(name)
-  local indices = {};
-
-  for index, entry in ipairs(BLOCKLIST) do
-    if type(entry.players) == "table" then
-      for _, case in pairs(entry.players) do
-        if includesName(case, name) then
-          indices[index] = case.description or entry.description;
-          break;
-        end
-      end
-    elseif includesName(entry, name) then
-      indices[index] = entry.description;
-    end
-  end
-
-  return indices;
-end
 
 function Blocklist.GetList()
   return BLOCKLIST;
@@ -770,8 +790,8 @@ end
 function Blocklist.GetSortedNames()
   local names = {};
 
-  for _, case in pairs(BLOCKLIST) do
-    tinsert(names, case.name);
+  for _,case in pairs(BLOCKLIST) do
+    table.insert(names, case.name);
   end
 
   table.sort(names);
@@ -779,10 +799,34 @@ function Blocklist.GetSortedNames()
   return names;
 end
 
+local function includesName(case, name)
+  return (type(case.name) == "string" and case.name == name)
+    or (type(case.aliases) == "table" and tContains(case.aliases, name));
+end
+
 function Blocklist.GetItemByName(name)
-  for _, case in pairs(BLOCKLIST) do
-    if case.name == name then
+  for _,case in pairs(BLOCKLIST) do
+    if includesName(case, name) then
       return case;
     end
   end
+end
+
+function Blocklist.FindPlayerCases(name)
+  local indices = {};
+
+  for index, entry in ipairs(BLOCKLIST) do
+    if type(entry.players) == "table" then
+      for _, case in pairs(entry.players) do
+        if includesName(case, name) then
+          indices[index] = case.description or entry.description;
+          break;
+        end
+      end
+    elseif includesName(entry, name) then
+      indices[index] = entry.description;
+    end
+  end
+
+  return indices;
 end

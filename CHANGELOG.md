@@ -1,5 +1,12 @@
-##  (2023-05-05)
+##  (2023-05-06)
 
+
+
+
+## <small>1.5.2 (2023-05-06)</small>
+
+* chore(blocklist): updated blocklist ([237d4a3](https://github.com/Exoridus/Scambuster-Venoxis/commit/237d4a3))
+* chore(changelog): Updated CHANGELOG.md ([4ba31f5](https://github.com/Exoridus/Scambuster-Venoxis/commit/4ba31f5))
 
 
 

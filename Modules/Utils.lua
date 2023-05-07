@@ -1,5 +1,5 @@
 local AddonName, Addon = ...;
-local Module = Addon:NewModule("Utils");
+local Utils = Addon:NewModule("Utils");
 local AceGUI = LibStub("AceGUI-3.0");
 
 local FRIENDLIST_NOTE = ("From %s"):format(AddonName);
@@ -17,7 +17,19 @@ local RACE_TO_FACTION = {
   Gnome = "Alliance",
 };
 
-local REPORT_TEMPLATE = [[
+local EMPTY_CASE = [[
+[%d] = {
+  name = "%s",
+  guid = "%s",
+  class = "%s",
+  faction = "%s",
+  description = "",
+  url = "",
+  category = "",
+  level = 3,
+},]];
+
+local EXISTING_CASE = [[
 [%d] = {
   name = "%s",
   guid = "%s",
@@ -26,10 +38,12 @@ local REPORT_TEMPLATE = [[
   description = "%s",
   url = "%s",
   category = "%s",
-  level = %d,
+  level = %d,%s
 },]];
 
-function Module:PrepareFriendInfo(info)
+local ALIAS_PROP = '\n  aliases = {"%s"},';
+
+function Utils:PrepareFriendInfo(info)
   local guid = assert(info.guid);
   local className, class, raceName, race, _, name, server = GetPlayerInfoByGUID(guid);
   local faction = RACE_TO_FACTION[race];
@@ -55,7 +69,7 @@ function Module:PrepareFriendInfo(info)
   };
 end
 
-function Module:FetchPlayerInfo(name, callback)
+function Utils:FetchPlayerInfo(name, callback)
   local info = C_FriendList.GetFriendInfo(name);
 
   if info then
@@ -82,22 +96,12 @@ function Module:FetchPlayerInfo(name, callback)
   end, maxTicks);
 end
 
-function Module:FormatReportByPlayerInfo(index, info)
-  return REPORT_TEMPLATE:format(
-    index,
-    info.name,
-    info.guid,
-    info.class,
-    info.faction,
-    "",
-    "",
-    "",
-    3
-  );
+function Utils:FormatReportByPlayerInfo(index, info)
+  return EMPTY_CASE:format(index, info.name, info.guid, info.class, info.faction);
 end
 
-function Module:FormatReportByCase(index, case)
-  return REPORT_TEMPLATE:format(
+function Utils:FormatReportByCase(index, case)
+  return EXISTING_CASE:format(
     index,
     case.name,
     case.guid,
@@ -106,19 +110,20 @@ function Module:FormatReportByCase(index, case)
     case.description,
     case.url,
     case.category,
-    case.level
+    case.level,
+    case.aliases and ALIAS_PROP:format(table.concat(case.aliases, '", "')) or ""
   );
 end
 
-function Module:OpenTextInEditWindow(text)
+function Utils:OpenTextInEditWindow(text, width, height)
   local frame = AceGUI:Create("Frame");
 
   frame:SetCallback("OnClose", function(widget) AceGUI:Release(widget) end);
   frame:SetTitle("Scambuster-Venoxis");
   frame:SetStatusText("Use CTRL+C to copy data");
   frame:SetLayout("Flow");
-  frame:SetWidth(320);
-  frame:SetHeight(250);
+  frame:SetWidth(width);
+  frame:SetHeight(height);
 
   local editbox = AceGUI:Create("MultiLineEditBox");
 
@@ -131,4 +136,14 @@ function Module:OpenTextInEditWindow(text)
   editbox:SetFocus();
 
   frame:AddChild(editbox);
+end
+
+function Utils:DumpSortedList(List)
+  local tmp = {};
+
+  for index, name in ipairs(List.GetSortedNames()) do
+    table.insert(tmp, self:FormatReportByCase(index, List.GetItemByName(name)))
+  end;
+
+  self:OpenTextInEditWindow(table.concat(tmp, "\n"), 320, 250);
 end

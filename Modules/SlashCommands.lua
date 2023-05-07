@@ -4,6 +4,8 @@ local Blocklist = Addon:GetModule("Blocklist");
 local Checklist = Addon:GetModule("Checklist");
 local Utils = Addon:GetModule("Utils");
 
+local offset = 0;
+
 function SlashCommands:OnInitialize()
   self:RegisterChatCommand("venoxis", "OnChatCommand");
 end
@@ -56,7 +58,7 @@ function SlashCommands:PrintPlayerNotFoundInfo(name)
 end
 
 function SlashCommands:PrintPlayerInfoInChat(info)
-  if info.realm ~= GetRealmName() then
+  if info.realm ~= "Venoxis" then
     self:PrintInfo("CAUTION: GUID matches player from another realm (%s).", info.realm);
   end
 
@@ -71,13 +73,15 @@ function SlashCommands:PrintPlayerInfoInChat(info)
 end
 
 function SlashCommands:PrintPlayerInfoInEditWindow(info)
-  if info.realm ~= GetRealmName() then
+  if info.realm ~= "Venoxis" then
     self:PrintInfo("CAUTION: GUID matches player from another realm (%s).", info.realm);
   end
 
-  local reportText = Utils:FormatReportByPlayerInfo(Blocklist.GetCount() + 1, info);
+  offset = offset + 1;
 
-  Utils:OpenTextInEditWindow(reportText);
+  local caseText = Utils:FormatReportByPlayerInfo(Blocklist.GetCount() + offset, info);
+
+  Utils:OpenTextInEditWindow(caseText, 320, 250);
 end
 
 function SlashCommands:PrintCommand(name)
@@ -142,23 +146,9 @@ function SlashCommands:CheckCommand()
 end
 
 function SlashCommands:DumpBlocklistCommand()
-  local names = Blocklist.GetSortedNames();
-  local lines = {};
-
-  for index, name in ipairs(names) do
-    tinsert(lines, Utils:FormatReportByCase(index, Blocklist.GetItemByName(name)))
-  end;
-
-  Utils:OpenTextInEditWindow(tconcat(lines, "\n"));
+  Utils:DumpSortedList(Blocklist);
 end
 
 function SlashCommands:DumpChecklistCommand()
-  local names = Checklist.GetSortedNames();
-  local lines = {};
-
-  for index, name in ipairs(names) do
-    tinsert(lines, Utils:FormatReportByCase(index, Checklist.GetItemByName(name)))
-  end;
-
-  Utils:OpenTextInEditWindow(tconcat(lines, "\n"));
+  Utils:DumpSortedList(Checklist);
 end
