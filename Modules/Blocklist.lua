@@ -118,10 +118,10 @@ local BLOCKLIST = {
   },
   [12] = {
     name = "Convexyz",
-    guid = "Player-4477-04D80016",
-    class = "PRIEST",
+    guid = "Player-4477-04F4059E",
+    class = "ROGUE",
     faction = "Horde",
-    description = "Steckt sich nach PrioRun den Drachen und die Beutetasche aus Obsi 3D 10er ein obwohl er es nicht auf Prio hatte",
+    description = "Twink von Xevnoc. Steckt sich nach PrioRun den Drachen und die Beutetasche aus Obsi 3D 10er ein obwohl er es nicht auf Prio hatte",
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1084141800903684136",
     category = "raid",
     level = 3,
@@ -720,6 +720,17 @@ local BLOCKLIST = {
     level = 3,
   },
   [72] = {
+    name = "Xevnoc",
+    guid = "Player-4477-04D80016",
+    class = "PRIEST",
+    faction = "Horde",
+    description = "Umbenannt von 'Convexyz'. Steckt sich nach PrioRun den Drachen und die Beutetasche aus Obsi 3D 10er ein obwohl er es nicht auf Prio hatte",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1084141800903684136",
+    category = "raid",
+    level = 3,
+    aliases = {"Convexyz"},
+  },
+  [73] = {
     name = "Yaxrail",
     guid = "Player-4477-04D02AC4",
     class = "WARRIOR",
@@ -729,7 +740,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [73] = {
+  [74] = {
     name = "Zayr",
     guid = "Player-4477-0476BF51",
     class = "PALADIN",
@@ -739,7 +750,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [74] = {
+  [75] = {
     name = "Zizmo",
     guid = "Player-4477-04A0BDED",
     class = "HUNTER",
@@ -749,7 +760,7 @@ local BLOCKLIST = {
     category = "trade",
     level = 3,
   },
-  [75] = {
+  [76] = {
     name = "Zorodan",
     guid = "Player-4477-0381BCBA",
     class = "PALADIN",
@@ -759,7 +770,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [76] = {
+  [77] = {
     name = "Zullser",
     guid = "Player-4477-03B58DCD",
     class = "MAGE",
