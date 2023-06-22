@@ -1,4 +1,4 @@
-local AddonName, Addon = ...;
+local _, Addon = ...;
 local SlashCommands = Addon:NewModule("SlashCommands", "AceConsole-3.0");
 local Blocklist = Addon:GetModule("Blocklist");
 local Checklist = Addon:GetModule("Checklist");
@@ -30,51 +30,39 @@ function SlashCommands:OnChatCommand(input)
   end
 end
 
-function SlashCommands:PrintInfo(message, ...)
-  local chatFrame = SELECTED_CHAT_FRAME or DEFAULT_CHAT_FRAME;
-  local chatPrefix = WrapTextInColorCode(AddonName, "FF33FF99");
-  local chatMessage = tostring(message);
-
-  if select('#', ...) > 0 then
-    chatMessage = chatMessage:format(...);
-  end
-
-  chatFrame:AddMessage(("%s: %s"):format(chatPrefix, chatMessage));
-end
-
 function SlashCommands:PrintHelp()
-  self:PrintInfo("/venoxis print NAME (prints character data into your current chat frame)");
-  self:PrintInfo("/venoxis report NAME (prints character data as a lua compatible blocklist entry)");
-  self:PrintInfo("/venoxis search NAME (searches blocklist entries for matching player names)");
-  self:PrintInfo("/venoxis check (searches checklist entries for existing players)");
+  Utils:PrintInfo("/venoxis print NAME (prints character data into your current chat frame)");
+  Utils:PrintInfo("/venoxis report NAME (prints character data as a lua compatible blocklist entry)");
+  Utils:PrintInfo("/venoxis search NAME (searches blocklist entries for matching player names)");
+  Utils:PrintInfo("/venoxis check (searches checklist entries for existing players)");
 end
 
 function SlashCommands:PrintPlayerNotFoundInfo(name)
-  self:PrintInfo("Failed requesting GUID for \"%s\". Possible reasons:", name);
-  self:PrintInfo("1. The character name is misspelled and contains typos.");
-  self:PrintInfo("2. The character is on the opposite faction as you.");
-  self:PrintInfo("3. The character was renamed, deleted or transferred.");
-  self:PrintInfo("4. Your friends list is full and cannot add more players.");
+  Utils:PrintInfo("Failed requesting GUID for \"%s\". Possible reasons:", name);
+  Utils:PrintInfo("1. The character name is misspelled and contains typos.");
+  Utils:PrintInfo("2. The character is on the opposite faction as you.");
+  Utils:PrintInfo("3. The character was renamed, deleted or transferred.");
+  Utils:PrintInfo("4. Your friends list is full and cannot add more players.");
 end
 
 function SlashCommands:PrintPlayerInfoInChat(info)
   if info.realm ~= "Venoxis" then
-    self:PrintInfo("CAUTION: GUID matches player from another realm (%s).", info.realm);
+    Utils:PrintInfo("CAUTION: GUID matches player from another realm (%s).", info.realm);
   end
 
-  self:PrintInfo("%s: %s", NAME, info.name);
-  self:PrintInfo("GUID: %s", info.guid);
+  Utils:PrintInfo("%s: %s", NAME, info.name);
+  Utils:PrintInfo("GUID: %s", info.guid);
   if info.level > 0 then
-    self:PrintInfo("%s: %s", LEVEL, info.level);
+    Utils:PrintInfo("%s: %s", LEVEL, info.level);
   end
-  self:PrintInfo("%s: %s", RACE, info.raceName);
-  self:PrintInfo("%s: %s", CLASS, WrapTextInColor(info.className, GetClassColorObj(info.class)));
-  self:PrintInfo("%s: %s", FACTION, WrapTextInColor(info.factionName, GetFactionColor(info.faction)));
+  Utils:PrintInfo("%s: %s", RACE, info.raceName);
+  Utils:PrintInfo("%s: %s", CLASS, WrapTextInColor(info.className, GetClassColorObj(info.class)));
+  Utils:PrintInfo("%s: %s", FACTION, WrapTextInColor(info.factionName, GetFactionColor(info.faction)));
 end
 
 function SlashCommands:PrintPlayerInfoInEditWindow(info)
   if info.realm ~= "Venoxis" then
-    self:PrintInfo("CAUTION: GUID matches player from another realm (%s).", info.realm);
+    Utils:PrintInfo("CAUTION: GUID matches player from another realm (%s).", info.realm);
   end
 
   offset = offset + 1;
@@ -108,14 +96,14 @@ function SlashCommands:SearchCommand(name)
   local list = Blocklist.FindPlayerCases(name);
 
   if #list == 0 then
-    self:PrintInfo("No entries found on player %s", name);
+    Utils:PrintInfo("No entries found on player %s", name);
     return;
   end
 
-  self:PrintInfo("Found %d entries on player %s:", #list, name);
+  Utils:PrintInfo("Found %d entries on player %s:", #list, name);
 
   for i, v in ipairs(list) do
-    self:PrintInfo("Case #%d: %s", i, v);
+    Utils:PrintInfo("Case #%d: %s", i, v);
   end
 end
 
@@ -128,17 +116,17 @@ function SlashCommands:CheckCommand()
 
     Utils:FetchPlayerInfo(item.name, function(info)
       if info then
-        self:PrintInfo("Found checklist player %s on index %d:", info.name, index);
+        Utils:PrintInfo("Found checklist player %s on index %d:", info.name, index);
         for k, v in pairs(item) do
-          self:PrintInfo("%s: %s", k, v);
+          Utils:PrintInfo("%s: %s", k, v);
         end
-        self:PrintInfo("Fetched player info:");
+        Utils:PrintInfo("Fetched player info:");
         self:PrintPlayerInfoInChat(info);
       end
     end);
 
     if index > length then
-      self:PrintInfo("Checklist finished.");
+      Utils:PrintInfo("Checklist finished.");
     end
 
     index = index + 1;

@@ -1,9 +1,9 @@
-## Interface: 30401
+## Interface: 30402
 ## Title: |TInterface/Addons/Scambuster-Venoxis/Assets/Scambuster:16:16|t Scambuster-Venoxis |cFF00FF00v@project-version@|r
 ## Author: Exoridus
 ## Version: @project-version@
-## Notes: Scambuster database of scammers and inappropriate players on Venoxis
-## Notes-deDE: Scambuster Datenbank von Betrügern und unangemessen Spielern auf Venoxis
+## Notes: |cff666666By Exoridus|r |n|nScambuster database of scammers and|ninappropriate players on Venoxis.|n|n|TInterface/Addons/Scambuster-Venoxis/Assets/Github:12:12:0:-2|t |cff82c5ffgithub.com/Exoridus|r|n|TInterface/Addons/Scambuster-Venoxis/Assets/Discord:12:12:0:-2|t |cff82c5ffExoridus|r|n|n
+## Notes-deDE: |cff666666By Exoridus|r |n|nScambuster Datenbank von Betrügern und|nunangemessenen Spielern auf Venoxis.|n|n|TInterface/Addons/Scambuster-Venoxis/Assets/Github:12:12:0:-2|t |cff82c5ffgithub.com/Exoridus|r|n|TInterface/Addons/Scambuster-Venoxis/Assets/Discord:12:12:0:-2|t |cff82c5ffExoridus|r|n|n
 ## Dependencies: Scambuster
 ## DefaultState: enabled
 ## X-Email: contact@codexo.de

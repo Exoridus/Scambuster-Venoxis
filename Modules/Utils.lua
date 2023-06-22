@@ -43,6 +43,18 @@ local EXISTING_CASE = [[
 
 local ALIAS_PROP = '\n  aliases = {"%s"},';
 
+function Utils:PrintInfo(message, ...)
+  local chatFrame = SELECTED_CHAT_FRAME or DEFAULT_CHAT_FRAME;
+  local chatPrefix = WrapTextInColorCode(AddonName, "FF33FF99");
+  local chatMessage = tostring(message);
+
+  if select('#', ...) > 0 then
+    chatMessage = chatMessage:format(...);
+  end
+
+  chatFrame:AddMessage(("%s: %s"):format(chatPrefix, chatMessage));
+end
+
 function Utils:PrepareFriendInfo(info)
   local guid = assert(info.guid);
   local className, class, raceName, race, _, name, server = GetPlayerInfoByGUID(guid);
