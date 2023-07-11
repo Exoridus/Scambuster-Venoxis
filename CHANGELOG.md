@@ -1,10 +1,23 @@
-##  (2023-05-06)
+##  (2023-07-11)
 
 
 
 
-## <small>1.5.2 (2023-05-06)</small>
+## <small>1.5.4 (2023-06-22)</small>
 
+* chore(addon): bumped interface version to 3.4.2 ([b2866a1](https://github.com/Exoridus/Scambuster-Venoxis/commit/b2866a1))
+
+
+
+## <small>1.5.3 (2023-05-25)</small>
+
+* chore(blocklist): updated blocklist ([4dc8e6b](https://github.com/Exoridus/Scambuster-Venoxis/commit/4dc8e6b))
+
+
+
+## <small>1.5.2 (2023-05-07)</small>
+
+* fix(commands): fixed lua errors when dumping blocklist/checklist ([5d2df03](https://github.com/Exoridus/Scambuster-Venoxis/commit/5d2df03))
 * chore(blocklist): updated blocklist ([237d4a3](https://github.com/Exoridus/Scambuster-Venoxis/commit/237d4a3))
 * chore(changelog): Updated CHANGELOG.md ([4ba31f5](https://github.com/Exoridus/Scambuster-Venoxis/commit/4ba31f5))
 

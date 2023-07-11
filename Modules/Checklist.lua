@@ -6,16 +6,6 @@ local Addon = select(2, ...);
 local Checklist = Addon:NewModule("Checklist");
 
 local CHECKLIST = {
-  [1] = {
-    name = "Cradran",
-    guid = "",
-    class = "WARLOCK",
-    faction = "Horde",
-    description = "Rollt gern ohne zu Zahlen",
-    url = "",
-    category = "trade",
-    level = 3,
-  },
   [2] = {
     name = "Diggernick",
     guid = "",
