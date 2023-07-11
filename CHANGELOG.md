@@ -3,6 +3,12 @@
 
 
 
+## <small>1.5.5 (2023-07-11)</small>
+
+* chore(blocklist): updated blocklist ([2f10cf9](https://github.com/Exoridus/Scambuster-Venoxis/commit/2f10cf9))
+
+
+
 ## <small>1.5.4 (2023-06-22)</small>
 
 * chore(addon): bumped interface version to 3.4.2 ([b2866a1](https://github.com/Exoridus/Scambuster-Venoxis/commit/b2866a1))
