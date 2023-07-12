@@ -3,6 +3,13 @@
 
 
 
+## <small>1.6.1 (2023-07-12)</small>
+
+* fix(commands): improved chat filter and mute certain sounds when fetching player data ([7ee7f89](https://github.com/Exoridus/Scambuster-Venoxis/commit/7ee7f89))
+* chore(changelog): updated changelog ([60aa9ba](https://github.com/Exoridus/Scambuster-Venoxis/commit/60aa9ba))
+
+
+
 ## 1.6.0 (2023-07-12)
 
 * chore(changelog): updated changelog ([ebc7d5f](https://github.com/Exoridus/Scambuster-Venoxis/commit/ebc7d5f))
