@@ -45,14 +45,15 @@ local ALIAS_PROP = '\n  aliases = {"%s"},';
 local ENABLED_STATES = { "on", "enabled", "true", "1", "enable" };
 local DISABLED_STATES = { "off", "disabled", "false", "0", "disable" };
 local FRIENDS_LIST_NOTE = ("From %s"):format(AddonName);
+local FRIENDS_LIST_SOUND = "Sound/Interface/FriendJoin.ogg";
 local CHAT_FILTER_ACTIVE = false;
 local CHAT_FILTER_PATTERNS = {
   ERR_FRIEND_ADDED_S:gsub("%.", "%%."):gsub("%%s", ".+"),
-  ERR_FRIEND_ALREADY_S:gsub("%.", "%%."):gsub("%%s", ".+"),
-  ERR_FRIEND_NOT_FOUND:gsub("%.", "%%."):gsub("%%s", ".+"),
-  ERR_FRIEND_OFFLINE_S:gsub("%.", "%%."):gsub("%%s", ".+"),
-  ERR_FRIEND_ONLINE_SS:gsub("%.", "%%."):gsub("%%s", ".+"),
   ERR_FRIEND_REMOVED_S:gsub("%.", "%%."):gsub("%%s", ".+"),
+  ERR_FRIEND_NOT_FOUND:gsub("%.", "%%."):gsub("%%s", ".+"),
+  ERR_FRIEND_ALREADY_S:gsub("%.", "%%."):gsub("%%s", ".+"),
+  ERR_FRIEND_OFFLINE_S:gsub("%.", "%%."):gsub("%%s", ".+"),
+  ERR_FRIEND_ONLINE_SS:gsub("|Hplayer:%%s|h%[%%s%]|h", "|Hplayer:.+|h%%[.+%%]|h"),
 };
 local CHAT_FILTER = function (self, event, msg, ...)
   if ChatFrame_ContainsMessageGroup(self, "SYSTEM") then
@@ -92,7 +93,7 @@ function Utils:PrepareFriendInfo(info)
   local realm = server ~= "" and server or GetRealmName();
   local level = type(info.level) == "number" and info.level or 0;
 
-  if info.notes == FRIENDLIST_NOTE then
+  if info.notes == FRIENDS_LIST_NOTE then
     C_FriendList.RemoveFriend(name);
   end
 
@@ -207,6 +208,7 @@ end
 function Utils:AddChatFilter()
   if not CHAT_FILTER_ACTIVE then
     ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", CHAT_FILTER);
+    MuteSoundFile(FRIENDS_LIST_SOUND);
     CHAT_FILTER_ACTIVE = true;
   end
 end
@@ -214,6 +216,7 @@ end
 function Utils:RemoveChatFilter()
   if CHAT_FILTER_ACTIVE then
     ChatFrame_RemoveMessageEventFilter("CHAT_MSG_SYSTEM", CHAT_FILTER);
+    UnmuteSoundFile(FRIENDS_LIST_SOUND);
     CHAT_FILTER_ACTIVE = false;
   end
 end
