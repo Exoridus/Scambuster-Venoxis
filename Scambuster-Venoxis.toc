@@ -3,9 +3,10 @@
 ## Author: Exoridus
 ## Version: @project-version@
 ## Notes: |cff666666By Exoridus|r |n|nScambuster database of scammers and|ninappropriate players on Venoxis.|n|n|TInterface/Addons/Scambuster-Venoxis/Assets/Github:12:12:0:-2|t |cff82c5ffgithub.com/Exoridus|r|n|TInterface/Addons/Scambuster-Venoxis/Assets/Discord:12:12:0:-2|t |cff82c5ffExoridus|r|n|n
-## Notes-deDE: |cff666666By Exoridus|r |n|nScambuster Datenbank von Betrügern und|nunangemessenen Spielern auf Venoxis.|n|n|TInterface/Addons/Scambuster-Venoxis/Assets/Github:12:12:0:-2|t |cff82c5ffgithub.com/Exoridus|r|n|TInterface/Addons/Scambuster-Venoxis/Assets/Discord:12:12:0:-2|t |cff82c5ffExoridus|r|n|n
+## Notes-deDE: |cff666666By Exoridus|r |n|nScambuster Datenbank mit Betrügern und|nunangemessenen Spielern auf Venoxis.|n|n|TInterface/Addons/Scambuster-Venoxis/Assets/Github:12:12:0:-2|t |cff82c5ffgithub.com/Exoridus|r|n|TInterface/Addons/Scambuster-Venoxis/Assets/Discord:12:12:0:-2|t |cff82c5ffExoridus|r|n|n
 ## Dependencies: Scambuster
 ## DefaultState: enabled
+## SavedVariables: ScambusterVenoxisDB
 ## X-Email: contact@codexo.de
 ## X-Website: https://discord.gg/NGtvvQYnmP
 ## X-Feedback: https://github.com/Exoridus/Scambuster-Venoxis

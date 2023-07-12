@@ -2,11 +2,12 @@
 -- List of player names that returned empty results when fetching for their char info.  --
 -- Those characters were renamed / transferred / deleted before their GUIDs were saved. --
 --======================================================================================--
-local Addon = select(2, ...);
+local _, Addon = ...;
 local Checklist = Addon:NewModule("Checklist");
+local Utils = Addon:GetModule("Utils");
 
 local CHECKLIST = {
-  [2] = {
+  [1] = {
     name = "Diggernick",
     guid = "",
     class = "",
@@ -16,7 +17,7 @@ local CHECKLIST = {
     category = "trade",
     level = 3,
   },
-  [3] = {
+  [2] = {
     name = "Dirtyrouge",
     guid = "",
     class = "ROGUE",
@@ -26,7 +27,7 @@ local CHECKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [4] = {
+  [3] = {
     name = "Dreamyx",
     guid = "",
     class = "SHAMAN",
@@ -36,7 +37,7 @@ local CHECKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [5] = {
+  [4] = {
     name = "Fikky",
     guid = "",
     class = "",
@@ -46,7 +47,7 @@ local CHECKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [6] = {
+  [5] = {
     name = "Greves",
     guid = "",
     class = "",
@@ -56,7 +57,7 @@ local CHECKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [7] = {
+  [6] = {
     name = "Hoibedere",
     guid = "",
     class = "PALADIN",
@@ -66,7 +67,7 @@ local CHECKLIST = {
     category = "raid",
     level = 3,
   },
-  [8] = {
+  [7] = {
     name = "Javoor",
     guid = "",
     class = "DRUID",
@@ -76,7 +77,7 @@ local CHECKLIST = {
     category = "trade",
     level = 3,
   },
-  [9] = {
+  [8] = {
     name = "Niemandmc",
     guid = "",
     class = "WARRIOR",
@@ -86,7 +87,7 @@ local CHECKLIST = {
     category = "raid",
     level = 3,
   },
-  [10] = {
+  [9] = {
     name = "PPQOR",
     guid = "",
     class = "",
@@ -96,7 +97,7 @@ local CHECKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [11] = {
+  [10] = {
     name = "Rôôz",
     guid = "",
     class = "WARRIOR",
@@ -106,7 +107,7 @@ local CHECKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [12] = {
+  [11] = {
     name = "Thilon",
     guid = "",
     class = "PALADIN",
@@ -116,7 +117,7 @@ local CHECKLIST = {
     category = "raid",
     level = 3,
   },
-  [13] = {
+  [12] = {
     name = "Vibecheckk",
     guid = "",
     class = "SHAMAN",
@@ -126,7 +127,7 @@ local CHECKLIST = {
     category = "raid",
     level = 3,
   },
-  [14] = {
+  [13] = {
     name = "Würfelbotqt",
     guid = "",
     class = "WARRIOR",
@@ -147,7 +148,7 @@ function Checklist.GetCount()
   return #CHECKLIST;
 end
 
-function Checklist.GetItem(index)
+function Checklist.GetEntry(index)
   return CHECKLIST[index];
 end
 
@@ -167,14 +168,9 @@ function Checklist.GetSortedNames()
   return names;
 end
 
-local function includesName(case, name)
-  return (type(case.name) == "string" and case.name == name)
-      or (type(case.aliases) == "table" and tContains(case.aliases, name));
-end
-
-function Checklist.GetItemByName(name)
+function Checklist.GetEntryByName(name)
   for _, case in pairs(CHECKLIST) do
-    if includesName(case, name) then
+    if Utils:IsNameInEntry(case, name) then
       return case;
     end
   end

@@ -1,7 +1,7 @@
 --======================================================================================--
 -- Provider specific information describing the scope and community behind this list.   --
 --======================================================================================--
-local Addon = select(2, ...);
+local _, Addon = ...;
 local Provider = Addon:NewModule("Provider");
 
 local PROVIDER_NAME = "Venoxis Discord Blocklist";

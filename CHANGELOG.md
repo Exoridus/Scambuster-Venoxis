@@ -1,5 +1,12 @@
-##  (2023-07-11)
+##  (2023-07-12)
 
+
+
+
+## <small>1.5.6 (2023-07-12)</small>
+
+* refactor(addon): added AceDB config module and improved slash commands ([a9ececf](https://github.com/Exoridus/Scambuster-Venoxis/commit/a9ececf))
+* chore(changelog): updated changelog ([bc82a93](https://github.com/Exoridus/Scambuster-Venoxis/commit/bc82a93))
 
 
 

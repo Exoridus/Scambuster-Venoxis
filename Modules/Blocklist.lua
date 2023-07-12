@@ -2,8 +2,9 @@
 -- Venoxis Discord blocklist based on the official google sheet blocklist viewable at: --
 -- https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY --
 --=====================================================================================--
-local Addon = select(2, ...);
+local _, Addon = ...;
 local Blocklist = Addon:NewModule("Blocklist");
+local Utils = Addon:GetModule("Utils");
 
 local BLOCKLIST = {
   [1] = {
@@ -127,6 +128,16 @@ local BLOCKLIST = {
     level = 3,
   },
   [13] = {
+    name = "Cradran",
+    guid = "Player-4477-04F82F8F",
+    class = "WARLOCK",
+    faction = "Horde",
+    description = "Rollt gern ohne zu Zahlen",
+    url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit",
+    category = "trade",
+    level = 3,
+  },
+  [14] = {
     name = "Cruzitô",
     guid = "Player-4477-044B93D3",
     class = "MAGE",
@@ -136,7 +147,7 @@ local BLOCKLIST = {
     category = "trade",
     level = 3,
   },
-  [14] = {
+  [15] = {
     name = "Cycral",
     guid = "Player-4477-04E27973",
     class = "PALADIN",
@@ -146,7 +157,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [15] = {
+  [16] = {
     name = "Cînderrella",
     guid = "Player-4477-046669DD",
     class = "MAGE",
@@ -157,7 +168,7 @@ local BLOCKLIST = {
     level = 3,
     aliases = {"Pumperlumper", "Dannymage"},
   },
-  [16] = {
+  [17] = {
     name = "Dakiny",
     guid = "Player-4477-042FF318",
     class = "PALADIN",
@@ -167,7 +178,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [17] = {
+  [18] = {
     name = "Danser",
     guid = "Player-4477-043160B7",
     class = "ROGUE",
@@ -177,7 +188,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [18] = {
+  [19] = {
     name = "Daserus",
     guid = "Player-4477-04AC5F5C",
     class = "PALADIN",
@@ -187,7 +198,7 @@ local BLOCKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [19] = {
+  [20] = {
     name = "Deinorc",
     guid = "Player-4477-031A85E5",
     class = "WARRIOR",
@@ -197,7 +208,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [20] = {
+  [21] = {
     name = "Dejox",
     guid = "Player-4477-043A6C38",
     class = "ROGUE",
@@ -207,7 +218,7 @@ local BLOCKLIST = {
     category = "trade",
     level = 3,
   },
-  [21] = {
+  [22] = {
     name = "Dkgoesbrbr",
     guid = "Player-4477-047A2CE0",
     class = "DEATHKNIGHT",
@@ -217,7 +228,7 @@ local BLOCKLIST = {
     category = "trade",
     level = 3,
   },
-  [22] = {
+  [23] = {
     name = "Elrether",
     guid = "Player-4477-044348A4",
     class = "MAGE",
@@ -227,7 +238,7 @@ local BLOCKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [23] = {
+  [24] = {
     name = "Faktorial",
     guid = "Player-4477-034B6F50",
     class = "MAGE",
@@ -237,7 +248,7 @@ local BLOCKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [24] = {
+  [25] = {
     name = "Fleta",
     guid = "Player-4477-029C4B7E",
     class = "WARRIOR",
@@ -247,7 +258,7 @@ local BLOCKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [25] = {
+  [26] = {
     name = "Fyfy",
     guid = "Player-4477-04983B8E",
     class = "DRUID",
@@ -257,7 +268,7 @@ local BLOCKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [26] = {
+  [27] = {
     name = "Gladix",
     guid = "Player-4477-04E405A6",
     class = "ROGUE",
@@ -267,7 +278,17 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [27] = {
+  [28] = {
+    name = "Gladix",
+    guid = "Player-4477-04E405A6",
+    class = "ROGUE",
+    faction = "Horde",
+    description = "Ninjat in Archavons Kammer 25 zwei Items",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1093498181402251294",
+    category = "raid",
+    level = 3,
+  },
+  [29] = {
     name = "Gromgrul",
     guid = "Player-4477-03DE0567",
     class = "WARRIOR",
@@ -277,7 +298,7 @@ local BLOCKLIST = {
     category = "trade",
     level = 3,
   },
-  [28] = {
+  [30] = {
     name = "Happybeast",
     guid = "Player-4477-048E9F36",
     class = "HUNTER",
@@ -287,7 +308,7 @@ local BLOCKLIST = {
     category = "trade",
     level = 3,
   },
-  [29] = {
+  [31] = {
     name = "Hellsângel",
     guid = "Player-4477-04D9ADE0",
     class = "PALADIN",
@@ -297,7 +318,7 @@ local BLOCKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [30] = {
+  [32] = {
     name = "Infernâ",
     guid = "Player-4477-03B07A37",
     class = "DRUID",
@@ -307,7 +328,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [31] = {
+  [33] = {
     name = "Intonraiha",
     guid = "Player-4477-04316087",
     class = "PALADIN",
@@ -317,7 +338,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [32] = {
+  [34] = {
     name = "Itsmebiatch",
     guid = "Player-4477-03B19976",
     class = "MAGE",
@@ -328,7 +349,7 @@ local BLOCKLIST = {
     level = 3,
     aliases = {"Ungeiimpfter"},
   },
-  [33] = {
+  [35] = {
     name = "Jenpai",
     guid = "Player-4477-03B2BFD8",
     class = "PALADIN",
@@ -338,7 +359,7 @@ local BLOCKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [34] = {
+  [36] = {
     name = "Jensha",
     guid = "Player-4477-03FF5FEF",
     class = "MAGE",
@@ -348,27 +369,27 @@ local BLOCKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [35] = {
-    name = "Jondeepfreez",
-    guid = "Player-4477-0464DE81",
-    class = "MAGE",
-    faction = "Horde",
-    description = "Scammt in einer 5er Gruppe alle Items und geht und dann offlne ohne die Splitter zu verteilen / zudem gibt er es auch per whisper zu",
-    url = "https://discord.com/channels/613060619738021890/1029711210918191154/1087391435378143393",
-    category = "dungeon",
-    level = 3,
-  },
-  [36] = {
-    name = "Jondeepfreez",
-    guid = "Player-4477-0464DE81",
-    class = "MAGE",
-    faction = "Horde",
-    description = "Scammt in einer 5er Gruppe alle Items und geht und dann offlne ohne die Splitter zu verteilen / zudem gibt er es auch per whisper zu",
-    url = "https://discord.com/channels/613060619738021890/1029711210918191154/1087391435378143393",
-    category = "dungeon",
-    level = 3,
-  },
   [37] = {
+    name = "Jondeepfreez",
+    guid = "Player-4477-0464DE81",
+    class = "MAGE",
+    faction = "Horde",
+    description = "Scammt in einer 5er Gruppe alle Items und geht und dann offlne ohne die Splitter zu verteilen / zudem gibt er es auch per whisper zu",
+    url = "https://discord.com/channels/613060619738021890/1029711210918191154/1087391435378143393",
+    category = "dungeon",
+    level = 3,
+  },
+  [38] = {
+    name = "Jondeepfreez",
+    guid = "Player-4477-0464DE81",
+    class = "MAGE",
+    faction = "Horde",
+    description = "Scammt in einer 5er Gruppe alle Items und geht und dann offlne ohne die Splitter zu verteilen / zudem gibt er es auch per whisper zu",
+    url = "https://discord.com/channels/613060619738021890/1029711210918191154/1087391435378143393",
+    category = "dungeon",
+    level = 3,
+  },
+  [39] = {
     name = "Kessler",
     guid = "Player-4477-04BABDB4",
     class = "DRUID",
@@ -378,7 +399,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [38] = {
+  [40] = {
     name = "Kisxí",
     guid = "Player-4477-03B293E1",
     class = "PALADIN",
@@ -388,7 +409,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [39] = {
+  [41] = {
     name = "Kreiszahl",
     guid = "Player-4477-03346F2C",
     class = "SHAMAN",
@@ -398,7 +419,7 @@ local BLOCKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [40] = {
+  [42] = {
     name = "Kugit",
     guid = "Player-4477-044F88CE",
     class = "HUNTER",
@@ -408,7 +429,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [41] = {
+  [43] = {
     name = "Lachman",
     guid = "Player-4477-03EC6CF8",
     class = "WARRIOR",
@@ -418,7 +439,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [42] = {
+  [44] = {
     name = "Laredai",
     guid = "Player-4477-04BDD735",
     class = "PRIEST",
@@ -428,7 +449,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [43] = {
+  [45] = {
     name = "Lebkuchen",
     guid = "Player-4477-040379B4",
     class = "PALADIN",
@@ -438,7 +459,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [44] = {
+  [46] = {
     name = "Listers",
     guid = "Player-4477-03B198AD",
     class = "MAGE",
@@ -448,7 +469,7 @@ local BLOCKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [45] = {
+  [47] = {
     name = "Lookìí",
     guid = "Player-4477-04BC3E60",
     class = "DRUID",
@@ -458,7 +479,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [46] = {
+  [48] = {
     name = "Lovetap",
     guid = "Player-4477-03BE372B",
     class = "SHAMAN",
@@ -468,7 +489,7 @@ local BLOCKLIST = {
     category = "harassment",
     level = 3,
   },
-  [47] = {
+  [49] = {
     name = "Lyzak",
     guid = "Player-4477-048F3883",
     class = "PALADIN",
@@ -478,7 +499,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [48] = {
+  [50] = {
     name = "Mczwuggi",
     guid = "Player-4477-044CA3A0",
     class = "WARRIOR",
@@ -488,7 +509,7 @@ local BLOCKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [49] = {
+  [51] = {
     name = "Melthise",
     guid = "Player-4477-04434888",
     class = "MAGE",
@@ -498,7 +519,27 @@ local BLOCKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [50] = {
+  [52] = {
+    name = "Mylifebelike",
+    guid = "Player-4477-049A0545",
+    class = "ROGUE",
+    faction = "Horde",
+    description = "Zahlt beim Crossgamble nicht - Wenn er verliert geht er offline (zweiter Char = Myshoxbelike)",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1124062214337351720",
+    category = "trade",
+    level = 3,
+  },
+  [53] = {
+    name = "Myshoxbelike",
+    guid = "Player-4477-04B3673D",
+    class = "SHAMAN",
+    faction = "Horde",
+    description = "Zahlt beim Crossgamble nicht - Wenn er verliert geht er offline (zweiter Char = Mylifebelike)",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1124062214337351720",
+    category = "trade",
+    level = 3,
+  },
+  [54] = {
     name = "Nakrotss",
     guid = "Player-4477-0419454D",
     class = "MAGE",
@@ -508,7 +549,7 @@ local BLOCKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [51] = {
+  [55] = {
     name = "Nøxic",
     guid = "Player-4477-03355A2D",
     class = "PRIEST",
@@ -518,7 +559,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [52] = {
+  [56] = {
     name = "Palaslust",
     guid = "Player-4477-04D8C118",
     class = "PALADIN",
@@ -528,7 +569,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [53] = {
+  [57] = {
     name = "Patapeng",
     guid = "Player-4477-022E45F0",
     class = "MAGE",
@@ -539,7 +580,7 @@ local BLOCKLIST = {
     level = 3,
     aliases = {"Bakery"},
   },
-  [54] = {
+  [58] = {
     name = "Pi",
     guid = "Player-4477-00CDA567",
     class = "PRIEST",
@@ -549,7 +590,7 @@ local BLOCKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [55] = {
+  [59] = {
     name = "Rhoran",
     guid = "Player-4477-04E405A6",
     class = "DEATHKNIGHT",
@@ -559,7 +600,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [56] = {
+  [60] = {
     name = "Rosabienchen",
     guid = "Player-4477-03B074F6",
     class = "PALADIN",
@@ -569,7 +610,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [57] = {
+  [61] = {
     name = "Sandmanncs",
     guid = "Player-4477-0320C13C",
     class = "MAGE",
@@ -579,7 +620,7 @@ local BLOCKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [58] = {
+  [62] = {
     name = "Saucenbinder",
     guid = "Player-4477-045558EF",
     class = "WARLOCK",
@@ -589,7 +630,7 @@ local BLOCKLIST = {
     category = "trade",
     level = 3,
   },
-  [59] = {
+  [63] = {
     name = "Sintussa",
     guid = "Player-4477-03AFB576",
     class = "WARRIOR",
@@ -599,7 +640,37 @@ local BLOCKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [60] = {
+  [64] = {
+    name = "Spansau",
+    guid = "Player-4477-044801AB",
+    class = "PALADIN",
+    faction = "Horde",
+    description = "Unterschlägt Items in Raids",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1009144231627079750",
+    category = "raid",
+    level = 3,
+  },
+  [65] = {
+    name = "Spansau",
+    guid = "Player-4477-044801AB",
+    class = "PALADIN",
+    faction = "Horde",
+    description = "Unterschlägt Items in Raids",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1009144231627079750",
+    category = "raid",
+    level = 3,
+  },
+  [66] = {
+    name = "Spansau",
+    guid = "Player-4477-044801AB",
+    class = "PALADIN",
+    faction = "Horde",
+    description = "Unterschlägt Items in Raids",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1009144231627079750",
+    category = "raid",
+    level = 3,
+  },
+  [67] = {
     name = "Strønghøld",
     guid = "Player-4477-04AC4DB2",
     class = "WARRIOR",
@@ -609,7 +680,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [61] = {
+  [68] = {
     name = "Stysthy",
     guid = "Player-4477-04EE3626",
     class = "DEATHKNIGHT",
@@ -619,7 +690,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [62] = {
+  [69] = {
     name = "Sunnytätär",
     guid = "Player-4477-039FE91B",
     class = "PRIEST",
@@ -629,7 +700,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [63] = {
+  [70] = {
     name = "Toxiic",
     guid = "Player-4477-03891F47",
     class = "WARLOCK",
@@ -639,7 +710,7 @@ local BLOCKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [64] = {
+  [71] = {
     name = "Trytofly",
     guid = "Player-4477-03BDE4D2",
     class = "PALADIN",
@@ -649,7 +720,7 @@ local BLOCKLIST = {
     category = "trade",
     level = 3,
   },
-  [65] = {
+  [72] = {
     name = "Ukrgul",
     guid = "Player-4477-02D6082C",
     class = "MAGE",
@@ -659,7 +730,7 @@ local BLOCKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [66] = {
+  [73] = {
     name = "Ultraboost",
     guid = "Player-4477-04445671",
     class = "MAGE",
@@ -669,7 +740,7 @@ local BLOCKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [67] = {
+  [74] = {
     name = "Valentinmlk",
     guid = "Player-4477-02D60832",
     class = "MAGE",
@@ -679,7 +750,7 @@ local BLOCKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [68] = {
+  [75] = {
     name = "Vejrekaiah",
     guid = "Player-4477-0310DAC1",
     class = "MAGE",
@@ -689,7 +760,17 @@ local BLOCKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [69] = {
+  [76] = {
+    name = "Vhelron",
+    guid = "Player-4477-04DC35A4",
+    class = "SHAMAN",
+    faction = "Horde",
+    description = "Kickt ohne Grund Leute aus ner angefangenen PDOK 25er ID ohne Loot zu verrollen.",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1124432246317776946",
+    category = "raid",
+    level = 3,
+  },
+  [77] = {
     name = "Vitalyv",
     guid = "Player-4477-043BDE5B",
     class = "PALADIN",
@@ -699,7 +780,7 @@ local BLOCKLIST = {
     category = "trade",
     level = 3,
   },
-  [70] = {
+  [78] = {
     name = "Wandan",
     guid = "Player-4477-041935AD",
     class = "MAGE",
@@ -709,7 +790,7 @@ local BLOCKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [71] = {
+  [79] = {
     name = "Wortalmombat",
     guid = "Player-4477-04554B62",
     class = "WARRIOR",
@@ -719,7 +800,7 @@ local BLOCKLIST = {
     category = "harassment",
     level = 3,
   },
-  [72] = {
+  [80] = {
     name = "Xevnoc",
     guid = "Player-4477-04D80016",
     class = "PRIEST",
@@ -730,7 +811,7 @@ local BLOCKLIST = {
     level = 3,
     aliases = {"Convexyz"},
   },
-  [73] = {
+  [81] = {
     name = "Yaxrail",
     guid = "Player-4477-04D02AC4",
     class = "WARRIOR",
@@ -740,7 +821,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [74] = {
+  [82] = {
     name = "Zayr",
     guid = "Player-4477-0476BF51",
     class = "PALADIN",
@@ -750,7 +831,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [75] = {
+  [83] = {
     name = "Zizmo",
     guid = "Player-4477-04A0BDED",
     class = "HUNTER",
@@ -760,7 +841,7 @@ local BLOCKLIST = {
     category = "trade",
     level = 3,
   },
-  [76] = {
+  [84] = {
     name = "Zorodan",
     guid = "Player-4477-0381BCBA",
     class = "PALADIN",
@@ -770,7 +851,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [77] = {
+  [85] = {
     name = "Zullser",
     guid = "Player-4477-03B58DCD",
     class = "MAGE",
@@ -780,94 +861,14 @@ local BLOCKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [78] = {
-    name = "Vhelron",
-    guid = "Player-4477-04DC35A4",
-    class = "SHAMAN",
-    faction = "Horde",
-    description = "Kickt ohne Grund Leute aus ner angefangenen PDOK 25er ID ohne Loot zu verrollen.",
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1124432246317776946",
-    category = "raid",
-    level = 3,
-  },
-  [79] = {
-    name = "Gladix",
-    guid = "Player-4477-04E405A6",
-    class = "ROGUE",
-    faction = "Horde",
-    description = "Ninjat in Archavons Kammer 25 zwei Items, Plündert am 28.06.2023 eine Gildenbank",
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1124450377534800052",
-    category = "raid",
-    level = 3,
-  },
-  [80] = {
+  [86] = {
     name = "Zumbleistift",
     guid = "Player-4477-03B14913",
     class = "DRUID",
     faction = "Horde",
-    description = "Kickt gern ungerechtfertigt Spieler aus HC ++ Dungeons und klaut ihnen somit die ID	",
+    description = "Kickt gern ungerechtfertigt Spieler aus HC ++ Dungeons und klaut ihnen somit die ID",
     url = "https://discord.com/channels/613060619738021890/1029711210918191154/1123313827539329044",
     category = "dungeon",
-    level = 3,
-  },
-  [81] = {
-    name = "Spansau",
-    guid = "Player-4477-044801AB",
-    class = "PALADIN",
-    faction = "Horde",
-    description = "Unterschlägt Items in Raids",
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1009144231627079750",
-    category = "raid",
-    level = 3,
-  },
-  [82] = {
-    name = "Spansau",
-    guid = "Player-4477-044801AB",
-    class = "PALADIN",
-    faction = "Horde",
-    description = "Schleicht sich in Eventbossgruppen ein und beschwört nicht",
-    url = "https://discord.com/channels/613060619738021890/1029711210918191154/1033409599526682706",
-    category = "dungeon",
-    level = 3,
-  },
-  [83] = {
-    name = "Spansau",
-    guid = "Player-4477-044801AB",
-    class = "PALADIN",
-    faction = "Horde",
-    description = "Betrüger - klaut Juwe Mats",
-    url = "https://discord.com/channels/613060619738021890/972036752283926578/1122530271149965423",
-    category = "trade",
-    level = 3,
-  },
-  [84] = {
-    name = "Mylifebelike",
-    guid = "Player-4477-049A0545",
-    class = "ROGUE",
-    faction = "Horde",
-    description = "Zahlt beim Crossgamble nicht - Wenn er verliert geht er offline (zweiter Char = Myshoxbelike)",
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1124062214337351720",
-    category = "trade",
-    level = 3,
-  },
-  [85] = {
-    name = "Myshoxbelike",
-    guid = "Player-4477-04B3673D",
-    class = "SHAMAN",
-    faction = "Horde",
-    description = "Zahlt beim Crossgamble nicht - Wenn er verliert geht er offline (zweiter Char = Mylifebelike)",
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1124062214337351720",
-    category = "trade",
-    level = 3,
-  },
-  [86] = {
-    name = "Cradran",
-    guid = "Player-4477-04F82F8F",
-    class = "WARLOCK",
-    faction = "Horde",
-    description = "Rollt gern ohne zu Zahlen",
-    url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit",
-    category = "trade",
     level = 3,
   },
 };
@@ -880,7 +881,7 @@ function Blocklist.GetCount()
   return #BLOCKLIST;
 end
 
-function Blocklist.GetItem(index)
+function Blocklist.GetEntry(index)
   return BLOCKLIST[index];
 end
 
@@ -900,14 +901,9 @@ function Blocklist.GetSortedNames()
   return names;
 end
 
-local function includesName(case, name)
-  return (type(case.name) == "string" and case.name == name)
-    or (type(case.aliases) == "table" and tContains(case.aliases, name));
-end
-
-function Blocklist.GetItemByName(name)
+function Blocklist.GetEntryByName(name)
   for _,case in pairs(BLOCKLIST) do
-    if includesName(case, name) then
+    if Utils:IsNameInEntry(case, name) then
       return case;
     end
   end
@@ -919,12 +915,12 @@ function Blocklist.FindPlayerCases(name)
   for index, entry in ipairs(BLOCKLIST) do
     if type(entry.players) == "table" then
       for _, case in pairs(entry.players) do
-        if includesName(case, name) then
+        if Utils:IsNameInEntry(case, name) then
           indices[index] = case.description or entry.description;
           break;
         end
       end
-    elseif includesName(entry, name) then
+    elseif Utils:IsNameInEntry(entry, name) then
       indices[index] = entry.description;
     end
   end

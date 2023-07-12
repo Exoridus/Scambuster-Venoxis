@@ -1,8 +1,8 @@
 local AddonName, Addon = ...;
-local Utils = Addon:NewModule("Utils");
 local AceGUI = LibStub("AceGUI-3.0");
-
-local FRIENDLIST_NOTE = ("From %s"):format(AddonName);
+local Utils = Addon:NewModule("Utils");
+local Color = Addon:GetModule("Color");
+local Config = Addon:GetModule("Config");
 
 local RACE_TO_FACTION = {
   Orc = "Horde",
@@ -42,10 +42,33 @@ local EXISTING_CASE = [[
 },]];
 
 local ALIAS_PROP = '\n  aliases = {"%s"},';
+local ENABLED_STATES = { "on", "enabled", "true", "1", "enable" };
+local DISABLED_STATES = { "off", "disabled", "false", "0", "disable" };
+local FRIENDS_LIST_NOTE = ("From %s"):format(AddonName);
+local CHAT_FILTER_ACTIVE = false;
+local CHAT_FILTER_PATTERNS = {
+  ERR_FRIEND_ADDED_S:gsub("%.", "%%."):gsub("%%s", ".+"),
+  ERR_FRIEND_ALREADY_S:gsub("%.", "%%."):gsub("%%s", ".+"),
+  ERR_FRIEND_NOT_FOUND:gsub("%.", "%%."):gsub("%%s", ".+"),
+  ERR_FRIEND_OFFLINE_S:gsub("%.", "%%."):gsub("%%s", ".+"),
+  ERR_FRIEND_ONLINE_SS:gsub("%.", "%%."):gsub("%%s", ".+"),
+  ERR_FRIEND_REMOVED_S:gsub("%.", "%%."):gsub("%%s", ".+"),
+};
+local CHAT_FILTER = function (self, event, msg, ...)
+  if ChatFrame_ContainsMessageGroup(self, "SYSTEM") then
+    for _, pattern in pairs(CHAT_FILTER_PATTERNS) do
+      if msg:find(pattern) then
+        return true;
+      end
+    end
+  end
 
-function Utils:PrintInfo(message, ...)
+  return false, msg, ...;
+end
+
+function Utils:Print(message, ...)
   local chatFrame = SELECTED_CHAT_FRAME or DEFAULT_CHAT_FRAME;
-  local chatPrefix = WrapTextInColorCode(AddonName, "FF33FF99");
+  local chatPrefix = Color:Prefix(AddonName);
   local chatMessage = tostring(message);
 
   if select('#', ...) > 0 then
@@ -53,6 +76,12 @@ function Utils:PrintInfo(message, ...)
   end
 
   chatFrame:AddMessage(("%s: %s"):format(chatPrefix, chatMessage));
+end
+
+function Utils:PrintDebug(message, ...)
+  if Config:DebugMode() == true then
+    return self:Print(message, ...);
+  end
 end
 
 function Utils:PrepareFriendInfo(info)
@@ -89,7 +118,7 @@ function Utils:FetchPlayerInfo(name, callback)
     return;
   end
 
-  C_FriendList.AddFriend(name, FRIENDLIST_NOTE);
+  C_FriendList.AddFriend(name, FRIENDS_LIST_NOTE);
 
   local ticks, maxTicks = 0, 8;
   local ticker;
@@ -154,8 +183,37 @@ function Utils:DumpSortedList(List)
   local tmp = {};
 
   for index, name in ipairs(List.GetSortedNames()) do
-    table.insert(tmp, self:FormatReportByCase(index, List.GetItemByName(name)))
+    table.insert(tmp, self:FormatReportByCase(index, List.GetEntryByName(name)))
   end;
 
   self:OpenTextInEditWindow(table.concat(tmp, "\n"), 320, 250);
+end
+
+function Utils:IsNameInEntry(entry, name)
+  return (type(entry.name) == "string" and entry.name == name)
+    or (type(entry.aliases) == "table" and tContains(entry.aliases, name));
+end
+
+function Utils:ParseBoolean(param)
+  if tContains(ENABLED_STATES, tostring(param):lower()) then
+    return true;
+  elseif tContains(DISABLED_STATES, tostring(param):lower()) then
+    return false;
+  else
+    return nil;
+  end
+end
+
+function Utils:AddChatFilter()
+  if not CHAT_FILTER_ACTIVE then
+    ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", CHAT_FILTER);
+    CHAT_FILTER_ACTIVE = true;
+  end
+end
+
+function Utils:RemoveChatFilter()
+  if CHAT_FILTER_ACTIVE then
+    ChatFrame_RemoveMessageEventFilter("CHAT_MSG_SYSTEM", CHAT_FILTER);
+    CHAT_FILTER_ACTIVE = false;
+  end
 end
