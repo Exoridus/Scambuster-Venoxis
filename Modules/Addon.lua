@@ -1,6 +1,8 @@
 local AddonName, Addon = ...;
 local AceAddon = LibStub("AceAddon-3.0");
+local AceLocale = LibStub("AceLocale-3.0");
 local Scambuster = AceAddon:GetAddon("Scambuster");
+local L = AceLocale:GetLocale(AddonName);
 
 Addon = AceAddon:NewAddon(Addon, AddonName);
 
@@ -9,16 +11,15 @@ function Addon:OnInitialize()
 end
 
 function Addon:RegisterProvider()
-  local Provider = Addon:GetModule("Provider");
   local Blocklist = Addon:GetModule("Blocklist");
 
   Scambuster:register_case_data({
-    name = Provider.GetName(),
-    provider = Provider.GetProvider(),
-    description = Provider.GetDescription(),
-    url = Provider.GetUrl(),
+    name = L["BLOCKLIST_NAME"],
+    provider = L["BLOCKLIST_PROVIDER"],
+    description = L["BLOCKLIST_DESCRIPTION"],
+    url = L["BLOCKLIST_URL"],
     realm_data = {
-      [Provider.GetRealm()] = Blocklist.GetList(),
+      Venoxis = Blocklist.GetEntries(),
     }
   });
 end

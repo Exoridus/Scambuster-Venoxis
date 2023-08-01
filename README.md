@@ -9,14 +9,14 @@ To access the configuration options simply type `/scambuster` or `/sb` into the 
 ## Getting Started
 
 ### 1. Install Scambuster
-- [Scambuster on Curseforge](https://www.curseforge.com/wow/addons/scambuster)
 - [Scambuster on Github](https://github.com/hypernormalisation/Scambuster)
 
 ### 2. Install Scambuster-Venoxis
-- [Scambuster-Venoxis on Curseforge](https://www.curseforge.com/wow/addons/scambuster-venoxis)
+- [Scambuster-Venoxis on Wago.io](https://addons.wago.io/addons/scambuster-venoxis)
+- [Scambuster-Venoxis on WoWInterface](https://www.wowinterface.com/downloads/info26613-Scambuster-Venoxis.html)
 - [Scambuster-Venoxis on Github](https://github.com/Exoridus/Scambuster-Venoxis)
 
-### 3. Configure Scambuster to match GUIDs
+### 3. Configure Scambuster to your likings
 1. Open the scambuster configuration by typing `/scambuster` or `/sb` into the chat panel.
 2. Select the **Report Matching** Tab on the left-hand side menu.
 3. Make sure the option **Require GUID Match** is turned **ON** so characters get matched by their GUIDs instead of names.
@@ -24,4 +24,4 @@ To access the configuration options simply type `/scambuster` or `/sb` into the 
 ## Further Links
 
 - [Venoxis Discord Server](https://discord.gg/NGtvvQYnmP)
-- [Official Blocklist as Google Sheet used as the only source of entries](https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit?usp=sharing)
+- [Venoxis Discord Blocklist](https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit?usp=sharing)

@@ -3,11 +3,9 @@
     xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
   <Script file="Addon.lua"/>
-  <Script file="Config.lua"/>
-  <Script file="Color.lua"/>
   <Script file="Utils.lua"/>
+  <Script file="Config.lua"/>
   <Script file="Blocklist.lua"/>
   <Script file="Checklist.lua"/>
-  <Script file="Provider.lua"/>
   <Script file="SlashCommands.lua"/>
 </Ui>

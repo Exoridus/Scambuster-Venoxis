@@ -1,14 +1,15 @@
 local AddonName, Addon = ...;
 local AceGUI = LibStub("AceGUI-3.0");
+local AceLocale = LibStub("AceLocale-3.0");
 local Utils = Addon:NewModule("Utils");
-local Color = Addon:GetModule("Color");
-local Config = Addon:GetModule("Config");
+local L = AceLocale:GetLocale(AddonName);
 
 local RACE_TO_FACTION = {
   Orc = "Horde",
   Scourge = "Horde",
   Tauren = "Horde",
   Troll = "Horde",
+  BloodElf = "Horde",
   BloodElf = "Horde",
   Human = "Alliance",
   Dwarf = "Alliance",
@@ -17,7 +18,7 @@ local RACE_TO_FACTION = {
   Gnome = "Alliance",
 };
 
-local EMPTY_CASE = [[
+local PLAYER_INFO_ENTRY = [[
 [%d] = {
   name = "%s",
   guid = "%s",
@@ -29,7 +30,7 @@ local EMPTY_CASE = [[
   level = 3,
 },]];
 
-local EXISTING_CASE = [[
+local LIST_ITEM_ENTRY = [[
 [%d] = {
   name = "%s",
   guid = "%s",
@@ -41,10 +42,7 @@ local EXISTING_CASE = [[
   level = %d,%s
 },]];
 
-local ALIAS_PROP = '\n  aliases = {"%s"},';
-local ENABLED_STATES = { "on", "enabled", "true", "1", "enable" };
-local DISABLED_STATES = { "off", "disabled", "false", "0", "disable" };
-local FRIENDS_LIST_NOTE = ("From %s"):format(AddonName);
+local ALIAS_PROP = '\n  aliases = { "%s" },';
 local FRIENDS_LIST_SOUND = "Sound/Interface/FriendJoin.ogg";
 local CHAT_FILTER_ACTIVE = false;
 local CHAT_FILTER_PATTERNS = {
@@ -69,20 +67,47 @@ end
 
 function Utils:Print(message, ...)
   local chatFrame = SELECTED_CHAT_FRAME or DEFAULT_CHAT_FRAME;
-  local chatPrefix = Color:Prefix(AddonName);
   local chatMessage = tostring(message);
 
   if select('#', ...) > 0 then
-    chatMessage = chatMessage:format(...);
+    chatFrame:AddMessage(format(chatMessage, ...));
+  else
+    chatFrame:AddMessage(chatMessage);
   end
-
-  chatFrame:AddMessage(("%s: %s"):format(chatPrefix, chatMessage));
 end
 
-function Utils:PrintDebug(message, ...)
-  if Config:DebugMode() == true then
-    return self:Print(message, ...);
+function Utils:PrintAddonMessage(message, ...)
+  local chatPrefix = self:WrapColor(AddonName, "FF33FF99");
+  local chatMessage = tostring(message);
+
+  if select('#', ...) > 0 then
+    self:Print("%s: %s", chatPrefix, format(chatMessage, ...));
+  else
+    self:Print("%s: %s", chatPrefix, chatMessage);
   end
+end
+
+function Utils:PrintCommand(slashCommand, description)
+  local slash, action, args = strtrim(slashCommand):match("^(%/%a+)%s*(%a*)%s*(.*)$");
+  local command = self:WrapColor(format("%s %s", slash, action), "FFFFFF33");
+
+  if strlen(args) > 0 then
+    self:Print("%s %s - %s", command, self:WrapColor(args, "FF33FF33"), description);
+  else
+    self:Print("%s - %s", command, description);
+  end
+end
+
+function Utils:PrintTitle(title)
+  self:Print(self:WrapColor("[%s]", "FF33FFFF"), title);
+end
+
+function Utils:PrintKeyValue(key, value)
+  self:Print("%s %s", self:WrapColor(format("%s: ", key), "FFFFFF33"), value);
+end
+
+function Utils:PrintWarning(message)
+  self:Print("%s %s", self:WrapColor(L["CAUTION"], "FFFF9933"), message);
 end
 
 function Utils:PrepareFriendInfo(info)
@@ -93,7 +118,7 @@ function Utils:PrepareFriendInfo(info)
   local realm = server ~= "" and server or GetRealmName();
   local level = type(info.level) == "number" and info.level or 0;
 
-  if info.notes == FRIENDS_LIST_NOTE then
+  if info.notes == L["FRIENDS_LIST_NOTE"] then
     C_FriendList.RemoveFriend(name);
   end
 
@@ -119,7 +144,7 @@ function Utils:FetchPlayerInfo(name, callback)
     return;
   end
 
-  C_FriendList.AddFriend(name, FRIENDS_LIST_NOTE);
+  C_FriendList.AddFriend(name, L["FRIENDS_LIST_NOTE"]);
 
   local ticks, maxTicks = 0, 8;
   local ticker;
@@ -138,22 +163,28 @@ function Utils:FetchPlayerInfo(name, callback)
   end, maxTicks);
 end
 
-function Utils:FormatReportByPlayerInfo(index, info)
-  return EMPTY_CASE:format(index, info.name, info.guid, info.class, info.faction);
+function Utils:FormatPlayerInfoEntry(index, info)
+  return format(PLAYER_INFO_ENTRY,
+    index,
+    info.name,
+    info.guid,
+    info.class,
+    info.faction
+  );
 end
 
-function Utils:FormatReportByCase(index, case)
-  return EXISTING_CASE:format(
+function Utils:FormatListItemEntry(index, entry)
+  return format(LIST_ITEM_ENTRY,
     index,
-    case.name,
-    case.guid,
-    case.class,
-    case.faction,
-    case.description,
-    case.url,
-    case.category,
-    case.level,
-    case.aliases and ALIAS_PROP:format(table.concat(case.aliases, '", "')) or ""
+    entry.name,
+    entry.guid,
+    entry.class,
+    entry.faction,
+    entry.description,
+    entry.url,
+    entry.category,
+    entry.level,
+    (entry.aliases and #entry.aliases > 0) and format(ALIAS_PROP, table.concat(entry.aliases, '", "')) or ""
   );
 end
 
@@ -161,8 +192,8 @@ function Utils:OpenTextInEditWindow(text, width, height)
   local frame = AceGUI:Create("Frame");
 
   frame:SetCallback("OnClose", function(widget) AceGUI:Release(widget) end);
-  frame:SetTitle("Scambuster-Venoxis");
-  frame:SetStatusText("Use CTRL+C to copy data");
+  frame:SetTitle(AddonName);
+  frame:SetStatusText(L["COPY_SHORTCUT_INFO"]);
   frame:SetLayout("Flow");
   frame:SetWidth(width);
   frame:SetHeight(height);
@@ -180,29 +211,45 @@ function Utils:OpenTextInEditWindow(text, width, height)
   frame:AddChild(editbox);
 end
 
-function Utils:DumpSortedList(List)
-  local tmp = {};
-
-  for index, name in ipairs(List.GetSortedNames()) do
-    table.insert(tmp, self:FormatReportByCase(index, List.GetEntryByName(name)))
-  end;
-
-  self:OpenTextInEditWindow(table.concat(tmp, "\n"), 320, 250);
-end
-
-function Utils:IsNameInEntry(entry, name)
-  return (type(entry.name) == "string" and entry.name == name)
-    or (type(entry.aliases) == "table" and tContains(entry.aliases, name));
-end
-
-function Utils:ParseBoolean(param)
-  if tContains(ENABLED_STATES, tostring(param):lower()) then
-    return true;
-  elseif tContains(DISABLED_STATES, tostring(param):lower()) then
-    return false;
-  else
-    return nil;
+function Utils:PrintPlayerInfoInChat(info)
+  if info.realm ~= "Venoxis" then
+    self:PrintWarning(format(L["GUID_FROM_ANOTHER_REALM"], info.realm));
   end
+
+  self:PrintKeyValue(NAME, info.name);
+  self:PrintKeyValue("GUID", info.guid);
+
+  if info.level > 0 then
+    self:PrintKeyValue(LEVEL, info.level);
+  end
+
+  self:PrintKeyValue(RACE, info.raceName);
+  self:PrintKeyValue(CLASS, self:ClassColor(info.className, info.class));
+  self:PrintKeyValue(FACTION, self:FactionColor(info.factionName, info.faction));
+end
+
+function Utils:PrintPlayerInfoInEditWindow(info, index)
+  if info.realm ~= "Venoxis" then
+    self:PrintWarning(format(L["GUID_FROM_ANOTHER_REALM"], info.realm));
+  end
+
+  if type(index) == "string" then
+    index = tonumber(index);
+  end
+
+  if type(index) ~= "number" then
+    index = Blocklist.GetCount() + 1;
+  end
+
+  self:OpenTextInEditWindow(self:FormatPlayerInfoEntry(index, info), 320, 250);
+end
+
+function Utils:PrintPlayerNotFoundInfo(name)
+  self:PrintAddonMessage(L["PLAYER_NOT_FOUND_TITLE"], name);
+  self:Print(L["PLAYER_NOT_FOUND_REASON_1"]);
+  self:Print(L["PLAYER_NOT_FOUND_REASON_2"]);
+  self:Print(L["PLAYER_NOT_FOUND_REASON_3"]);
+  self:Print(L["PLAYER_NOT_FOUND_REASON_4"]);
 end
 
 function Utils:AddChatFilter()
@@ -219,4 +266,95 @@ function Utils:RemoveChatFilter()
     UnmuteSoundFile(FRIENDS_LIST_SOUND);
     CHAT_FILTER_ACTIVE = false;
   end
+end
+
+function Utils:GetSortedPlayerNames(entries)
+  local names = {};
+
+  for _, entry in pairs(entries) do
+    tInsertUnique(names, entry.name);
+  end
+
+  table.sort(names);
+
+  return names;
+end
+
+function Utils:NormaliseName(name)
+  if type(name) ~= "string" then
+    return;
+  end
+
+  local normalized = strtrim(strlower(name));
+
+  if strlen(normalized) < 2 then
+    return;
+  end
+
+  return normalized;
+end
+
+function Utils:IsPlayerNameInEntry(entry, playerName, includeAliases)
+  local name = self:NormaliseName(playerName);
+
+  if type(entry) ~= "table" or type(name) ~= "string" then
+    return false;
+  end
+
+  if self:NormaliseName(entry.name) == name then
+    return true;
+  end
+
+  if type(includeAliases) ~= "boolean" then
+    includeAliases = true;
+  end
+
+  if includeAliases == true and type(entry.aliases) == "table" then
+    for _, alias in pairs(entry.aliases) do
+      if self:NormaliseName(alias) == name then
+        return true;
+      end
+    end
+  end
+
+  return false;
+end
+
+function Utils:GetEntriesByPlayerName(entries, playerName, includeAliases)
+  local result = {};
+
+  for _, entry in pairs(entries) do
+    if self:IsPlayerNameInEntry(entry, playerName, includeAliases) then
+      tinsert(result, entry);
+    end
+  end
+
+  return result;
+end
+
+function Utils:DumpList(List)
+  local entries = List.GetEntries();
+  local result = {};
+  local index = 1;
+
+  for _, name in ipairs(List.GetPlayerNames()) do
+    for _, entry in ipairs(self:GetEntriesByPlayerName(entries, name, false)) do
+      tinsert(result, self:FormatListItemEntry(index, entry));
+      index = index + 1;
+    end
+  end
+
+  self:OpenTextInEditWindow(table.concat(result, "\n"), 320, 250);
+end
+
+function Utils:WrapColor(text, color)
+  return WrapTextInColorCode(tostring(text), assert(color));
+end
+
+function Utils:ClassColor(text, className)
+  return self:WrapColor(text, RAID_CLASS_COLORS[className].colorStr);
+end
+
+function Utils:FactionColor(text, faction)
+  return self:WrapColor(text, GetFactionColor(faction):GenerateHexColor());
 end

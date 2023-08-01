@@ -166,7 +166,7 @@ local BLOCKLIST = {
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1080868571279790210",
     category = "gdkp",
     level = 3,
-    aliases = {"Pumperlumper", "Dannymage"},
+    aliases = { "Pumperlumper", "Dannymage" },
   },
   [17] = {
     name = "Dakiny",
@@ -347,7 +347,7 @@ local BLOCKLIST = {
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1036332378873942187",
     category = "trade",
     level = 3,
-    aliases = {"Ungeiimpfter"},
+    aliases = { "Ungeiimpfter" },
   },
   [35] = {
     name = "Jenpai",
@@ -578,7 +578,7 @@ local BLOCKLIST = {
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1092478052723867798",
     category = "raid",
     level = 3,
-    aliases = {"Bakery"},
+    aliases = { "Bakery" },
   },
   [58] = {
     name = "Pi",
@@ -655,8 +655,8 @@ local BLOCKLIST = {
     guid = "Player-4477-044801AB",
     class = "PALADIN",
     faction = "Horde",
-    description = "Unterschlägt Items in Raids",
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1009144231627079750",
+    description = "Schleicht sich in Eventbossgruppen ein und beschwört nicht",
+    url = "https://discord.com/channels/613060619738021890/1029711210918191154/1033409599526682706",
     category = "raid",
     level = 3,
   },
@@ -665,8 +665,8 @@ local BLOCKLIST = {
     guid = "Player-4477-044801AB",
     class = "PALADIN",
     faction = "Horde",
-    description = "Unterschlägt Items in Raids",
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1009144231627079750",
+    description = "Betrüger - klaut Juwe Mats",
+    url = "https://discord.com/channels/613060619738021890/972036752283926578/1122530271149965423",
     category = "raid",
     level = 3,
   },
@@ -741,6 +741,16 @@ local BLOCKLIST = {
     level = 3,
   },
   [74] = {
+    name = "Unikuhm",
+    guid = "Player-4477-04BB8BEB",
+    class = "DRUID",
+    faction = "Horde",
+    description = "Steckt sich bei Ony25 die Tasche und die Gems ein und betitelt das als Orga Cut (Raid war jedoch kein Gdkp)",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1131005690475970560",
+    category = "raid",
+    level = 3,
+  },
+  [75] = {
     name = "Valentinmlk",
     guid = "Player-4477-02D60832",
     class = "MAGE",
@@ -750,7 +760,7 @@ local BLOCKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [75] = {
+  [76] = {
     name = "Vejrekaiah",
     guid = "Player-4477-0310DAC1",
     class = "MAGE",
@@ -760,7 +770,7 @@ local BLOCKLIST = {
     category = "gdkp",
     level = 3,
   },
-  [76] = {
+  [77] = {
     name = "Vhelron",
     guid = "Player-4477-04DC35A4",
     class = "SHAMAN",
@@ -770,7 +780,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [77] = {
+  [78] = {
     name = "Vitalyv",
     guid = "Player-4477-043BDE5B",
     class = "PALADIN",
@@ -780,7 +790,7 @@ local BLOCKLIST = {
     category = "trade",
     level = 3,
   },
-  [78] = {
+  [79] = {
     name = "Wandan",
     guid = "Player-4477-041935AD",
     class = "MAGE",
@@ -790,7 +800,7 @@ local BLOCKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [79] = {
+  [80] = {
     name = "Wortalmombat",
     guid = "Player-4477-04554B62",
     class = "WARRIOR",
@@ -800,7 +810,7 @@ local BLOCKLIST = {
     category = "harassment",
     level = 3,
   },
-  [80] = {
+  [81] = {
     name = "Xevnoc",
     guid = "Player-4477-04D80016",
     class = "PRIEST",
@@ -809,9 +819,9 @@ local BLOCKLIST = {
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1084141800903684136",
     category = "raid",
     level = 3,
-    aliases = {"Convexyz"},
+    aliases = { "Convexyz" },
   },
-  [81] = {
+  [82] = {
     name = "Yaxrail",
     guid = "Player-4477-04D02AC4",
     class = "WARRIOR",
@@ -821,7 +831,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [82] = {
+  [83] = {
     name = "Zayr",
     guid = "Player-4477-0476BF51",
     class = "PALADIN",
@@ -831,7 +841,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [83] = {
+  [84] = {
     name = "Zizmo",
     guid = "Player-4477-04A0BDED",
     class = "HUNTER",
@@ -841,7 +851,7 @@ local BLOCKLIST = {
     category = "trade",
     level = 3,
   },
-  [84] = {
+  [85] = {
     name = "Zorodan",
     guid = "Player-4477-0381BCBA",
     class = "PALADIN",
@@ -851,7 +861,7 @@ local BLOCKLIST = {
     category = "raid",
     level = 3,
   },
-  [85] = {
+  [86] = {
     name = "Zullser",
     guid = "Player-4477-03B58DCD",
     class = "MAGE",
@@ -861,7 +871,7 @@ local BLOCKLIST = {
     category = "dungeon",
     level = 3,
   },
-  [86] = {
+  [87] = {
     name = "Zumbleistift",
     guid = "Player-4477-03B14913",
     class = "DRUID",
@@ -873,7 +883,7 @@ local BLOCKLIST = {
   },
 };
 
-function Blocklist.GetList()
+function Blocklist.GetEntries()
   return BLOCKLIST;
 end
 
@@ -885,45 +895,6 @@ function Blocklist.GetEntry(index)
   return BLOCKLIST[index];
 end
 
-function Blocklist.Iterator()
-  return pairs(BLOCKLIST);
-end
-
-function Blocklist.GetSortedNames()
-  local names = {};
-
-  for _,case in pairs(BLOCKLIST) do
-    table.insert(names, case.name);
-  end
-
-  table.sort(names);
-
-  return names;
-end
-
-function Blocklist.GetEntryByName(name)
-  for _,case in pairs(BLOCKLIST) do
-    if Utils:IsNameInEntry(case, name) then
-      return case;
-    end
-  end
-end
-
-function Blocklist.FindPlayerCases(name)
-  local indices = {};
-
-  for index, entry in ipairs(BLOCKLIST) do
-    if type(entry.players) == "table" then
-      for _, case in pairs(entry.players) do
-        if Utils:IsNameInEntry(case, name) then
-          indices[index] = case.description or entry.description;
-          break;
-        end
-      end
-    elseif Utils:IsNameInEntry(entry, name) then
-      indices[index] = entry.description;
-    end
-  end
-
-  return indices;
+function Blocklist.GetPlayerNames()
+  return Utils:GetSortedPlayerNames(BLOCKLIST);
 end

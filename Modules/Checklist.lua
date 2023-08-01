@@ -140,7 +140,7 @@ local CHECKLIST = {
   },
 };
 
-function Checklist.GetList()
+function Checklist.GetEntries()
   return CHECKLIST;
 end
 
@@ -152,26 +152,6 @@ function Checklist.GetEntry(index)
   return CHECKLIST[index];
 end
 
-function Checklist.Iterator()
-  return pairs(CHECKLIST);
-end
-
-function Checklist.GetSortedNames()
-  local names = {};
-
-  for _,case in pairs(CHECKLIST) do
-    table.insert(names, case.name);
-  end
-
-  table.sort(names);
-
-  return names;
-end
-
-function Checklist.GetEntryByName(name)
-  for _, case in pairs(CHECKLIST) do
-    if Utils:IsNameInEntry(case, name) then
-      return case;
-    end
-  end
+function Checklist.GetPlayerNames()
+  return Utils:GetSortedPlayerNames(CHECKLIST);
 end
