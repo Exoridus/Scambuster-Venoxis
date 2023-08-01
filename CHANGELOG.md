@@ -1,5 +1,12 @@
-##  (2023-07-12)
+##  (2023-08-01)
 
+* refactor(addon): added localizations, config popup, about config window and removed curseforge id ([13813b1](https://github.com/Exoridus/Scambuster-Venoxis/commit/13813b1))
+
+
+
+## 1.7.0 (2023-07-12)
+
+* chore(changelog): updated changelog ([88938d1](https://github.com/Exoridus/Scambuster-Venoxis/commit/88938d1))
 
 
 
