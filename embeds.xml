@@ -9,5 +9,5 @@
   <Include file="Libs\AceDB-3.0\AceDB-3.0.xml"/>
   <Include file="Libs\AceGUI-3.0\AceGUI-3.0.xml"/>
   <Include file="Libs\AceLocale-3.0\AceLocale-3.0.xml"/>
-  <Include file="Libs\LibAboutPanel-2.0\lib.xml"/>
+  <Include file="Libs\LibAboutPanel\lib.xml"/>
 </Ui>

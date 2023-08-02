@@ -19,7 +19,7 @@ local RACE_TO_FACTION = {
 };
 
 local PLAYER_INFO_ENTRY = [[
-[%d] = {
+{
   name = "%s",
   guid = "%s",
   class = "%s",
@@ -118,6 +118,10 @@ function Utils:PrepareFriendInfo(info)
   local realm = server ~= "" and server or GetRealmName();
   local level = type(info.level) == "number" and info.level or 0;
 
+  if realm and realm ~= "Venoxis" then
+    self:PrintWarning(format(L["GUID_FROM_ANOTHER_REALM"], realm));
+  end
+
   if info.notes == L["FRIENDS_LIST_NOTE"] then
     C_FriendList.RemoveFriend(name);
   end
@@ -163,9 +167,25 @@ function Utils:FetchPlayerInfo(name, callback)
   end, maxTicks);
 end
 
-function Utils:FormatPlayerInfoEntry(index, info)
+function Utils:FormatPlayerInfoEntries(info)
+  local result = {};
+
+  tinsert(result, { key = NAME, value = info.name });
+  tinsert(result, { key = "GUID", value = info.guid });
+
+  if info.level > 0 then
+    tinsert(result, { key = LEVEL, value = info.level });
+  end
+
+  tinsert(result, { key = RACE, value = info.raceName });
+  tinsert(result, { key = CLASS, value = self:ClassColor(info.className, info.class) });
+  tinsert(result, { key = FACTION, value = self:FactionColor(info.factionName, info.faction) });
+
+  return result;
+end
+
+function Utils:FormatPlayerInfoEntry(info)
   return format(PLAYER_INFO_ENTRY,
-    index,
     info.name,
     info.guid,
     info.class,
@@ -212,36 +232,15 @@ function Utils:OpenTextInEditWindow(text, width, height)
 end
 
 function Utils:PrintPlayerInfoInChat(info)
-  if info.realm ~= "Venoxis" then
-    self:PrintWarning(format(L["GUID_FROM_ANOTHER_REALM"], info.realm));
+  local entries = self:FormatPlayerInfoEntries(info);
+
+  for _, entry in ipairs(entries) do
+    self:PrintKeyValue(entry.key, entry.value);
   end
-
-  self:PrintKeyValue(NAME, info.name);
-  self:PrintKeyValue("GUID", info.guid);
-
-  if info.level > 0 then
-    self:PrintKeyValue(LEVEL, info.level);
-  end
-
-  self:PrintKeyValue(RACE, info.raceName);
-  self:PrintKeyValue(CLASS, self:ClassColor(info.className, info.class));
-  self:PrintKeyValue(FACTION, self:FactionColor(info.factionName, info.faction));
 end
 
-function Utils:PrintPlayerInfoInEditWindow(info, index)
-  if info.realm ~= "Venoxis" then
-    self:PrintWarning(format(L["GUID_FROM_ANOTHER_REALM"], info.realm));
-  end
-
-  if type(index) == "string" then
-    index = tonumber(index);
-  end
-
-  if type(index) ~= "number" then
-    index = Blocklist.GetCount() + 1;
-  end
-
-  self:OpenTextInEditWindow(self:FormatPlayerInfoEntry(index, info), 320, 250);
+function Utils:OpenPlayerInfoReportWindow(info)
+  self:OpenTextInEditWindow(self:FormatPlayerInfoEntry(info), 320, 250);
 end
 
 function Utils:PrintPlayerNotFoundInfo(name)

@@ -4,7 +4,8 @@ local AceConfig = LibStub("AceConfig-3.0");
 local AceConfigDialog = LibStub("AceConfigDialog-3.0");
 local AceDB = LibStub("AceDB-3.0");
 local AceLocale = LibStub("AceLocale-3.0");
-local Config = Addon:NewModule("Config", "LibAboutPanel-2.0");
+local LibAboutPanel = LibStub("LibAboutPanel");
+local Config = Addon:NewModule("Config");
 local Utils = Addon:GetModule("Utils");
 local Scambuster = AceAddon:GetAddon("Scambuster");
 local L = AceLocale:GetLocale(AddonName);
@@ -23,7 +24,7 @@ function Config:OnInitialize()
     __newindex = self.db.profile,
   });
 
-  AceConfig:RegisterOptionsTable(AddonName, self:AboutOptionsTable(AddonName));
+  AceConfig:RegisterOptionsTable(AddonName, LibAboutPanel.new(AddonName, AddonName));
   self.optionsFrame = AceConfigDialog:AddToBlizOptions(AddonName, AddonName);
 
   if self.opts.showGUIDDialog == true and Scambuster.db.profile.require_guid_match == false then
@@ -44,7 +45,7 @@ function Config:ShowGUIDMatchingDialog()
   });
 end
 
-function Config:ShowConfigFrame()
+function Config:OpenOptionsFrame()
   if self.optionsFrame then
     InterfaceOptionsFrame_OpenToCategory(self.optionsFrame);
     InterfaceOptionsFrame_OpenToCategory(self.optionsFrame);

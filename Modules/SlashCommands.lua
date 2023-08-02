@@ -12,14 +12,14 @@ function SlashCommands:OnInitialize()
 end
 
 function SlashCommands:OnChatCommand(input)
-  local arg1, arg2, arg3 = self:GetArgs(input, 3);
+  local arg1, arg2 = self:GetArgs(input, 2);
 
   if arg1 == "config" then
     return self:RunConfigCommand();
   elseif arg1 == "print" and arg2 then
     return self:RunPrintCommand(arg2);
   elseif arg1 == "report" and arg2 then
-    return self:RunReportCommand(arg2, arg3);
+    return self:RunReportCommand(arg2);
   elseif arg1 == "search" and arg2 then
     return self:RunSearchCommand(arg2);
   elseif arg1 == "dump" then
@@ -27,11 +27,11 @@ function SlashCommands:OnChatCommand(input)
   elseif arg1 == "check" then
     return self:RunCheckCommand(arg2);
   else
-    return self:PrintHelp();
+    return self:PrintCommands();
   end
 end
 
-function SlashCommands:PrintHelp()
+function SlashCommands:PrintCommands()
   Utils:PrintAddonMessage(L["AVAILABLE_COMMANDS"]);
   Utils:PrintCommand("/venoxis print <name>", L["PRINT_COMMAND"]);
   Utils:PrintCommand("/venoxis report <name>", L["REPORT_COMMAND"]);
@@ -41,7 +41,7 @@ function SlashCommands:PrintHelp()
 end
 
 function SlashCommands:RunConfigCommand()
-  Config:ShowConfigFrame();
+  Config:OpenOptionsFrame();
 end
 
 function SlashCommands:RunPrintCommand(name)
@@ -58,12 +58,12 @@ function SlashCommands:RunPrintCommand(name)
   end);
 end
 
-function SlashCommands:RunReportCommand(name, index)
+function SlashCommands:RunReportCommand(name)
   Utils:AddChatFilter();
 
   Utils:FetchPlayerInfo(name, function(info)
     if info then
-      Utils:PrintPlayerInfoInEditWindow(info, index);
+      Utils:OpenPlayerInfoReportWindow(info);
     else
       Utils:PrintPlayerNotFoundInfo(name);
     end
@@ -110,7 +110,7 @@ function SlashCommands:RunDumpCommand(list)
   elseif ("checklist"):match(search) then
     Utils:DumpList(Checklist);
   else
-    self:PrintHelp();
+    self:PrintCommands();
   end
 end
 
