@@ -1,6 +1,14 @@
-##  (2023-08-01)
+##  (2023-08-02)
+
+* fix(libs): Replace LibAboutPanel with LibAboutPanel-2.0 ([27dcc98](https://github.com/Exoridus/Scambuster-Venoxis/commit/27dcc98))
+
+
+
+## <small>1.7.1 (2023-08-02)</small>
 
 * refactor(addon): added localizations, config popup, about config window and removed curseforge id ([13813b1](https://github.com/Exoridus/Scambuster-Venoxis/commit/13813b1))
+* refactor(addon): remove curseforge references and add german readme text ([153953f](https://github.com/Exoridus/Scambuster-Venoxis/commit/153953f))
+* chore(changelog): updated changelog ([1043e7b](https://github.com/Exoridus/Scambuster-Venoxis/commit/1043e7b))
 
 
 
