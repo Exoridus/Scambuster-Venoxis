@@ -1,18 +1,14 @@
-##  (2023-08-03)
+# Changelog
 
-* chore(changelog): Updated CHANGELOG.md ([2b80056](https://github.com/Exoridus/Scambuster-Venoxis/commit/2b80056))
-* chore(readme): updated README.md ([21a4b27](https://github.com/Exoridus/Scambuster-Venoxis/commit/21a4b27))
-* fix(libs): Replace LibAboutPanel with LibAboutPanel-2.0 ([27dcc98](https://github.com/Exoridus/Scambuster-Venoxis/commit/27dcc98))
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-
-
-## <small>1.7.1 (2023-08-02)</small>
-
-* refactor(addon): added localizations, config popup, about config window and removed curseforge id ([13813b1](https://github.com/Exoridus/Scambuster-Venoxis/commit/13813b1))
-* refactor(addon): remove curseforge references and add german readme text ([153953f](https://github.com/Exoridus/Scambuster-Venoxis/commit/153953f))
-* chore(changelog): updated changelog ([1043e7b](https://github.com/Exoridus/Scambuster-Venoxis/commit/1043e7b))
+### [1.7.2](https://github.com/Exoridus/Scambuster-Venoxis/compare/1.7.1...1.7.2) (2023-08-03)
 
 
+### Bug Fixes
+
+* **ci:** remove curseforge token from github workflow and add discord webhook to handle errors ([f67e1b6](https://github.com/Exoridus/Scambuster-Venoxis/commit/f67e1b666002113778431c503684fe9182aaca77))
+* **libs:** Replace LibAboutPanel with LibAboutPanel-2.0 ([27dcc98](https://github.com/Exoridus/Scambuster-Venoxis/commit/27dcc980ec3bee767bc4746ec48170506f50fff1))
 
 ## 1.7.0 (2023-07-12)
 
@@ -141,6 +137,3 @@
 ## 1.0.0 (2023-04-15)
 
 * chore(addon): initial commit ([93fb49f](https://github.com/Exoridus/Scambuster-Venoxis/commit/93fb49f))
-
-
-
