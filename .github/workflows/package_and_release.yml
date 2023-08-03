@@ -2,12 +2,8 @@ name: Package and release
 
 on:
   push:
-    branches:
-      - master
     tags:
-      - "*"
-      - "!**-alpha**"
-      - "!**-beta**"
+      - "**"
 
 jobs:
   release:
