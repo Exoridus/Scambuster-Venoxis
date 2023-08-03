@@ -23,7 +23,6 @@ required-dependencies:
 embedded-libraries:
   - libstub
   - ace3
-  - libaboutpanel
 
 manual-changelog:
   filename: CHANGELOG.md

@@ -27,7 +27,7 @@
 ## X-Credits: Venoxis Discord Community (special thanks to Ven!)
 ## X-Website: https://discord.gg/NGtvvQYnmP
 ## X-BugReport: https://github.com/Exoridus/Scambuster-Venoxis/issues
-## X-Embeds: Ace3, LibStub, LibAboutPanel
+## X-Embeds: Ace3, LibStub
 
 ## X-WoWI-ID: 26613
 ## X-Wago-ID: 4N2mEdGL
