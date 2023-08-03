@@ -4,8 +4,8 @@ enable-nolib-creation: no
 
 ignore:
   - README.md
-  - CHANGELOG.md
   - LICENSE
+  - generate_changelog.sh
 
 externals:
   Libs/LibStub: https://repos.wowace.com/wow/libstub/trunk
