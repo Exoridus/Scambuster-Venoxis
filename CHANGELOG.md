@@ -1,5 +1,7 @@
-##  (2023-08-02)
+##  (2023-08-03)
 
+* chore(changelog): Updated CHANGELOG.md ([2b80056](https://github.com/Exoridus/Scambuster-Venoxis/commit/2b80056))
+* chore(readme): updated README.md ([21a4b27](https://github.com/Exoridus/Scambuster-Venoxis/commit/21a4b27))
 * fix(libs): Replace LibAboutPanel with LibAboutPanel-2.0 ([27dcc98](https://github.com/Exoridus/Scambuster-Venoxis/commit/27dcc98))
 
 
