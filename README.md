@@ -1,32 +1,21 @@
 # Scambuster-Venoxis
 
+[![Release](https://img.shields.io/github/v/release/Exoridus/Scambuster-Venoxis?style=for-the-badge&label=Release&logo=github&color=4c1)](https://github.com/Exoridus/Scambuster-Venoxis/releases/latest)
+[![Build](https://img.shields.io/github/actions/workflow/status/Exoridus/Scambuster-Venoxis/package_and_release.yml?style=for-the-badge)](https://github.com/Exoridus/Scambuster-Venoxis/actions)
+
 ![Banner](https://repository-images.githubusercontent.com/606464603/aa7a516c-ae5c-4711-a5f8-fa1315156e73)
 
-<a href="https://github.com/Exoridus/Scambuster-Venoxis/releases/latest" title="Latest">
-    <img alt="Latest" src="https://img.shields.io/github/v/release/Exoridus/Scambuster-Venoxis?style=for-the-badge&label=Version&logo=github&color=4c1">
-</a>
-<a href="https://github.com/Exoridus/Scambuster-Venoxis/releases/latest" title="Release">
-    <img alt="Release" src="https://img.shields.io/github/release-date/Exoridus/Scambuster-Venoxis?style=for-the-badge&label=Release&logo=github">
-</a>
-<br/>
-<a href="https://addons.wago.io/addons/scambuster-venoxis" title="Wago.io">
-    <img alt="Wago.io" src="https://custom-icon-badges.demolab.com/badge/Wago.io-c2292f?style=for-the-badge&logo=wagoio-logo">
-</a>
-<a href="https://www.wowinterface.com/downloads/info26613-Scambuster-Venoxis.html" title="WoWInterface">
-    <img alt="WoWInterface" src="https://custom-icon-badges.demolab.com/badge/WoWInterface-d65219?style=for-the-badge&logo=wow-logo">
-</a>
-<a href="https://discord.gg/NGtvvQYnmP" title="Discord">
-    <img alt="Discord" src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=fff">
-</a>
-<a href="https://wowup.io/" title="WowUp">
-    <img alt="WowUp" src="https://custom-icon-badges.demolab.com/badge/WowUp-50509d?style=for-the-badge&logo=wowup_logo&logoColor=fff">
-</a>
+[![Wago.io](https://custom-icon-badges.demolab.com/badge/Wago.io-c2292f?style=for-the-badge&logo=wagoio-logo)](https://addons.wago.io/addons/scambuster-venoxis)
+[![WoWInterface](https://custom-icon-badges.demolab.com/badge/WoWInterface-d65219?style=for-the-badge&logo=wow-logo)](https://www.wowinterface.com/downloads/info26613-Scambuster-Venoxis.html)
+[![Discord](https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=fff)](https://discord.gg/NGtvvQYnmP)
+[![Blacklist](https://img.shields.io/badge/Blacklist-34A853?style=for-the-badge&logo=googlesheets&logoColor=fff)](https://discord.gg/NGtvvQYnmP)
+[![WowUp Client](https://custom-icon-badges.demolab.com/badge/WowUp-50509d?style=for-the-badge&logo=wowup_logo&logoColor=fff)](https://wowup.io/)
 
 ## Einleitung
 
 Dieses Addon erweitert das [Scambuster](https://github.com/hypernormalisation/Scambuster) Addon Framework mit Realmdaten von bekannten Betrügern und unangemessenen Spielern auf Venoxis.
 
-Sobald das Addon zusammen mit Scambuster installiert wurde und eine interaktion mit einem Betrüger erkannt wurde, erhält man sofort eine Warnmeldung zusammen mit einer Auflistung aller bekannten Vorfälle des Betrügers im Chat.
+Sobald eine interaktion mit einem Betrüger erkannt wurde, wird ein Warnsound abgespielt und eine detailierten Liste aller bekannten Vorfälle des Betrügers wird im Chat ausgegeben.
 
 Einstellungen für Warnungen, Scans können mit dem Befehl `/scambuster` bzw. `/sb` erreicht werden. Scambuster-Venoxis bietet auch eigene nützliche Befehle an, die mit `/venoxis` im Chat aufgerufen werden können.
 
@@ -67,7 +56,7 @@ To access the configuration options simply type `/scambuster` or `/sb` into the 
 3. Click on the **Install from URL** button
 4. **Copy & Paste** both addons github urls:
    - `https://github.com/hypernormalisation/Scambuster`
-   - `https://github.com/hypernormalisation/Scambuster-Golemagg`
+   - `https://github.com/Exoridus/Scambuster-Venoxis`
 5. Go back to the **My Addons** tab
 6. Turn on the **Auto Update** option (via rightclick) on both addons
 

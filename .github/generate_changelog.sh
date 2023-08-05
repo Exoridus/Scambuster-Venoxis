@@ -23,11 +23,13 @@ fi
 date=$( git log -1 --date=short --format="%ad" )
 url=$( git remote get-url origin | sed -e 's/^git@\(.*\):/https:\/\/\1\//' -e 's/\.git$//' )
 
-echo -ne "# [${version}](${url}/tree/${current}) ($date)\n\n[Full Changelog](${url}/compare/${previous}...${current})\n\n" > "CHANGELOG.md"
+cat <<- EOF > CHANGELOG.md
+# [${version}](${url}/tree/${current}) ($date)
+[Full Changelog](${url}/compare/${previous}...${current})
 
-if [ "$version" = "$tag" ]; then # on a tag
-  highlights=$( git cat-file -p "$tag" | sed -e '1,5d' -e '/^-----BEGIN PGP/,/^-----END PGP/d' )
-  echo -ne "## Highlights\n\n ${highlights} \n\n## Commits\n\n" >> "CHANGELOG.md"
-fi
+## Commits
+EOF
 
-git shortlog --no-merges --reverse "$previous..$current" | sed -e  '/^\w/G' -e 's/^      /- /' >> "CHANGELOG.md"
+git log --pretty="format:- %s ([%h](${url}/commits/%H))" --no-merges "$previous..$current" | sed -r \
+  -e 's/(fix|feat|build|chore|ci|docs|style|refactor|perf|test)(\([^)]+\))?:\s?//' \
+  >> "CHANGELOG.md"

@@ -10,7 +10,6 @@ local RACE_TO_FACTION = {
   Tauren = "Horde",
   Troll = "Horde",
   BloodElf = "Horde",
-  BloodElf = "Horde",
   Human = "Alliance",
   Dwarf = "Alliance",
   NightElf = "Alliance",
@@ -53,7 +52,7 @@ local CHAT_FILTER_PATTERNS = {
   ERR_FRIEND_OFFLINE_S:gsub("%.", "%%."):gsub("%%s", ".+"),
   ERR_FRIEND_ONLINE_SS:gsub("|Hplayer:%%s|h%[%%s%]|h", "|Hplayer:.+|h%%[.+%%]|h"),
 };
-local CHAT_FILTER = function (self, event, msg, ...)
+local CHAT_FILTER = function (self, _, msg, ...)
   if ChatFrame_ContainsMessageGroup(self, "SYSTEM") then
     for _, pattern in pairs(CHAT_FILTER_PATTERNS) do
       if msg:find(pattern) then
@@ -156,7 +155,7 @@ function Utils:FetchPlayerInfo(name, callback)
   ticker = C_Timer.NewTicker(0.25, function()
     ticks = ticks + 1;
 
-    local info = C_FriendList.GetFriendInfo(name);
+    info = C_FriendList.GetFriendInfo(name);
 
     if info then
       ticker:Cancel();
@@ -351,9 +350,9 @@ function Utils:WrapColor(text, color)
 end
 
 function Utils:ClassColor(text, className)
-  return self:WrapColor(text, RAID_CLASS_COLORS[className].colorStr);
+  return GetClassColorObj(className):WrapTextInColorCode(text);
 end
 
-function Utils:FactionColor(text, faction)
-  return self:WrapColor(text, GetFactionColor(faction):GenerateHexColor());
+function Utils:FactionColor(text, factionName)
+  return GetFactionColor(factionName):WrapTextInColorCode(text);
 end
