@@ -1,3 +1,5 @@
+<div align="center">
+
 # Scambuster-Venoxis
 
 [![Release](https://img.shields.io/github/v/release/Exoridus/Scambuster-Venoxis?style=for-the-badge&label=Release&logo=github&color=4c1)](https://github.com/Exoridus/Scambuster-Venoxis/releases/latest)
@@ -10,6 +12,8 @@
 [![Discord](https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=fff)](https://discord.gg/NGtvvQYnmP)
 [![Blacklist](https://img.shields.io/badge/Blacklist-34A853?style=for-the-badge&logo=googlesheets&logoColor=fff)](https://discord.gg/NGtvvQYnmP)
 [![WowUp Client](https://custom-icon-badges.demolab.com/badge/WowUp-50509d?style=for-the-badge&logo=wowup_logo&logoColor=fff)](https://wowup.io/)
+
+</div>
 
 ## Einleitung
 
