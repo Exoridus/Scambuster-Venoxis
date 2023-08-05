@@ -12,14 +12,14 @@ function SlashCommands:OnInitialize()
 end
 
 function SlashCommands:OnChatCommand(input)
-  local arg1, arg2 = self:GetArgs(input, 2);
+  local arg1, arg2, arg3 = self:GetArgs(input, 3);
 
   if arg1 == "config" then
     return self:RunConfigCommand();
   elseif arg1 == "print" and arg2 then
     return self:RunPrintCommand(arg2);
   elseif arg1 == "report" and arg2 then
-    return self:RunReportCommand(arg2);
+    return self:RunReportCommand(arg2, arg3);
   elseif arg1 == "search" and arg2 then
     return self:RunSearchCommand(arg2);
   elseif arg1 == "dump" then
@@ -49,7 +49,7 @@ function SlashCommands:RunPrintCommand(name)
 
   Utils:FetchPlayerInfo(name, function(info)
     if info then
-      Utils:PrintPlayerInfoInChat(info);
+      Utils:PrintPlayerInfo(info);
     else
       Utils:PrintPlayerNotFoundInfo(name);
     end
@@ -58,12 +58,20 @@ function SlashCommands:RunPrintCommand(name)
   end);
 end
 
-function SlashCommands:RunReportCommand(name)
+function SlashCommands:RunReportCommand(name, index)
+  if type(index) == "string" then
+    index = tonumber(index);
+  end
+
+  if type(index) ~= "number" then
+    index = Blocklist.GetCount() + 1;
+  end
+
   Utils:AddChatFilter();
 
   Utils:FetchPlayerInfo(name, function(info)
     if info then
-      Utils:OpenPlayerInfoReportWindow(info);
+      Utils:ReportPlayerInfo(info, index);
     else
       Utils:PrintPlayerNotFoundInfo(name);
     end

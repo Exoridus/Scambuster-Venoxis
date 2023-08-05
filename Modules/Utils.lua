@@ -17,19 +17,7 @@ local RACE_TO_FACTION = {
   Gnome = "Alliance",
 };
 
-local PLAYER_INFO_ENTRY = [[
-{
-  name = "%s",
-  guid = "%s",
-  class = "%s",
-  faction = "%s",
-  description = "",
-  url = "",
-  category = "",
-  level = 3,
-},]];
-
-local LIST_ITEM_ENTRY = [[
+local LIST_ENTRY = [[
 [%d] = {
   name = "%s",
   guid = "%s",
@@ -109,6 +97,29 @@ function Utils:PrintWarning(message)
   self:Print("%s %s", self:WrapColor(L["CAUTION"], "FFFF9933"), message);
 end
 
+function Utils:CreateCopyDialog(text, width, height)
+  local frame = AceGUI:Create("Frame");
+
+  frame:SetCallback("OnClose", function(widget) AceGUI:Release(widget) end);
+  frame:SetTitle(AddonName);
+  frame:SetStatusText(L["COPY_SHORTCUT_INFO"]);
+  frame:SetLayout("Flow");
+  frame:SetWidth(width or 320);
+  frame:SetHeight(height or 250);
+
+  local editbox = AceGUI:Create("MultiLineEditBox");
+
+  editbox:SetFullWidth(true);
+  editbox:SetFullHeight(true);
+  editbox:DisableButton(true);
+  editbox:SetText(text);
+
+  editbox:HighlightText();
+  editbox:SetFocus();
+
+  frame:AddChild(editbox);
+end
+
 function Utils:PrepareFriendInfo(info)
   local guid = assert(info.guid);
   local className, class, raceName, race, _, name, server = GetPlayerInfoByGUID(guid);
@@ -166,34 +177,25 @@ function Utils:FetchPlayerInfo(name, callback)
   end, maxTicks);
 end
 
-function Utils:FormatPlayerInfoEntries(info)
-  local result = {};
+function Utils:GetPlayerInfoProps(info)
+  local props = {};
 
-  tinsert(result, { key = NAME, value = info.name });
-  tinsert(result, { key = "GUID", value = info.guid });
+  tinsert(props, { key = NAME, value = info.name });
+  tinsert(props, { key = "GUID", value = info.guid });
 
   if info.level > 0 then
-    tinsert(result, { key = LEVEL, value = info.level });
+    tinsert(props, { key = LEVEL, value = info.level });
   end
 
-  tinsert(result, { key = RACE, value = info.raceName });
-  tinsert(result, { key = CLASS, value = self:ClassColor(info.className, info.class) });
-  tinsert(result, { key = FACTION, value = self:FactionColor(info.factionName, info.faction) });
+  tinsert(props, { key = RACE, value = info.raceName });
+  tinsert(props, { key = CLASS, value = self:ClassColor(info.className, info.class) });
+  tinsert(props, { key = FACTION, value = self:FactionColor(info.factionName, info.faction) });
 
-  return result;
-end
-
-function Utils:FormatPlayerInfoEntry(info)
-  return format(PLAYER_INFO_ENTRY,
-    info.name,
-    info.guid,
-    info.class,
-    info.faction
-  );
+  return props;
 end
 
 function Utils:FormatListItemEntry(index, entry)
-  return format(LIST_ITEM_ENTRY,
+  return LIST_ENTRY:format(
     index,
     entry.name,
     entry.guid,
@@ -203,43 +205,27 @@ function Utils:FormatListItemEntry(index, entry)
     entry.url,
     entry.category,
     entry.level,
-    (entry.aliases and #entry.aliases > 0) and format(ALIAS_PROP, table.concat(entry.aliases, '", "')) or ""
+    (entry.aliases and #entry.aliases > 0) and ALIAS_PROP:format(table.concat(entry.aliases, '", "')) or ""
   );
 end
 
-function Utils:OpenTextInEditWindow(text, width, height)
-  local frame = AceGUI:Create("Frame");
-
-  frame:SetCallback("OnClose", function(widget) AceGUI:Release(widget) end);
-  frame:SetTitle(AddonName);
-  frame:SetStatusText(L["COPY_SHORTCUT_INFO"]);
-  frame:SetLayout("Flow");
-  frame:SetWidth(width);
-  frame:SetHeight(height);
-
-  local editbox = AceGUI:Create("MultiLineEditBox");
-
-  editbox:SetFullWidth(true);
-  editbox:SetFullHeight(true);
-  editbox:DisableButton(true);
-  editbox:SetText(text);
-
-  editbox:HighlightText();
-  editbox:SetFocus();
-
-  frame:AddChild(editbox);
-end
-
-function Utils:PrintPlayerInfoInChat(info)
-  local entries = self:FormatPlayerInfoEntries(info);
-
-  for _, entry in ipairs(entries) do
-    self:PrintKeyValue(entry.key, entry.value);
+function Utils:PrintPlayerInfo(info)
+  for _, prop in ipairs(self:GetPlayerInfoProps(info)) do
+    self:PrintKeyValue(prop.key, prop.value);
   end
 end
 
-function Utils:OpenPlayerInfoReportWindow(info)
-  self:OpenTextInEditWindow(self:FormatPlayerInfoEntry(info), 320, 250);
+function Utils:ReportPlayerInfo(info, index)
+  self:CreateCopyDialog(self:FormatListItemEntry(index, {
+    name = info.name,
+    guid = info.guid,
+    class = info.className,
+    faction = info.factionName,
+    description = "",
+    url = "",
+    category = "",
+    level = 3,
+  }));
 end
 
 function Utils:PrintPlayerNotFoundInfo(name)
@@ -332,17 +318,17 @@ end
 
 function Utils:DumpList(List)
   local entries = List.GetEntries();
-  local result = {};
+  local output = {};
   local index = 1;
 
   for _, name in ipairs(List.GetPlayerNames()) do
     for _, entry in ipairs(self:GetEntriesByPlayerName(entries, name, false)) do
-      tinsert(result, self:FormatListItemEntry(index, entry));
+      tinsert(output, self:FormatListItemEntry(index, entry));
       index = index + 1;
     end
   end
 
-  self:OpenTextInEditWindow(table.concat(result, "\n"), 320, 250);
+  self:CreateCopyDialog(table.concat(output, "\n"));
 end
 
 function Utils:WrapColor(text, color)
