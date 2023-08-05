@@ -20,14 +20,16 @@ else
   previous="$tag"
 fi
 
+project=$( git remote get-url origin | sed 's#.*\/\(.*\)\.git#\1#' )
 date=$( git log -1 --date=short --format="%ad" )
 url=$( git remote get-url origin | sed -e 's/^git@\(.*\):/https:\/\/\1\//' -e 's/\.git$//' )
 
 cat <<- EOF > CHANGELOG.md
-# [${version}](${url}/tree/${current}) ($date)
-[Full Changelog](${url}/compare/${previous}...${current})
+# ${project}
 
-## Commits
+## [${version}](${url}/tree/${current}) ($date)
+[Full Changelog](${url}/compare/${previous}...${current}) [Previous Releases](${url}/releases)
+
 EOF
 
 git log --pretty="format:- %s ([%h](${url}/commits/%H))" --no-merges "$previous..$current" | sed -r \
