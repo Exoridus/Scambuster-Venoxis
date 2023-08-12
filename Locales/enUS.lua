@@ -2,11 +2,13 @@ local AddonName = ...;
 local L = LibStub("AceLocale-3.0"):NewLocale(AddonName, "enUS", true);
 if not L then return end
 
-L["AVAILABLE_COMMANDS"] = "Available Slash Commands:";
-L["PRINT_COMMAND"] = "prints character data into your current chat frame";
-L["REPORT_COMMAND"] = "displays character data in format of an lua entry";
-L["SEARCH_COMMAND"] = "searches blocklist entries for matching player names";
+L["AVAILABLE_COMMANDS"] = "Available Slash Commands (/sv and /sbv are also possible):";
+L["PRINT_COMMAND_1"] = "prints character data of your target into your chat frame";
+L["PRINT_COMMAND_2"] = "prints character data of player <name> into your chat frame";
+L["REPORT_COMMAND_1"] = "opens character data of your target inside a copy window";
+L["REPORT_COMMAND_2"] = "opens character data of player <name> inside a copy window";
 L["CONFIG_COMMAND"] = "open up the addons config window";
+L["ENTER_PLAYER_NAME"] = "Please enter a player name you want to report.";
 
 L["NO_BLOCKLIST_ENTRIES"] = "No blocklist entries found for %s";
 L["FOUND_BLOCKLIST_ENTRIES"] = "Found %d blocklist entries for %s:";

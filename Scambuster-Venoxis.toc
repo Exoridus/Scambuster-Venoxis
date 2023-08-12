@@ -40,4 +40,4 @@ Modules\Addon.lua
 Modules\Utils.lua
 Modules\Config.lua
 Modules\Blocklist.lua
-Modules\SlashCommands.lua
+Modules\Commands.lua
