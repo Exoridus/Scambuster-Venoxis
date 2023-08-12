@@ -419,5 +419,5 @@ function Utils:FactionColor(text, factionName)
 end
 
 function Utils:GetMetadata(prop)
-  return GetAddOnMetadata(prop..format("-%s", GetLocale())) or GetAddOnMetadata(prop);
+  return GetAddOnMetadata(AddonName, prop..format("-%s", GetLocale())) or GetAddOnMetadata(prop);
 end
