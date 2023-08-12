@@ -8,7 +8,6 @@
 ## Notes-deDE: |cff666666By Exoridus|r |n|nScambuster Datenbank mit Chars von Betrügern|nund unangemessenen Spielern auf Venoxis.|n|n|TInterface/Addons/Scambuster-Venoxis/Assets/Github:12:12:0:-2|t |cff82c5ffgithub.com/Exoridus|r|n|TInterface/Addons/Scambuster-Venoxis/Assets/Discord:12:12:0:-2|t |cff82c5ffExoridus|r|n|n
 
 ## Author: Exóridus
-## X-Author-Guild: Feel the Difference
 ## X-Author-Server: Venoxis
 ## X-Author-Faction: Horde
 ## X-Email: contact@codexo.de
@@ -33,5 +32,12 @@
 ## X-Wago-ID: 4N2mEdGL
 
 embeds.xml
-Locales\Locales.xml
-Modules\Modules.xml
+
+Locales\enUS.lua
+Locales\deDE.lua
+
+Modules\Addon.lua
+Modules\Utils.lua
+Modules\Config.lua
+Modules\Blocklist.lua
+Modules\SlashCommands.lua

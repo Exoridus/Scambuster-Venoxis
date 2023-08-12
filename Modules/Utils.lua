@@ -3,6 +3,7 @@ local AceGUI = LibStub("AceGUI-3.0");
 local AceLocale = LibStub("AceLocale-3.0");
 local Utils = Addon:NewModule("Utils");
 local L = AceLocale:GetLocale(AddonName);
+local GetAddOnMetadata = C_AddOns and C_AddOns.GetAddOnMetadata or GetAddOnMetadata
 
 local RACE_TO_FACTION = {
   Orc = "Horde",
@@ -18,18 +19,40 @@ local RACE_TO_FACTION = {
 };
 
 local LIST_ENTRY = [[
-[%d] = {
-  name = "%s",
-  guid = "%s",
-  class = "%s",
-  faction = "%s",
-  description = "%s",
-  url = "%s",
-  category = "%s",
-  level = %d,%s
-},]];
+  [%d] = {
+    name = "%s",
+    guid = "%s",
+    class = "%s",
+    faction = "%s",
+    description = "%s",
+    url = "%s",
+    category = "%s",
+    level = %d,%s
+  },]];
 
-local ALIAS_PROP = '\n  aliases = { "%s" },';
+local ALIAS_PROP = '\n    aliases = { "%s" },';
+
+local GROUP_ENTRY = [[
+  [%d] = {
+    description = "%s",
+    url = "%s",
+    category = "%s",
+    level = %d,
+    players = {
+%s
+    },
+  },]];
+
+local PLAYER_ENTRY = [[
+      [%d] = {
+        name = "%s",
+        guid = "%s",
+        class = "%s",
+        faction = "%s",%s
+      },]];
+
+local PLAYER_ENTRY_ALIAS = '\n        aliases = { "%s" },';
+
 local FRIENDS_LIST_SOUND = "Sound/Interface/FriendJoin.ogg";
 local CHAT_FILTER_ACTIVE = false;
 local CHAT_FILTER_PATTERNS = {
@@ -177,6 +200,45 @@ function Utils:FetchPlayerInfo(name, callback)
   end, maxTicks);
 end
 
+function Utils:GetGUIDInfo(guid)
+  local _, class, _, race, _, name = GetPlayerInfoByGUID(guid);
+  local faction = RACE_TO_FACTION[race];
+
+  if name and class and faction then
+    return {
+      guid = guid,
+      name = name,
+      class = class,
+      faction = faction,
+    };
+  end
+end
+
+function Utils:FetchGUIDInfo(guid, callback)
+  local info = self:GetGUIDInfo(guid);
+
+  if info then
+    callback(info);
+    return;
+  end
+
+  local ticks, maxTicks = 0, 4;
+  local ticker;
+
+  ticker = C_Timer.NewTicker(0.5, function()
+    ticks = ticks + 1;
+
+    info = self:GetGUIDInfo(guid);
+
+    if info then
+      ticker:Cancel();
+      callback(info);
+    elseif ticks == maxTicks then
+      callback(nil);
+    end
+  end, maxTicks);
+end
+
 function Utils:GetPlayerInfoProps(info)
   local props = {};
 
@@ -195,6 +257,29 @@ function Utils:GetPlayerInfoProps(info)
 end
 
 function Utils:FormatListItemEntry(index, entry)
+  if entry.players then
+    local players = {};
+    for i, player in ipairs(entry.players) do
+      tinsert(players, PLAYER_ENTRY:format(
+        i,
+        player.name,
+        player.guid,
+        player.class,
+        player.faction,
+        (player.aliases and #player.aliases > 0) and PLAYER_ENTRY_ALIAS:format(table.concat(player.aliases, '", "')) or ""
+      ));
+    end
+
+    return GROUP_ENTRY:format(
+      index,
+      entry.description,
+      entry.url,
+      entry.category,
+      entry.level,
+      table.concat(players, '\n')
+    );
+  end
+
   return LIST_ENTRY:format(
     index,
     entry.name,
@@ -278,22 +363,27 @@ function Utils:NormaliseName(name)
   return normalized;
 end
 
-function Utils:IsPlayerNameInEntry(entry, playerName, includeAliases)
+function Utils:IsPlayerNameInEntry(entry, playerName)
   local name = self:NormaliseName(playerName);
 
   if type(entry) ~= "table" or type(name) ~= "string" then
     return false;
   end
 
+  if entry.players then
+    for _, player in pairs(entry.players) do
+      if self:IsPlayerNameInEntry(player, name) then
+        return true;
+      end
+    end
+    return;
+  end
+
   if self:NormaliseName(entry.name) == name then
     return true;
   end
 
-  if type(includeAliases) ~= "boolean" then
-    includeAliases = true;
-  end
-
-  if includeAliases == true and type(entry.aliases) == "table" then
+  if type(entry.aliases) == "table" then
     for _, alias in pairs(entry.aliases) do
       if self:NormaliseName(alias) == name then
         return true;
@@ -304,31 +394,16 @@ function Utils:IsPlayerNameInEntry(entry, playerName, includeAliases)
   return false;
 end
 
-function Utils:GetEntriesByPlayerName(entries, playerName, includeAliases)
+function Utils:GetEntriesByPlayerName(entries, playerName)
   local result = {};
 
   for _, entry in pairs(entries) do
-    if self:IsPlayerNameInEntry(entry, playerName, includeAliases) then
+    if self:IsPlayerNameInEntry(entry, playerName) then
       tinsert(result, entry);
     end
   end
 
   return result;
-end
-
-function Utils:DumpList(List)
-  local entries = List.GetEntries();
-  local output = {};
-  local index = 1;
-
-  for _, name in ipairs(List.GetPlayerNames()) do
-    for _, entry in ipairs(self:GetEntriesByPlayerName(entries, name, false)) do
-      tinsert(output, self:FormatListItemEntry(index, entry));
-      index = index + 1;
-    end
-  end
-
-  self:CreateCopyDialog(table.concat(output, "\n"));
 end
 
 function Utils:WrapColor(text, color)
@@ -341,4 +416,8 @@ end
 
 function Utils:FactionColor(text, factionName)
   return GetFactionColor(factionName):WrapTextInColorCode(text);
+end
+
+function Utils:GetMetadata(prop)
+  return GetAddOnMetadata(prop..format("-%s", GetLocale())) or GetAddOnMetadata(prop);
 end

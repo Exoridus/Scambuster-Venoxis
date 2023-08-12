@@ -2,26 +2,20 @@ local AddonName = ...;
 local L = LibStub("AceLocale-3.0"):NewLocale(AddonName, "deDE", false);
 if not L then return end
 
-L["BLOCKLIST_NAME"] = "Venoxis Discord Blocklist";
-L["BLOCKLIST_PROVIDER"] = "Venoxis Discord";
-L["BLOCKLIST_DESCRIPTION"] = "Scambuster Datenbank mit Chars von Betrügern und unangemessenen Spielern auf Venoxis.";
-L["BLOCKLIST_URL"] = "https://discord.gg/NGtvvQYnmP";
-
 L["AVAILABLE_COMMANDS"] = "Verfügbare Slash Commands:";
 L["PRINT_COMMAND"] = "schreibt Characterdaten ins aktive Chatframe";
 L["REPORT_COMMAND"] = "öffnet formatierte Characterdaten im separaten Fenster";
 L["SEARCH_COMMAND"] = "durchsucht die Blocklisteneinträge nach dem Spielernamen";
-L["DUMP_COMMAND"] = "öffnet die sortierten Listeneinträge im separaten Fenster";
-L["CONFIG_COMMAND"] = "öffnet die Addon Konfiguration";
+L["CONFIG_COMMAND"] = "öffnet das Konfigurationsfenster";
 
 L["NO_BLOCKLIST_ENTRIES"] = "Keine Einträge gefunden für %s";
 L["FOUND_BLOCKLIST_ENTRIES"] = "%d |4Eintrag:Einträge; in der Blockliste gefunden für %s:";
-L["FOUND_CHECKLIST_ENTRIES"] = "%d |4Eintrag:Einträge; in der Checkliste gefunden für %s:";
-L["CHECKLIST_SEARCH_STARTED"] = "Checkliste wird überprüft. Geschätzte Dauer liegt bei %d |4Sekunde:Sekunden;.";
-L["CHECKLIST_CHECK_PLAYER"] = "Suche nach Spieler %s...";
-L["CHECKLIST_NEW_MATCH"] = "Neuer treffer für Spieler %s (index %d):";
-L["CHECKLIST_NO_MATCH"] = "Kein Ergebnis für %s.";
-L["CHECKLIST_SEARCH_FINISHED"] = "Checkliste vollständig überprüft mit %d neuen |4Treffer:Treffern;.";
+L["CHECK_CHECKING_GUID"] = "Überprüfe %s";
+L["CHECK_NAME_CHANGED"] = "Namensänderung entdeckt!";
+L["CHECK_CLASS_CHANGED"] = "Klassenändern entdeckt!";
+L["CHECK_FACTION_CHANGED"] = "Fraktionsänderung entdeckt!";
+L["CHECK_UNKNOWN_GUID"] = "GUID %s ist nicht mehr verfügbar.";
+L["CHECK_FINISHED"] = "Alle Einträge erfolgreich überprüft.";
 
 L["CAUTION"] = "ACHTUNG!";
 L["FRIENDS_LIST_NOTE"] = format("Von %s", AddonName);
