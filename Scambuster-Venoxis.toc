@@ -1,33 +1,23 @@
 ## Interface: 30402
-## Version: @project-version@
-## X-Project-Revision: @project-revision@
-## X-Date: @project-date-iso@
-
 ## Title: |TInterface/Addons/Scambuster-Venoxis/Assets/Scambuster:16:16|t Scambuster-Venoxis |cFF00FF00v@project-version@|r
 ## Notes: |cff666666By Exoridus|r |n|nScambuster database with chars of scammers and|ninappropriate players on Venoxis.|n|n|TInterface/Addons/Scambuster-Venoxis/Assets/Github:12:12:0:-2|t |cff82c5ffgithub.com/Exoridus|r|n|TInterface/Addons/Scambuster-Venoxis/Assets/Discord:12:12:0:-2|t |cff82c5ffExoridus|r|n|n
 ## Notes-deDE: |cff666666By Exoridus|r |n|nScambuster Datenbank mit Chars von Betrügern|nund unangemessenen Spielern auf Venoxis.|n|n|TInterface/Addons/Scambuster-Venoxis/Assets/Github:12:12:0:-2|t |cff82c5ffgithub.com/Exoridus|r|n|TInterface/Addons/Scambuster-Venoxis/Assets/Discord:12:12:0:-2|t |cff82c5ffExoridus|r|n|n
-
-## Author: Exóridus
-## X-Author-Server: Venoxis
-## X-Author-Faction: Horde
-## X-Email: contact@codexo.de
-## X-Donate: https://github.com/sponsors/Exoridus
-
-## RequiredDeps: Scambuster
-## OptionalDeps: Ace3, LibAboutPanel
+## Author: Exoridus
+## Version: @project-version@
 ## SavedVariables: ScambusterVenoxisDB
-
+## RequiredDeps: Scambuster
+## OptionalDeps: Ace3, AceGUI-3.0_SFX-Widgets
+## DefaultState: enabled
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Realm: Venoxis
-
-## X-License: GNU General Public License version 3 (GPLv3)
+## X-License: GPLv3
+## X-Embeds: LibStub, Ace3, AceGUI-3.0_SFX-Widgets
 ## X-Category: Chat/Communication
 ## X-Localizations: enUS, deDE
-## X-Credits: Venoxis Discord Community (special thanks to Ven!)
-## X-Website: https://discord.gg/NGtvvQYnmP
-## X-BugReport: https://github.com/Exoridus/Scambuster-Venoxis/issues
-## X-Embeds: Ace3, LibStub
-
+## X-Website: https://github.com/Exoridus/Scambuster-Venoxis
+## X-Email: contact@codexo.de
+## X-Donate: https://github.com/sponsors/Exoridus
+## X-Credits: Venoxis Discord Community, Ven, Dantos
 ## X-WoWI-ID: 26613
 ## X-Wago-ID: 4N2mEdGL
 

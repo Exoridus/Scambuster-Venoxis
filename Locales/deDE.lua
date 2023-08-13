@@ -2,6 +2,10 @@ local AddonName = ...;
 local L = LibStub("AceLocale-3.0"):NewLocale(AddonName, "deDE", false);
 if not L then return end
 
+L["BLOCKLIST_NAME"] = "Venoxis Discord Blocklist";
+L["BLOCKLIST_PROVIDER"] = "Venoxis Discord";
+L["BLOCKLIST_DESCRIPTION"] = "Scambuster Datenbank mit Chars von Betrügern und unangemessenen Spielern auf Venoxis.";
+
 L["AVAILABLE_COMMANDS"] = "Verfügbare Slash Commands (/sv and /sbv sind auch möglich):";
 L["PRINT_COMMAND_1"] = "schreibt die Characterdaten deines Targets ins aktive Chatfenster";
 L["PRINT_COMMAND_2"] = "schreibt Characterdaten vom Spieler <name> ins aktive Chatframe";
@@ -20,7 +24,6 @@ L["CHECK_UNKNOWN_GUID"] = "GUID %s ist nicht mehr verfügbar.";
 L["CHECK_FINISHED"] = "Alle Einträge erfolgreich überprüft.";
 
 L["CAUTION"] = "ACHTUNG!";
-L["FRIENDS_LIST_NOTE"] = format("Von %s", AddonName);
 L["COPY_SHORTCUT_INFO"] = "CTRL+C zum kopieren";
 L["GUID_FROM_ANOTHER_REALM"] = "Spieler ist auf einem anderen Realm (%s).";
 

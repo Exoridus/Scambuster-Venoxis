@@ -116,7 +116,7 @@ function Utils:PrintTitle(title)
 end
 
 function Utils:PrintKeyValue(key, value)
-  self:Print("%s %s", self:WrapColor(format("%s: ", key), "FFFFFF33"), value);
+  self:Print("%s %s", self:WrapColor(format("%s:", key), "FFFFFF33"), value);
 end
 
 function Utils:PrintWarning(message)

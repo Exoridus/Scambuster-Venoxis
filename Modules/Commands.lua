@@ -89,10 +89,10 @@ function Commands:ReportPlayer(name)
       local lines = {};
 
       for _, prop in ipairs(Utils:GetPlayerInfoProps(info)) do
-        tinsert(lines, format("%s: %s", prop.key, prop.value));
+        tinsert(lines, format("%s %s", Utils:WrapColor(format("%s:", prop.key), "FFFFFF33"), prop.value));
       end
 
-      Utils:CreateCopyDialog(table.concat(lines, "\n"), 640, 480);
+      Utils:CreateCopyDialog(table.concat(lines, "\n"));
     else
       self:PrintPlayerNotFoundInfo(name);
     end

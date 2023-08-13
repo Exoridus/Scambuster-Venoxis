@@ -2,6 +2,10 @@ local AddonName = ...;
 local L = LibStub("AceLocale-3.0"):NewLocale(AddonName, "enUS", true);
 if not L then return end
 
+L["BLOCKLIST_NAME"] = "Venoxis Discord Blocklist";
+L["BLOCKLIST_PROVIDER"] = "Venoxis Discord";
+L["BLOCKLIST_DESCRIPTION"] = "Scambuster database with chars of scammers and inappropriate players on Venoxis.";
+
 L["AVAILABLE_COMMANDS"] = "Available Slash Commands (/sv and /sbv are also possible):";
 L["PRINT_COMMAND_1"] = "prints character data of your target into your chat frame";
 L["PRINT_COMMAND_2"] = "prints character data of player <name> into your chat frame";
