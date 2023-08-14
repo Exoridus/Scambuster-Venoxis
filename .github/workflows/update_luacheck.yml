@@ -10,18 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     name: generate new .luacheckrc
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
       - name: Generate new .luacheckrc
-        uses: LiangYuxuan/action-generate-luacheckrc@v1
+        uses: LiangYuxuan/action-generate-luacheckrc@v2
         with:
           ui-source-branch: 'classic'
           interface-resources-branch: 'wrath'
 
       - name: Create pull request
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v5
         with:
           title: Update .luacheckrc
           commit-message: "test(luacheck): update .luacheckrc"
