@@ -4,6 +4,7 @@ local AceLocale = LibStub("AceLocale-3.0");
 local Utils = Addon:NewModule("Utils");
 local L = AceLocale:GetLocale(AddonName);
 local GetAddOnMetadata = C_AddOns and C_AddOns.GetAddOnMetadata or GetAddOnMetadata;
+local locale = GetLocale();
 
 local RACE_TO_FACTION = {
   Orc = "Horde",
@@ -66,7 +67,7 @@ local CHAT_FILTER_PATTERNS = {
   ERR_FRIEND_ONLINE_SS:gsub("|Hplayer:%%s|h%[%%s%]|h", "|Hplayer:.+|h%%[.+%%]|h"),
 };
 
-local CHAT_FILTER = function (self, _, msg, ...)
+local CHAT_FILTER = function(self, _, msg, ...)
   if ChatFrame_ContainsMessageGroup(self, "SYSTEM") then
     for _, pattern in pairs(CHAT_FILTER_PATTERNS) do
       if msg:find(pattern) then
@@ -126,7 +127,9 @@ end
 function Utils:CreateCopyDialog(text, width, height)
   local frame = AceGUI:Create("Frame");
 
-  frame:SetCallback("OnClose", function(widget) AceGUI:Release(widget) end);
+  frame:SetCallback("OnClose", function(widget)
+    AceGUI:Release(widget)
+  end);
   frame:SetTitle(AddonName);
   frame:SetStatusText(L["COPY_SHORTCUT_INFO"]);
   frame:SetLayout("Flow");
@@ -247,9 +250,18 @@ function Utils:GetPlayerInfoProps(info)
   return props;
 end
 
+function Utils:FormatAliases(entry, template)
+  if type(entry.aliases) ~= "table" or #entry.aliases == 0 then
+    return "";
+  end
+
+  return format(template, table.concat(entry.aliases, '", "'));
+end
+
 function Utils:FormatListItemEntry(index, entry)
   if entry.players then
     local players = {};
+
     for i, player in ipairs(entry.players) do
       tinsert(players, PLAYER_ENTRY:format(
         i,
@@ -257,7 +269,7 @@ function Utils:FormatListItemEntry(index, entry)
         player.guid,
         player.class,
         player.faction,
-        (player.aliases and #player.aliases > 0) and PLAYER_ENTRY_ALIAS:format(table.concat(player.aliases, '", "')) or ""
+        self:FormatAliases(player, PLAYER_ENTRY_ALIAS)
       ));
     end
 
@@ -281,7 +293,7 @@ function Utils:FormatListItemEntry(index, entry)
     entry.url,
     entry.category,
     entry.level,
-    (entry.aliases and #entry.aliases > 0) and LIST_ENTRY_ALIAS:format(table.concat(entry.aliases, '", "')) or ""
+    self:FormatAliases(entry, LIST_ENTRY_ALIAS)
   );
 end
 
@@ -313,6 +325,6 @@ function Utils:FactionColor(text, factionName)
   return GetFactionColor(factionName):WrapTextInColorCode(text);
 end
 
-function Utils:GetMetadata(prop, skipLocale)
-  return (not skipLocale and GetAddOnMetadata(AddonName, prop..format("-%s", GetLocale()))) or GetAddOnMetadata(AddonName, prop);
+function Utils:GetMetadata(prop)
+  return GetAddOnMetadata(AddonName, format("%s-%s", prop, locale)) or GetAddOnMetadata(AddonName, prop);
 end

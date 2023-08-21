@@ -56,8 +56,12 @@ StaticPopupDialogs["SCAMBUSTER_GUID_MATCHING_DIALOG"] = {
   subText = L["GUID_MATCHING_DESCRIPTION"],
   button1 = ACTIVATE,
   button2 = IGNORE,
-  OnButton1 = function(_, data) data.callback(1) end,
-  OnButton2 = function(_, data) data.callback(2) end,
+  OnButton1 = function(_, data)
+    data.callback(1)
+  end,
+  OnButton2 = function(_, data)
+    data.callback(2)
+  end,
   timeout = 0,
   whileDead = true,
   hideOnEscape = false,
