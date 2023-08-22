@@ -229,7 +229,7 @@ function Utils:FetchFriendInfo(name, callback)
 
   ticker = C_Timer.NewTicker(0.5, function()
     ticks = ticks + 1;
-    info = self:GetFriendInfo(name);
+    info = C_FriendList.GetFriendInfo(name);
 
     if info or ticks == maxTicks then
       ticker:Cancel();
