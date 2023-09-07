@@ -7,21 +7,26 @@ L["BLOCKLIST_PROVIDER"] = "Venoxis Discord";
 L["BLOCKLIST_DESCRIPTION"] = "Scambuster Datenbank mit Chars von Betrügern und unangemessenen Spielern auf Venoxis.";
 
 L["AVAILABLE_COMMANDS"] = "Verfügbare Slash Commands (/sv and /sbv sind auch möglich):";
-L["PRINT_COMMAND_1"] = "schreibt die Characterdaten deines Targets ins aktive Chatfenster";
-L["PRINT_COMMAND_2"] = "schreibt Characterdaten vom Spieler <name> ins aktive Chatframe";
-L["REPORT_COMMAND_1"] = "öffnet ein Kopierfenster mit Characterdaten deines Targets";
-L["REPORT_COMMAND_2"] = "öffnet ein Kopierfenster mit Characterdaten vom Spieler <name>";
-L["CONFIG_COMMAND"] = "öffnet das Konfigurationsfenster";
+L["PRINT_COMMAND_1"] = "schreibt die Characterdaten deines Targets ins aktive Chatfenster.";
+L["PRINT_COMMAND_2"] = "schreibt Characterdaten vom Spieler <name> ins aktive Chatframe.";
+L["REPORT_COMMAND_1"] = "öffnet ein Kopierfenster mit Characterdaten deines Targets.";
+L["REPORT_COMMAND_2"] = "öffnet ein Kopierfenster mit Characterdaten vom Spieler <name>.";
+L["CHECK_COMMAND"] = "durchsucht Blockliste nach geänderten Namen/Klassen/Rassen.";
+L["CONFIG_COMMAND"] = "öffnet das Konfigurationsfenster.";
 L["ENTER_PLAYER_NAME"] = "Bitte gib einen Spielernamen ein den du melden willst.";
 
 L["NO_BLOCKLIST_ENTRIES"] = "Keine Einträge gefunden für %s";
 L["FOUND_BLOCKLIST_ENTRIES"] = "%d |4Eintrag:Einträge; in der Blockliste gefunden für %s:";
-L["CHECK_CHECKING_GUID"] = "Überprüfe %s";
-L["CHECK_NAME_CHANGED"] = "Namensänderung entdeckt!";
-L["CHECK_CLASS_CHANGED"] = "Klassenändern entdeckt!";
-L["CHECK_FACTION_CHANGED"] = "Fraktionsänderung entdeckt!";
-L["CHECK_UNKNOWN_GUID"] = "GUID %s ist nicht mehr verfügbar.";
-L["CHECK_FINISHED"] = "Alle Einträge erfolgreich überprüft.";
+L["CHECK_STARTED"] = "Suche nach Änderungen in %d GUIDs. (ca. %ds)";
+L["CHECK_PROGRESS"] = "Überprüfe %s (%d/%d)";
+L["CHANGE_FOUND"] = "%s wurde geändert!";
+L["NAME_CHANGE"] = "Namensänderung";
+L["RACE_CHANGE"] = "Völkeränderung";
+L["CLASS_CHANGE"] = "Klassenänderung";
+L["FACTION_CHANGE"] = "Fraktionsänderung";
+L["CHANGED_VALUE"] = "%s (Vorher: %s)";
+L["UNKNOWN_GUID"] = "GUID %s ist nicht mehr verfügbar.";
+L["CHECK_FINISHED"] = "Alle %d GUIDs erfolgreich überprüft.";
 
 L["CAUTION"] = "ACHTUNG!";
 L["COPY_SHORTCUT_INFO"] = "CTRL+C zum kopieren";

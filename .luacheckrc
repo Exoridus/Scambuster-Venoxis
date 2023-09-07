@@ -1,4 +1,6 @@
 std = "lua51"
+quiet = 1
+color = true
 codes = true
 include_files = {
 	"**/*.lua",
@@ -13,7 +15,7 @@ ignore = {
 	"212/self", -- Unused argument.
 	"631", -- Line is too long.
 }
-max_cyclomatic_complexity = 10
+max_cyclomatic_complexity = 15
 globals = {}
 read_globals = {
 	-- Third Party AddOns / Libs

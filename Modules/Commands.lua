@@ -19,14 +19,14 @@ function Commands:OnDisable()
 end
 
 function Commands:ChatCommand(input)
-  local arg1, arg2 = self:GetArgs(input, 2);
+  local arg1, arg2, arg3 = self:GetArgs(input, 3);
 
   if arg1 == "config" then
     Config:OpenOptionsFrame();
   elseif arg1 == "print" then
     self:PrintPlayer(arg2);
   elseif arg1 == "report" then
-    self:ReportPlayer(arg2);
+    self:ReportPlayer(arg2, arg3);
   elseif arg1 == "dump" then
     self:DumpEntries(Blocklist.Entries);
   elseif arg1 == "check" then
@@ -50,6 +50,7 @@ function Commands:PrintCommands()
   Utils:PrintCommand("/venoxis print <name>", L["PRINT_COMMAND_2"]);
   Utils:PrintCommand("/venoxis report", L["REPORT_COMMAND_1"]);
   Utils:PrintCommand("/venoxis report <name>", L["REPORT_COMMAND_2"]);
+  Utils:PrintCommand("/venoxis check", L["CHECK_COMMAND"]);
   Utils:PrintCommand("/venoxis config", L["CONFIG_COMMAND"]);
 end
 
@@ -74,7 +75,7 @@ function Commands:PrintPlayer(name)
   end);
 end
 
-function Commands:ReportPlayer(name)
+function Commands:ReportPlayer(name, reportType)
   if (name == nil or name == "" or name == "target") and UnitIsPlayer("target") then
     name = UnitName("target");
   end
@@ -86,17 +87,58 @@ function Commands:ReportPlayer(name)
 
   Utils:FetchPlayerInfo(name, function(info)
     if info then
-      local lines = {};
+      if reportType == "entry" then
+        Utils:CreateCopyDialog(Utils:GetPlayerInfoEntry(info, #Blocklist.Entries + 1));
+      else
+        local lines = {};
 
-      for _, prop in ipairs(Utils:GetPlayerInfoProps(info)) do
-        tinsert(lines, format("%s %s", Utils:WrapColor(format("%s:", prop.key), "FFFFFF33"), prop.value));
+        for _, prop in ipairs(Utils:GetPlayerInfoProps(info)) do
+          tinsert(lines, format("%s %s", Utils:SystemText(format("%s:", prop.key)), prop.value));
+        end
+
+        Utils:CreateCopyDialog(table.concat(lines, "\n"));
       end
-
-      Utils:CreateCopyDialog(table.concat(lines, "\n"));
     else
       self:PrintPlayerNotFoundInfo(name);
     end
   end);
+end
+
+function Commands:GetRaces(entries, callback)
+  local missing = {};
+
+  for _, entry in ipairs(entries) do
+    if entry.players then
+      for _, player in ipairs(entry.players) do
+        if player.guid and not player.race then
+          tInsertUnique(missing, player.guid);
+        end
+      end
+    elseif entry.guid and not entry.race then
+      tInsertUnique(missing, entry.guid);
+    end
+  end
+
+  local length = #missing;
+  local index = 1;
+  local races = {};
+
+  C_Timer.NewTicker(2, function()
+    local guid = missing[index];
+    local playerIndex = index;
+
+    Utils:FetchGUIDInfo(guid, function(info)
+      if info then
+        races[guid] = info.race;
+      end
+
+      if playerIndex == length then
+        callback(races);
+      end
+    end);
+
+    index = index + 1;
+  end, length);
 end
 
 function Commands:DumpEntries(entries)
@@ -115,8 +157,6 @@ function Commands:DumpEntries(entries)
   end
 
   tinsert(output, "};");
-
-  Utils:CreateCopyDialog(table.concat(output, "\n"), 800, 480);
 end
 
 function Commands:CheckEntries(entries)
@@ -126,60 +166,108 @@ function Commands:CheckEntries(entries)
   for _, entry in pairs(entries) do
     if entry.players then
       for _, player in pairs(entry.players) do
-        players[player.guid] = {
-          names = player.aliases or {},
-          class = player.class,
-          faction = player.faction,
-        };
+        if not players[player.guid] then
+          players[player.guid] = {
+            names = {},
+            race = player.race,
+            class = player.class,
+            faction = player.faction,
+          };
+        end
+
+        tInsertUnique(players[player.guid].names, player.name);
+
+        if player.aliases and #player.aliases > 0 then
+          for _, alias in pairs(player.aliases) do
+            tInsertUnique(players[player.guid].names, alias);
+          end
+        end
 
         tInsertUnique(guids, player.guid);
-        tInsertUnique(players[player.guid].names, player.name);
       end
     elseif entry.name then
-      players[entry.guid] = {
-        names = entry.aliases or {},
-        class = entry.class,
-        faction = entry.faction,
-      };
+      if not players[entry.guid] then
+        players[entry.guid] = {
+          names = {},
+          race = entry.race,
+          class = entry.class,
+          faction = entry.faction,
+        };
+      end
+
+      tInsertUnique(players[entry.guid].names, entry.name);
+
+      if entry.aliases and #entry.aliases > 0 then
+        for _, alias in pairs(entry.aliases) do
+          tInsertUnique(players[entry.guid].names, alias);
+        end
+      end
 
       tInsertUnique(guids, entry.guid);
-      tInsertUnique(players[entry.guid].names, entry.name);
     end
   end
 
   local length = #guids;
   local index = 1;
+  local results = {};
+
+  Utils:PrintAddonMessage(L["CHECK_STARTED"], length, length * 2);
 
   C_Timer.NewTicker(2, function()
     local guid = guids[index];
     local player = players[guid];
     local playerIndex = index;
 
+    Utils:Print(Utils:SystemText(format(L["CHECK_PROGRESS"], guid, index, length)));
+
     Utils:FetchGUIDInfo(guid, function(info)
       if info and player then
-        Utils:PrintTitle(format(L["CHECK_CHECKING_GUID"], tostring(info.guid)));
+        local nameChanged = not tContains(player.names, info.name);
+        local raceChanged = player.race ~= info.race;
+        local classChanged = player.class ~= info.class;
+        local factionChanged = player.faction ~= info.faction;
 
-        if not tContains(player.names, info.name) then
-          Utils:PrintTitle(L["CHECK_NAME_CHANGED"]);
-          Utils:PrintKeyValue(NAME, info.name);
-          Utils:PrintKeyValue(PREVIOUS, table.concat(player.names, ", "));
-        end
-        if player.class ~= info.class then
-          Utils:PrintTitle(L["CHECK_CLASS_CHANGED"]);
-          Utils:PrintKeyValue(CLASS, info.class);
-          Utils:PrintKeyValue(PREVIOUS, player.class);
-        end
-        if player.faction ~= info.faction then
-          Utils:PrintTitle(L["CHECK_FACTION_CHANGED"]);
-          Utils:PrintKeyValue(FACTION, info.faction);
-          Utils:PrintKeyValue(PREVIOUS, player.faction);
+        if nameChanged or raceChanged or classChanged or factionChanged then
+          Utils:Print(Utils:SuccessText(format(L["CHANGE_FOUND"], info.guid)));
+          tinsert(results, format("[%s]", info.guid));
+
+          if nameChanged then
+            local changed = format(L["CHANGED_VALUE"], info.name, table.concat(player.names, ", "));
+
+            tinsert(results, format("%s: %s", L["NAME_CHANGE"], changed));
+            Utils:PrintKeyValue(L["NAME_CHANGE"], changed);
+          end
+          if raceChanged then
+            local changed = format(L["CHANGED_VALUE"], info.race, player.race);
+
+            tinsert(results, format("%s: %s", L["RACE_CHANGE"], changed));
+            Utils:PrintKeyValue(L["RACE_CHANGE"], changed);
+          end
+          if classChanged then
+            local changed = format(L["CHANGED_VALUE"], info.class, player.class);
+
+            tinsert(results, format("%s: %s", L["CLASS_CHANGE"], changed));
+            Utils:PrintKeyValue(L["CLASS_CHANGE"], changed);
+          end
+          if factionChanged then
+            local changed = format(L["CHANGED_VALUE"], info.faction, player.faction);
+
+            tinsert(results, format("%s: %s", L["FACTION_CHANGE"], changed));
+            Utils:PrintKeyValue(L["FACTION_CHANGE"], changed);
+          end
+
+          tinsert(results, "");
         end
       else
-        Utils:PrintTitle(format(L["CHECK_UNKNOWN_GUID"], guid));
+        Utils:PrintWarning(format(L["UNKNOWN_GUID"], guid));
       end
 
       if playerIndex == length then
-        Utils:PrintAddonMessage(L["CHECK_FINISHED"]);
+        Utils:PrintAddonMessage(L["CHECK_FINISHED"], length);
+
+        if #results > 0 then
+          Utils:CreateCopyDialog(table.concat(results, "\n"), 640, 480);
+        end
       end
     end);
 

@@ -23,6 +23,7 @@ local LIST_ENTRY = [[
   [%d] = {
     name = "%s",
     guid = "%s",
+    race = "%s",
     class = "%s",
     faction = "%s",
     description = "%s",
@@ -48,6 +49,7 @@ local PLAYER_ENTRY = [[
       [%d] = {
         name = "%s",
         guid = "%s",
+        race = "%s",
         class = "%s",
         faction = "%s",%s
       },]];
@@ -91,7 +93,7 @@ function Utils:Print(message, ...)
 end
 
 function Utils:PrintAddonMessage(message, ...)
-  local chatPrefix = self:WrapColor(AddonName, "FF33FF99");
+  local chatPrefix = self:AddonText(AddonName);
   local chatMessage = tostring(message);
 
   if select('#', ...) > 0 then
@@ -103,25 +105,25 @@ end
 
 function Utils:PrintCommand(slashCommand, description)
   local slash, action, args = strtrim(slashCommand):match("^(%/%a+)%s*(%a*)%s*(.*)$");
-  local command = self:WrapColor(format("%s %s", slash, action), "FFFFFF33");
+  local command = format("%s %s", self:SystemText(slash), self:SpecialText(action));
 
-  if strlen(args) > 0 then
-    self:Print("%s %s - %s", command, self:WrapColor(args, "FF33FF33"), description);
+  if args and args ~= "" then
+    self:Print("%s %s - %s", command, self:SuccessText(args), self:PlainText(description));
   else
-    self:Print("%s - %s", command, description);
+    self:Print("%s - %s", command, self:PlainText(description));
   end
 end
 
 function Utils:PrintTitle(title)
-  self:Print(self:WrapColor("[%s]", "FF33FFFF"), title);
+  self:Print(self:SpecialText("[%s]"), title);
 end
 
 function Utils:PrintKeyValue(key, value)
-  self:Print("%s %s", self:WrapColor(format("%s:", key), "FFFFFF33"), value);
+  self:Print("%s %s", self:SystemText(format("%s:", key)), value);
 end
 
 function Utils:PrintWarning(message)
-  self:Print("%s %s", self:WrapColor(L["CAUTION"], "FFFF9933"), message);
+  self:Print("%s %s", self:CautionText(L["CAUTION"]), message);
 end
 
 function Utils:CreateCopyDialog(text, width, height)
@@ -153,12 +155,9 @@ function Utils:FetchPlayerInfo(name, callback)
   self:AddChatFilter();
 
   self:FetchFriendInfo(name, function(info)
-    if info then
-      if info.notes == L["FRIENDS_LIST_NOTE"] then
-        C_FriendList.RemoveFriend(name);
-      end
+    self:RemoveChatFilter();
 
-      self:RemoveChatFilter();
+    if info then
       self:FetchGUIDInfo(info.guid, callback);
     else
       callback(nil);
@@ -217,6 +216,10 @@ end
 function Utils:FetchFriendInfo(name, callback)
   local info = C_FriendList.GetFriendInfo(name);
 
+  if info and info.notes == L["FRIENDS_LIST_NOTE"] then
+    C_FriendList.RemoveFriend(name);
+  end
+
   if info then
     callback(info);
     return;
@@ -230,6 +233,10 @@ function Utils:FetchFriendInfo(name, callback)
   ticker = C_Timer.NewTicker(0.5, function()
     ticks = ticks + 1;
     info = C_FriendList.GetFriendInfo(name);
+
+    if info and info.notes == L["FRIENDS_LIST_NOTE"] then
+      C_FriendList.RemoveFriend(name);
+    end
 
     if info or ticks == maxTicks then
       ticker:Cancel();
@@ -250,6 +257,14 @@ function Utils:GetPlayerInfoProps(info)
   return props;
 end
 
+function Utils:GetPlayerInfoEntry(info, index)
+  if not info or not index then
+    return "";
+  end
+
+  return LIST_ENTRY:format(index, info.name, info.guid, info.race, info.class, info.faction, "", "", "", 3, "");
+end
+
 function Utils:FormatAliases(entry, template)
   if type(entry.aliases) ~= "table" or #entry.aliases == 0 then
     return "";
@@ -267,6 +282,7 @@ function Utils:FormatListItemEntry(index, entry)
         i,
         player.name,
         player.guid,
+        player.race,
         player.class,
         player.faction,
         self:FormatAliases(player, PLAYER_ENTRY_ALIAS)
@@ -287,6 +303,7 @@ function Utils:FormatListItemEntry(index, entry)
     index,
     entry.name,
     entry.guid,
+    entry.race,
     entry.class,
     entry.faction,
     entry.description,
@@ -313,6 +330,10 @@ function Utils:RemoveChatFilter()
   end
 end
 
+function Utils:GetMetadata(prop)
+  return GetAddOnMetadata(AddonName, format("%s-%s", prop, locale)) or GetAddOnMetadata(AddonName, prop);
+end
+
 function Utils:WrapColor(text, color)
   return WrapTextInColorCode(tostring(text), assert(color));
 end
@@ -325,6 +346,26 @@ function Utils:FactionColor(text, factionName)
   return GetFactionColor(factionName):WrapTextInColorCode(text);
 end
 
-function Utils:GetMetadata(prop)
-  return GetAddOnMetadata(AddonName, format("%s-%s", prop, locale)) or GetAddOnMetadata(AddonName, prop);
+function Utils:PlainText(text)
+  return self:WrapColor(text, "FFFFFFFF");
+end
+
+function Utils:SystemText(text)
+  return self:WrapColor(text, "FFFFFF33");
+end
+
+function Utils:CautionText(text)
+  return self:WrapColor(text, "FFFF9933");
+end
+
+function Utils:SuccessText(text)
+  return self:WrapColor(text, "FF33FF33");
+end
+
+function Utils:SpecialText(text)
+  return self:WrapColor(text, "FF33FFFF");
+end
+
+function Utils:AddonText(text)
+  return self:WrapColor(text, "FF33FF99");
 end

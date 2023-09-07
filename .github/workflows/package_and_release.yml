@@ -5,7 +5,7 @@ on:
     branches:
       - master
     tags:
-      - '*'
+      - '**'
 
 jobs:
   release:
@@ -14,17 +14,16 @@ jobs:
     steps:
       - name: Clone project
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
 
-      - name: Install and run Luacheck
+      - name: Install and run luacheck
         uses: nebularg/actions-luacheck@v1
         with:
-          args: '--no-color -q'
+          args: --no-color
           annotate: warning
 
-      - name: Generate Changelog
-        run: .github/generate_changelog.sh
+      - name: Generate changelog
+        run: ./.github/scripts/generate_changelog.sh
+        shell: bash
         if: github.ref_type == 'tag'
 
       - name: Package and release
@@ -35,7 +34,7 @@ jobs:
           WOWI_API_TOKEN: ${{ secrets.WOWI_API_TOKEN }}
           WAGO_API_TOKEN: ${{ secrets.WAGO_API_TOKEN }}
 
-      - name: Send Status to Discord
+      - name: Send status to Discord
         uses: nebularg/actions-discord-webhook@v1
         with:
           webhook_url: ${{ secrets.WEBHOOK_URL }}
