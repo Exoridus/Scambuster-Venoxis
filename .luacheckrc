@@ -1,7 +1,7 @@
 std = "lua51"
 quiet = 1
-color = true
 codes = true
+color = true
 include_files = {
 	"**/*.lua",
 	".luacheckrc",
