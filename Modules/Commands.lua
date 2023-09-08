@@ -19,16 +19,20 @@ function Commands:OnDisable()
 end
 
 function Commands:ChatCommand(input)
-  local arg1, arg2, arg3 = self:GetArgs(input, 3);
+  local arg1, arg2 = self:GetArgs(input, 2);
 
   if arg1 == "config" then
     Config:OpenOptionsFrame();
   elseif arg1 == "print" then
-    self:PrintPlayer(arg2);
+    self:ReportPlayer(arg2, "chat");
   elseif arg1 == "report" then
-    self:ReportPlayer(arg2, arg3);
+    self:ReportPlayer(arg2, "dialog");
   elseif arg1 == "dump" then
-    self:DumpEntries(Blocklist.Entries);
+    if arg2 and arg2 ~= "" then
+      self:DumpEntry(arg2);
+    else
+      self:DumpEntries(Blocklist.Entries);
+    end
   elseif arg1 == "check" then
     self:CheckEntries(Blocklist.Entries);
   else
@@ -42,6 +46,7 @@ function Commands:PrintPlayerNotFoundInfo(name)
   Utils:Print(L["PLAYER_NOT_FOUND_REASON_2"]);
   Utils:Print(L["PLAYER_NOT_FOUND_REASON_3"]);
   Utils:Print(L["PLAYER_NOT_FOUND_REASON_4"]);
+  Utils:Print(L["PLAYER_NOT_FOUND_REASON_5"]);
 end
 
 function Commands:PrintCommands()
@@ -54,91 +59,49 @@ function Commands:PrintCommands()
   Utils:PrintCommand("/venoxis config", L["CONFIG_COMMAND"]);
 end
 
-function Commands:PrintPlayer(name)
-  if (name == nil or name == "" or name == "target") and UnitIsPlayer("target") then
-    name = UnitName("target");
-  end
-
-  if not name then
-    Utils:PrintAddonMessage(L["ENTER_PLAYER_NAME"])
-    return;
-  end
-
-  Utils:FetchPlayerInfo(name, function(info)
-    if info then
-      for _, prop in ipairs(Utils:GetPlayerInfoProps(info)) do
-        Utils:PrintKeyValue(prop.key, prop.value);
-      end
-    else
-      self:PrintPlayerNotFoundInfo(name);
-    end
-  end);
-end
-
-function Commands:ReportPlayer(name, reportType)
-  if (name == nil or name == "" or name == "target") and UnitIsPlayer("target") then
-    name = UnitName("target");
-  end
-
-  if not name then
-    Utils:PrintAddonMessage(L["ENTER_PLAYER_NAME"])
-    return;
-  end
-
-  Utils:FetchPlayerInfo(name, function(info)
-    if info then
-      if reportType == "entry" then
-        Utils:CreateCopyDialog(Utils:GetPlayerInfoEntry(info, #Blocklist.Entries + 1));
-      else
-        local lines = {};
-
-        for _, prop in ipairs(Utils:GetPlayerInfoProps(info)) do
-          tinsert(lines, format("%s %s", Utils:SystemText(format("%s:", prop.key)), prop.value));
-        end
-
-        Utils:CreateCopyDialog(table.concat(lines, "\n"));
-      end
-    else
-      self:PrintPlayerNotFoundInfo(name);
-    end
-  end);
-end
-
-function Commands:GetRaces(entries, callback)
-  local missing = {};
-
-  for _, entry in ipairs(entries) do
-    if entry.players then
-      for _, player in ipairs(entry.players) do
-        if player.guid and not player.race then
-          tInsertUnique(missing, player.guid);
-        end
-      end
-    elseif entry.guid and not entry.race then
-      tInsertUnique(missing, entry.guid);
-    end
-  end
-
-  local length = #missing;
-  local index = 1;
-  local races = {};
-
-  C_Timer.NewTicker(2, function()
-    local guid = missing[index];
-    local playerIndex = index;
-
-    Utils:FetchGUIDInfo(guid, function(info)
-      if info then
-        races[guid] = info.race;
+function Commands:ReportPlayer(name, output)
+  if name and name ~= "" then
+    Utils:FetchGUIDInfoByName(name, function(info)
+      if not info then
+        self:PrintPlayerNotFoundInfo(name);
+        return;
       end
 
-      if playerIndex == length then
-        callback(races);
+      if output == "chat" then
+        Utils:PrintMultiline(Utils:FormatPlayerInfo(info));
+      elseif output == "dialog" then
+        Utils:CreateCopyDialog(Utils:FormatPlayerInfo(info));
       end
     end);
+  elseif UnitIsPlayer("target") then
+    local playerGUID = UnitGUID("target");
+    local playerName = UnitName("target");
 
-    index = index + 1;
-  end, length);
+    Utils:FetchGUIDInfo(playerGUID, function(info)
+      if not info then
+        self:PrintPlayerNotFoundInfo(playerName);
+        return;
+      end
+
+      if output == "chat" then
+        Utils:PrintMultiline(Utils:FormatPlayerInfo(info));
+      elseif output == "dialog" then
+        Utils:CreateCopyDialog(Utils:FormatPlayerInfo(info));
+      end
+    end);
+  else
+    Utils:PrintAddonMessage(L["ENTER_PLAYER_NAME"]);
+  end
+end
+
+function Commands:DumpEntry(name)
+  Utils:FetchGUIDInfoByName(name, function(info)
+    if info then
+      Utils:CreateCopyDialog(Utils:FormatPlayerEntry(info, #Blocklist.Entries + 1), 480, 320);
+    else
+      self:PrintPlayerNotFoundInfo(name);
+    end
+  end);
 end
 
 function Commands:DumpEntries(entries)

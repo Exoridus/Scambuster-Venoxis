@@ -13,7 +13,13 @@ L["REPORT_COMMAND_1"] = "opens character data of your target inside a copy windo
 L["REPORT_COMMAND_2"] = "opens character data of player <name> inside a copy window.";
 L["CHECK_COMMAND"] = "searches blocklist entrys for changed names/classes/races.";
 L["CONFIG_COMMAND"] = "open up the addons config window";
-L["ENTER_PLAYER_NAME"] = "Please enter a player name you want to report.";
+L["ENTER_PLAYER_NAME"] = "Provide a name or target the player you want to report.";
+
+L["NAME_PROP"] = "Name: ";
+L["GUID_PROP"] = "GUID: ";
+L["RACE_PROP"] = "Race: ";
+L["CLASS_PROP"] = "Class: ";
+L["FACTION_PROP"] = "Faction: ";
 
 L["NO_BLOCKLIST_ENTRIES"] = "No blocklist entries found for %s";
 L["FOUND_BLOCKLIST_ENTRIES"] = "Found %d blocklist entries for %s:";
@@ -36,8 +42,9 @@ L["GUID_FROM_ANOTHER_REALM"] = "player is from another realm (%s).";
 L["PLAYER_NOT_FOUND_TITLE"] = "Could not fetch player info for \"%s\". Possible reasons are:";
 L["PLAYER_NOT_FOUND_REASON_1"] = "1. The given name was misspelled or contains typos.";
 L["PLAYER_NOT_FOUND_REASON_2"] = "2. The character is on the opposite faction as you.";
-L["PLAYER_NOT_FOUND_REASON_3"] = "3. The character was renamed, transferred or deleted.";
-L["PLAYER_NOT_FOUND_REASON_4"] = "4. Your friends list is full but at least one free slot is required.";
+L["PLAYER_NOT_FOUND_REASON_3"] = "3. The character ignores your character and/or account.";
+L["PLAYER_NOT_FOUND_REASON_4"] = "4. The character was renamed, transferred or deleted.";
+L["PLAYER_NOT_FOUND_REASON_5"] = "5. Your friends list is full and can't fit any more players.";
 
 L["TURN_ON_GUID_MATCHING"] = "Turn on GUID Matching in Scambuster?";
 L["GUID_MATCHING_DESCRIPTION"] = "With activated GUID matching scammers still get found even after changing names.";

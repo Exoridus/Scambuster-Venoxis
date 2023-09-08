@@ -92,6 +92,12 @@ function Utils:Print(message, ...)
   end
 end
 
+function Utils:PrintMultiline(message)
+  for line in string.gmatch(message, "[^\n]+") do
+    Utils:Print(line);
+  end
+end
+
 function Utils:PrintAddonMessage(message, ...)
   local chatPrefix = self:AddonText(AddonName);
   local chatMessage = tostring(message);
@@ -135,8 +141,9 @@ function Utils:CreateCopyDialog(text, width, height)
   frame:SetTitle(AddonName);
   frame:SetStatusText(L["COPY_SHORTCUT_INFO"]);
   frame:SetLayout("Flow");
-  frame:SetWidth(width or 320);
-  frame:SetHeight(height or 250);
+  frame:SetWidth(width or 400);
+  frame:SetHeight(height or 200);
+  frame:EnableResize(false);
 
   local editbox = AceGUI:Create("MultiLineEditBox");
 
@@ -149,20 +156,6 @@ function Utils:CreateCopyDialog(text, width, height)
   editbox:SetFocus();
 
   frame:AddChild(editbox);
-end
-
-function Utils:FetchPlayerInfo(name, callback)
-  self:AddChatFilter();
-
-  self:FetchFriendInfo(name, function(info)
-    self:RemoveChatFilter();
-
-    if info then
-      self:FetchGUIDInfo(info.guid, callback);
-    else
-      callback(nil);
-    end
-  end);
 end
 
 function Utils:GetGUIDInfo(guid)
@@ -245,19 +238,33 @@ function Utils:FetchFriendInfo(name, callback)
   end, maxTicks);
 end
 
-function Utils:GetPlayerInfoProps(info)
-  local props = {};
+function Utils:FetchGUIDInfoByName(name, callback)
+  self:AddChatFilter();
 
-  tinsert(props, { key = NAME, value = info.name });
-  tinsert(props, { key = "GUID", value = info.guid });
-  tinsert(props, { key = RACE, value = info.raceName });
-  tinsert(props, { key = CLASS, value = self:ClassColor(info.className, info.class) });
-  tinsert(props, { key = FACTION, value = self:FactionColor(info.factionName, info.faction) });
+  self:FetchFriendInfo(name, function(info)
+    self:RemoveChatFilter();
 
-  return props;
+    if info then
+      self:FetchGUIDInfo(info.guid, callback);
+    else
+      callback(nil);
+    end
+  end);
 end
 
-function Utils:GetPlayerInfoEntry(info, index)
+function Utils:FormatPlayerInfo(info)
+  local props = {
+    [1] = strconcat(self:SystemText(L["NAME_PROP"]), self:PlainText(info.name)),
+    [2] = strconcat(self:SystemText(L["GUID_PROP"]), self:PlainText(info.guid)),
+    [3] = strconcat(self:SystemText(L["RACE_PROP"]), self:PlainText(info.raceName)),
+    [4] = strconcat(self:SystemText(L["CLASS_PROP"]), self:ClassColor(info.className, info.class)),
+    [5] = strconcat(self:SystemText(L["FACTION_PROP"]), self:FactionColor(info.factionName, info.faction)),
+  };
+
+  return table.concat(props, "\n");
+end
+
+function Utils:FormatPlayerEntry(info, index)
   if not info or not index then
     return "";
   end

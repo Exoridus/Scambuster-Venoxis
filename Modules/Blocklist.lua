@@ -895,17 +895,6 @@ Blocklist.Entries = {
     category = "raid",
     level = 3,
   },
-  [72] = {
-    name = "Temerata",
-    guid = "Player-4477-0330317E",
-    race = "BloodElf",
-    class = "PALADIN",
-    faction = "Horde",
-    description = "Unterschlägt im PDOK 10er GDKP 4.000 Gold. Pot war 14.600. Ausgezahlt wurde jedoch nur 10.600. Nachdem er zur Rede gestellt wurde, zieht er Ruhestein und geht offline",
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1149059890787127347",
-    category = "gdkp",
-    level = 3,
-  },
   [73] = {
     name = "Tialen",
     guid = "Player-4477-04829ADC",
