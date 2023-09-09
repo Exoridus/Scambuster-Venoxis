@@ -8,14 +8,10 @@ local L = AceLocale:GetLocale(AddonName);
 
 function Commands:OnEnable()
   self:RegisterChatCommand("venoxis", "ChatCommand");
-  self:RegisterChatCommand("sbv", "ChatCommand");
-  self:RegisterChatCommand("sv", "ChatCommand");
 end
 
 function Commands:OnDisable()
   self:UnregisterChatCommand("venoxis");
-  self:UnregisterChatCommand("sbv");
-  self:UnregisterChatCommand("sv");
 end
 
 function Commands:ChatCommand(input)
@@ -56,7 +52,7 @@ function Commands:PrintCommands()
   Utils:PrintCommand("/venoxis report", L["REPORT_COMMAND_1"]);
   Utils:PrintCommand("/venoxis report <name>", L["REPORT_COMMAND_2"]);
   Utils:PrintCommand("/venoxis check", L["CHECK_COMMAND"]);
-  Utils:PrintCommand("/venoxis config", L["CONFIG_COMMAND"]);
+  Utils:PrintCommand("/venoxis about", L["ABOUT_COMMAND"]);
 end
 
 function Commands:ReportPlayer(name, output)
@@ -108,8 +104,23 @@ function Commands:DumpEntries(entries)
   local output = {};
   local index = 1;
 
+  for _, entry in pairs(entries) do
+    if entry.players and #entry.players > 0 then
+      sort(entry.players, function(a, b)
+        return a.name < b.name;
+      end)
+    end
+  end
+
   sort(entries, function(a, b)
-    return (a.name or a.players[1].name) < (b.name or b.players[1].name);
+    local nameA = a.name or (a.players and a.players[1].name);
+    local nameB = b.name or (b.players and b.players[1].name);
+
+    if nameA and nameB then
+      return strlower(nameA) < strlower(nameB);
+    end
+
+    return not nameA;
   end);
 
   tinsert(output, "Blocklist.Entries = {");
@@ -120,6 +131,8 @@ function Commands:DumpEntries(entries)
   end
 
   tinsert(output, "};");
+
+  Utils:CreateCopyDialog(table.concat(output, "\n"), 800, 600);
 end
 
 function Commands:CheckEntries(entries)

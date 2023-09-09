@@ -6,13 +6,13 @@ L["BLOCKLIST_NAME"] = "Venoxis Discord Blocklist";
 L["BLOCKLIST_PROVIDER"] = "Venoxis Discord";
 L["BLOCKLIST_DESCRIPTION"] = "Scambuster Datenbank mit Chars von Betrügern und unangemessenen Spielern auf Venoxis.";
 
-L["AVAILABLE_COMMANDS"] = "Verfügbare Slash Commands (/sv and /sbv sind auch möglich):";
+L["AVAILABLE_COMMANDS"] = "Verfügbare Slash Commands:";
 L["PRINT_COMMAND_1"] = "schreibt die Characterdaten deines Targets ins aktive Chatfenster.";
 L["PRINT_COMMAND_2"] = "schreibt Characterdaten vom Spieler <name> ins aktive Chatframe.";
 L["REPORT_COMMAND_1"] = "öffnet ein Kopierfenster mit Characterdaten deines Targets.";
 L["REPORT_COMMAND_2"] = "öffnet ein Kopierfenster mit Characterdaten vom Spieler <name>.";
 L["CHECK_COMMAND"] = "durchsucht Blockliste nach geänderten Namen/Klassen/Rassen.";
-L["CONFIG_COMMAND"] = "öffnet das Konfigurationsfenster.";
+L["ABOUT_COMMAND"] = "öffnet ein Fenster mit Informationen über Scambuster-Venoxis.";
 L["ENTER_PLAYER_NAME"] = "Gib einen Namen an oder nimm nimm den Spieler ins Target.";
 
 L["NAME_PROP"] = "Name: ";

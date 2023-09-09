@@ -6,13 +6,13 @@ L["BLOCKLIST_NAME"] = "Venoxis Discord Blocklist";
 L["BLOCKLIST_PROVIDER"] = "Venoxis Discord";
 L["BLOCKLIST_DESCRIPTION"] = "Scambuster database with chars of scammers and inappropriate players on Venoxis.";
 
-L["AVAILABLE_COMMANDS"] = "Available Slash Commands (/sv and /sbv are also possible):";
+L["AVAILABLE_COMMANDS"] = "Available slash commands:";
 L["PRINT_COMMAND_1"] = "prints character data of your target into your chat frame.";
 L["PRINT_COMMAND_2"] = "prints character data of player <name> into your chat frame.";
 L["REPORT_COMMAND_1"] = "opens character data of your target inside a copy window.";
 L["REPORT_COMMAND_2"] = "opens character data of player <name> inside a copy window.";
 L["CHECK_COMMAND"] = "searches blocklist entrys for changed names/classes/races.";
-L["CONFIG_COMMAND"] = "open up the addons config window";
+L["ABOUT_COMMAND"] = "opens a window showing information about Scambuster-Venoxis.";
 L["ENTER_PLAYER_NAME"] = "Provide a name or target the player you want to report.";
 
 L["NAME_PROP"] = "Name: ";
