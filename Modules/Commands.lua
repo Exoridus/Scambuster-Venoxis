@@ -145,7 +145,6 @@ function Commands:CheckEntries(entries)
         if not players[player.guid] then
           players[player.guid] = {
             names = {},
-            race = player.race,
             class = player.class,
             faction = player.faction,
           };
@@ -165,7 +164,6 @@ function Commands:CheckEntries(entries)
       if not players[entry.guid] then
         players[entry.guid] = {
           names = {},
-          race = entry.race,
           class = entry.class,
           faction = entry.faction,
         };
@@ -199,11 +197,10 @@ function Commands:CheckEntries(entries)
     Utils:FetchGUIDInfo(guid, function(info)
       if info and player then
         local nameChanged = not tContains(player.names, info.name);
-        local raceChanged = player.race ~= info.race;
         local classChanged = player.class ~= info.class;
         local factionChanged = player.faction ~= info.faction;
 
-        if nameChanged or raceChanged or classChanged or factionChanged then
+        if nameChanged or classChanged or factionChanged then
           Utils:Print(Utils:SuccessText(format(L["CHANGE_FOUND"], info.guid)));
           tinsert(results, format("[%s]", info.guid));
 
@@ -212,12 +209,6 @@ function Commands:CheckEntries(entries)
 
             tinsert(results, format("%s: %s", L["NAME_CHANGE"], changed));
             Utils:PrintKeyValue(L["NAME_CHANGE"], changed);
-          end
-          if raceChanged then
-            local changed = format(L["CHANGED_VALUE"], info.race, player.race);
-
-            tinsert(results, format("%s: %s", L["RACE_CHANGE"], changed));
-            Utils:PrintKeyValue(L["RACE_CHANGE"], changed);
           end
           if classChanged then
             local changed = format(L["CHANGED_VALUE"], info.class, player.class);

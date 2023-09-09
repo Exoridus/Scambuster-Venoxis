@@ -23,7 +23,6 @@ local LIST_ENTRY = [[
   [%d] = {
     name = "%s",
     guid = "%s",
-    race = "%s",
     class = "%s",
     faction = "%s",
     description = "%s",
@@ -49,7 +48,6 @@ local PLAYER_ENTRY = [[
       [%d] = {
         name = "%s",
         guid = "%s",
-        race = "%s",
         class = "%s",
         faction = "%s",%s
       },]];
@@ -269,7 +267,7 @@ function Utils:FormatPlayerEntry(info, index)
     return "";
   end
 
-  return LIST_ENTRY:format(index, info.name, info.guid, info.race, info.class, info.faction, "", "", "", 3, "");
+  return LIST_ENTRY:format(index, info.name, info.guid, info.class, info.faction, "", "", "", 3, "");
 end
 
 function Utils:FormatAliases(entry, template)
@@ -289,7 +287,6 @@ function Utils:FormatListItemEntry(index, entry)
         i,
         player.name,
         player.guid,
-        player.race,
         player.class,
         player.faction,
         self:FormatAliases(player, PLAYER_ENTRY_ALIAS)
@@ -310,7 +307,6 @@ function Utils:FormatListItemEntry(index, entry)
     index,
     entry.name,
     entry.guid,
-    entry.race,
     entry.class,
     entry.faction,
     entry.description,
