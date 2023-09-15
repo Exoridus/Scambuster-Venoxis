@@ -8,10 +8,12 @@ local L = AceLocale:GetLocale(AddonName);
 
 function Commands:OnEnable()
   self:RegisterChatCommand("venoxis", "ChatCommand");
+  self:RegisterChatCommand("v", "ChatCommand");
 end
 
 function Commands:OnDisable()
   self:UnregisterChatCommand("venoxis");
+  self:UnregisterChatCommand("v");
 end
 
 function Commands:ChatCommand(input)

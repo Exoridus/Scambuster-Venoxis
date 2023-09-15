@@ -6,7 +6,7 @@ L["BLOCKLIST_NAME"] = "Venoxis Discord Blocklist";
 L["BLOCKLIST_PROVIDER"] = "Venoxis Discord";
 L["BLOCKLIST_DESCRIPTION"] = "Scambuster database with chars of scammers and inappropriate players on Venoxis.";
 
-L["AVAILABLE_COMMANDS"] = "Available slash commands:";
+L["AVAILABLE_COMMANDS"] = "Available slash commands: (/v also works)";
 L["PRINT_COMMAND_1"] = "prints character data of your target into your chat frame.";
 L["PRINT_COMMAND_2"] = "prints character data of entered players into your chat frame.";
 L["REPORT_COMMAND_1"] = "opens character data of your target inside a copy window.";
