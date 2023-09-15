@@ -27,16 +27,6 @@ Blocklist.Entries = {
     level = 3,
   },
   [3] = {
-    name = "Allfredo",
-    guid = "Player-4477-0515E3AC",
-    class = "PALADIN",
-    faction = "Horde",
-    description = "Öffnet PDK25 GDKP und verschwindet dann mit 106k Gold offline nachdem er fuck you in den Chat schreibt",
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1149064882738704444",
-    category = "gdkp",
-    level = 3,
-  },
-  [4] = {
     name = "Alonewoolf",
     guid = "Player-4477-045EA655",
     class = "DRUID",
@@ -46,7 +36,7 @@ Blocklist.Entries = {
     category = "dungeon",
     level = 3,
   },
-  [5] = {
+  [4] = {
     name = "Amaluca",
     guid = "Player-4477-03AEE3AE",
     class = "PRIEST",
@@ -56,7 +46,7 @@ Blocklist.Entries = {
     category = "raid",
     level = 3,
   },
-  [6] = {
+  [5] = {
     name = "Arbeitslos",
     guid = "Player-4477-01B8DFEE",
     class = "ROGUE",
@@ -66,7 +56,7 @@ Blocklist.Entries = {
     category = "trade",
     level = 3,
   },
-  [7] = {
+  [6] = {
     name = "Arcturuz",
     guid = "Player-4477-03B6C66D",
     class = "SHAMAN",
@@ -76,7 +66,7 @@ Blocklist.Entries = {
     category = "trade",
     level = 3,
   },
-  [8] = {
+  [7] = {
     description = "Plündert gern mal die Gildenbank",
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1094685096780513331",
     category = "trade",
@@ -95,6 +85,16 @@ Blocklist.Entries = {
         faction = "Horde",
       },
     },
+  },
+  [8] = {
+    name = "Baerentatzee",
+    guid = "Player-4477-05111D95",
+    class = "PALADIN",
+    faction = "Horde",
+    description = "Öffnet einen MS-OS Raid und vergibt dann eine Waffe die eigentlich BIS für jemanden ist, an jemand anderen für OS. Nach Konfrontation zeigt er keine Reue und beteuert nicht alles wissen zu können.",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1148757997665923073",
+    category = "raid",
+    level = 3,
   },
   [9] = {
     description = "Scamt Prio1 Item und vergibt es an ein Gildenmitglied",
@@ -371,16 +371,6 @@ Blocklist.Entries = {
     level = 3,
   },
   [30] = {
-    name = "Gladix",
-    guid = "Player-4477-04E405A6",
-    class = "ROGUE",
-    faction = "Horde",
-    description = "Plündert am 28.06.2023 eine Gildenbank",
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1124450377534800052",
-    category = "trade",
-    level = 3,
-  },
-  [31] = {
     description = "Zorodan (RL) hat PM vergessen, called passen und verschwindet zusammen mit Rhoran nachdem beide items per need gewonnen haben.",
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1097453560188375122",
     category = "raid",
@@ -401,6 +391,17 @@ Blocklist.Entries = {
       },
     },
   },
+  [31] = {
+    name = "Gladix",
+    guid = "Player-4477-04E405A6",
+    class = "ROGUE",
+    faction = "Horde",
+    description = "Plündert am 28.06.2023 eine Gildenbank",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1124450377534800052",
+    category = "trade",
+    level = 3,
+    aliases = { "Rhoran" },
+  },
   [32] = {
     name = "Gladix",
     guid = "Player-4477-04E405A6",
@@ -410,6 +411,7 @@ Blocklist.Entries = {
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1093498181402251294",
     category = "raid",
     level = 3,
+    aliases = { "Rhoran" },
   },
   [33] = {
     name = "Greves",
@@ -483,6 +485,16 @@ Blocklist.Entries = {
     level = 3,
   },
   [40] = {
+    name = "Hornylilcow",
+    guid = "Player-4477-04489AB5",
+    class = "DRUID",
+    faction = "Horde",
+    description = "	GDKP PKD10er - Steckt sich einige Items und den gesamten Pot ein - Edit: Zahlte aufgrund des BL-Eintrags dann 1x Cut an den Reklamanten aus - Rest fehlt noch",
+    url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit",
+    category = "gdkp",
+    level = 3,
+  },
+  [41] = {
     description = "Scammt Endboss-Tokens / Behält sich den Loot im 25er egal ob jemand Prio darauf hatte oder nicht",
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1102594033651564546",
     category = "raid",
@@ -502,7 +514,7 @@ Blocklist.Entries = {
       },
     },
   },
-  [41] = {
+  [42] = {
     name = "Javoor",
     guid = "Player-4477-035A99C2",
     class = "DRUID",
@@ -512,7 +524,7 @@ Blocklist.Entries = {
     category = "trade",
     level = 3,
   },
-  [42] = {
+  [43] = {
     name = "Jenpai",
     guid = "Player-4477-03B2BFD8",
     class = "PALADIN",
@@ -522,7 +534,7 @@ Blocklist.Entries = {
     category = "dungeon",
     level = 3,
   },
-  [43] = {
+  [44] = {
     name = "Jensha",
     guid = "Player-4477-03FF5FEF",
     class = "MAGE",
@@ -532,7 +544,7 @@ Blocklist.Entries = {
     category = "dungeon",
     level = 3,
   },
-  [44] = {
+  [45] = {
     name = "Jondeepfreez",
     guid = "Player-4477-0464DE81",
     class = "MAGE",
@@ -542,7 +554,7 @@ Blocklist.Entries = {
     category = "dungeon",
     level = 3,
   },
-  [45] = {
+  [46] = {
     name = "Kessler",
     guid = "Player-4477-04BABDB4",
     class = "DRUID",
@@ -552,7 +564,7 @@ Blocklist.Entries = {
     category = "raid",
     level = 3,
   },
-  [46] = {
+  [47] = {
     name = "Kisxí",
     guid = "Player-4477-03B293E1",
     class = "PALADIN",
@@ -562,7 +574,7 @@ Blocklist.Entries = {
     category = "raid",
     level = 3,
   },
-  [47] = {
+  [48] = {
     name = "Kreiszahl",
     guid = "Player-4477-03346F2C",
     class = "SHAMAN",
@@ -572,7 +584,7 @@ Blocklist.Entries = {
     category = "gdkp",
     level = 3,
   },
-  [48] = {
+  [49] = {
     name = "Kugit",
     guid = "Player-4477-044F88CE",
     class = "HUNTER",
@@ -582,7 +594,7 @@ Blocklist.Entries = {
     category = "raid",
     level = 3,
   },
-  [49] = {
+  [50] = {
     name = "Lachman",
     guid = "Player-4477-03EC6CF8",
     class = "WARRIOR",
@@ -592,7 +604,7 @@ Blocklist.Entries = {
     category = "raid",
     level = 3,
   },
-  [50] = {
+  [51] = {
     name = "Laredai",
     guid = "Player-4477-04BDD735",
     class = "PRIEST",
@@ -602,7 +614,7 @@ Blocklist.Entries = {
     category = "raid",
     level = 3,
   },
-  [51] = {
+  [52] = {
     name = "Lebkuchen",
     guid = "Player-4477-040379B4",
     class = "PALADIN",
@@ -612,7 +624,7 @@ Blocklist.Entries = {
     category = "raid",
     level = 3,
   },
-  [52] = {
+  [53] = {
     name = "Listers",
     guid = "Player-4477-03B198AD",
     class = "MAGE",
@@ -622,7 +634,7 @@ Blocklist.Entries = {
     category = "dungeon",
     level = 3,
   },
-  [53] = {
+  [54] = {
     name = "Lookìí",
     guid = "Player-4477-04BC3E60",
     class = "DRUID",
@@ -632,7 +644,7 @@ Blocklist.Entries = {
     category = "raid",
     level = 3,
   },
-  [54] = {
+  [55] = {
     name = "Lovetap",
     guid = "Player-4477-03BE372B",
     class = "SHAMAN",
@@ -642,7 +654,7 @@ Blocklist.Entries = {
     category = "harassment",
     level = 3,
   },
-  [55] = {
+  [56] = {
     name = "Lyzak",
     guid = "Player-4477-048F3883",
     class = "PALADIN",
@@ -652,7 +664,7 @@ Blocklist.Entries = {
     category = "raid",
     level = 3,
   },
-  [56] = {
+  [57] = {
     name = "Maximabi",
     guid = "Player-4477-04D08212",
     class = "MAGE",
@@ -662,7 +674,7 @@ Blocklist.Entries = {
     category = "gdkp",
     level = 3,
   },
-  [57] = {
+  [58] = {
     name = "Mczwuggi",
     guid = "Player-4477-044CA3A0",
     class = "WARRIOR",
@@ -672,7 +684,7 @@ Blocklist.Entries = {
     category = "gdkp",
     level = 3,
   },
-  [58] = {
+  [59] = {
     name = "Melthise",
     guid = "Player-4477-04434888",
     class = "MAGE",
@@ -682,7 +694,7 @@ Blocklist.Entries = {
     category = "dungeon",
     level = 3,
   },
-  [59] = {
+  [60] = {
     name = "Mylifebelike",
     guid = "Player-4477-049A0545",
     class = "ROGUE",
@@ -692,7 +704,7 @@ Blocklist.Entries = {
     category = "trade",
     level = 3,
   },
-  [60] = {
+  [61] = {
     name = "Nakrotss",
     guid = "Player-4477-0419454D",
     class = "MAGE",
@@ -702,7 +714,7 @@ Blocklist.Entries = {
     category = "dungeon",
     level = 3,
   },
-  [61] = {
+  [62] = {
     name = "Palaslust",
     guid = "Player-4477-04D8C118",
     class = "PALADIN",
@@ -712,7 +724,7 @@ Blocklist.Entries = {
     category = "raid",
     level = 3,
   },
-  [62] = {
+  [63] = {
     name = "Patapeng",
     guid = "Player-4477-022E45F0",
     class = "MAGE",
@@ -723,7 +735,7 @@ Blocklist.Entries = {
     level = 3,
     aliases = { "Bakery" },
   },
-  [63] = {
+  [64] = {
     name = "Pi",
     guid = "Player-4477-00CDA567",
     class = "PRIEST",
@@ -733,7 +745,7 @@ Blocklist.Entries = {
     category = "gdkp",
     level = 3,
   },
-  [64] = {
+  [65] = {
     name = "Sandmanncs",
     guid = "Player-4477-0320C13C",
     class = "MAGE",
@@ -743,7 +755,7 @@ Blocklist.Entries = {
     category = "gdkp",
     level = 3,
   },
-  [65] = {
+  [66] = {
     name = "Saucenbinder",
     guid = "Player-4477-045558EF",
     class = "WARLOCK",
@@ -751,16 +763,6 @@ Blocklist.Entries = {
     description = "Plündert gern mal die Gildenbank",
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1035874189783093248",
     category = "trade",
-    level = 3,
-  },
-  [66] = {
-    name = "Spansau",
-    guid = "Player-4477-044801AB",
-    class = "PALADIN",
-    faction = "Horde",
-    description = "Unterschlägt Items in Raids",
-    url = "https://discord.com/channels/613060619738021890/915181409155563521/1009144231627079750",
-    category = "raid",
     level = 3,
   },
   [67] = {
@@ -784,6 +786,16 @@ Blocklist.Entries = {
     level = 3,
   },
   [69] = {
+    name = "Spansau",
+    guid = "Player-4477-044801AB",
+    class = "PALADIN",
+    faction = "Horde",
+    description = "Unterschlägt Items in Raids",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1009144231627079750",
+    category = "raid",
+    level = 3,
+  },
+  [70] = {
     name = "Strongscam",
     guid = "Player-4477-04AC4DB2",
     class = "WARRIOR",
@@ -794,7 +806,7 @@ Blocklist.Entries = {
     level = 3,
     aliases = { "Strønghøld" },
   },
-  [70] = {
+  [71] = {
     name = "Stysthy",
     guid = "Player-4477-04EE3626",
     class = "DEATHKNIGHT",
@@ -804,7 +816,7 @@ Blocklist.Entries = {
     category = "raid",
     level = 3,
   },
-  [71] = {
+  [72] = {
     name = "Sunnytätär",
     guid = "Player-4477-039FE91B",
     class = "PRIEST",
@@ -814,7 +826,7 @@ Blocklist.Entries = {
     category = "raid",
     level = 3,
   },
-  [72] = {
+  [73] = {
     name = "Tialen",
     guid = "Player-4477-04829ADC",
     class = "PALADIN",
@@ -825,7 +837,7 @@ Blocklist.Entries = {
     level = 3,
     aliases = { "Thilon" },
   },
-  [73] = {
+  [74] = {
     name = "Totemholiker",
     guid = "Player-4477-04B3673D",
     class = "SHAMAN",
@@ -836,7 +848,7 @@ Blocklist.Entries = {
     level = 3,
     aliases = { "Myshoxbelike" },
   },
-  [74] = {
+  [75] = {
     name = "Toxiic",
     guid = "Player-4477-03891F47",
     class = "WARLOCK",
@@ -846,7 +858,7 @@ Blocklist.Entries = {
     category = "gdkp",
     level = 3,
   },
-  [75] = {
+  [76] = {
     name = "Trytofly",
     guid = "Player-4477-03BDE4D2",
     class = "PALADIN",
@@ -856,7 +868,7 @@ Blocklist.Entries = {
     category = "trade",
     level = 3,
   },
-  [76] = {
+  [77] = {
     name = "Ukrgul",
     guid = "Player-4477-02D6082C",
     class = "MAGE",
@@ -866,7 +878,7 @@ Blocklist.Entries = {
     category = "dungeon",
     level = 3,
   },
-  [77] = {
+  [78] = {
     name = "Ultraboost",
     guid = "Player-4477-04445671",
     class = "SHAMAN",
@@ -876,7 +888,7 @@ Blocklist.Entries = {
     category = "gdkp",
     level = 3,
   },
-  [78] = {
+  [79] = {
     name = "Unikuhm",
     guid = "Player-4477-04BB8BEB",
     class = "DRUID",
@@ -886,7 +898,7 @@ Blocklist.Entries = {
     category = "raid",
     level = 3,
   },
-  [79] = {
+  [80] = {
     name = "Valentinmlk",
     guid = "Player-4477-02D60832",
     class = "MAGE",
@@ -896,7 +908,7 @@ Blocklist.Entries = {
     category = "dungeon",
     level = 3,
   },
-  [80] = {
+  [81] = {
     name = "Vejrekaiah",
     guid = "Player-4477-0310DAC1",
     class = "MAGE",
@@ -906,7 +918,7 @@ Blocklist.Entries = {
     category = "gdkp",
     level = 3,
   },
-  [81] = {
+  [82] = {
     name = "Vibechekk",
     guid = "Player-4477-03C0FD2D",
     class = "SHAMAN",
@@ -916,7 +928,7 @@ Blocklist.Entries = {
     category = "raid",
     level = 3,
   },
-  [82] = {
+  [83] = {
     name = "Vitalyv",
     guid = "Player-4477-043BDE5B",
     class = "PALADIN",
@@ -926,7 +938,7 @@ Blocklist.Entries = {
     category = "trade",
     level = 3,
   },
-  [83] = {
+  [84] = {
     name = "Wandan",
     guid = "Player-4477-041935AD",
     class = "MAGE",
@@ -936,7 +948,7 @@ Blocklist.Entries = {
     category = "dungeon",
     level = 3,
   },
-  [84] = {
+  [85] = {
     name = "Weedneyhustn",
     guid = "Player-4477-040DE346",
     class = "WARRIOR",
@@ -947,7 +959,7 @@ Blocklist.Entries = {
     level = 3,
     aliases = { "Rôôz" },
   },
-  [85] = {
+  [86] = {
     name = "Wortalmombat",
     guid = "Player-4477-04554B62",
     class = "WARRIOR",
@@ -957,7 +969,7 @@ Blocklist.Entries = {
     category = "harassment",
     level = 3,
   },
-  [86] = {
+  [87] = {
     name = "Wounds",
     guid = "Player-4477-03B82274",
     class = "WARRIOR",
@@ -967,7 +979,7 @@ Blocklist.Entries = {
     category = "gdkp",
     level = 3,
   },
-  [87] = {
+  [88] = {
     name = "Xintû",
     guid = "Player-4477-03AFB576",
     class = "WARRIOR",
@@ -978,7 +990,7 @@ Blocklist.Entries = {
     level = 3,
     aliases = { "Sintussa" },
   },
-  [88] = {
+  [89] = {
     name = "Yaxrail",
     guid = "Player-4477-04D02AC4",
     class = "WARRIOR",
@@ -988,7 +1000,7 @@ Blocklist.Entries = {
     category = "raid",
     level = 3,
   },
-  [89] = {
+  [90] = {
     name = "Zayr",
     guid = "Player-4477-0476BF51",
     class = "PALADIN",
@@ -998,7 +1010,7 @@ Blocklist.Entries = {
     category = "raid",
     level = 3,
   },
-  [90] = {
+  [91] = {
     name = "Zenjen",
     guid = "Player-4477-04DC35A4",
     class = "SHAMAN",
@@ -1009,7 +1021,29 @@ Blocklist.Entries = {
     level = 3,
     aliases = { "Vhelron" },
   },
-  [91] = {
+  [92] = {
+    name = "Zixana",
+    guid = "Player-4477-0515E3AC",
+    class = "PALADIN",
+    faction = "Horde",
+    description = "GDKP Pot von 91.800g kam zusammen und die Aussage er kickt jetzt leacher. Nachdem er einige gekickt hatte hat er selbst die gruppe verlassen ohne den Cut zu verteilen.",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1151611466563211376",
+    category = "gdkp",
+    level = 3,
+    aliases = { "Allfredo" },
+  },
+  [93] = {
+    name = "Zixana",
+    guid = "Player-4477-0515E3AC",
+    class = "PALADIN",
+    faction = "Horde",
+    description = "Öffnet PDK25 GDKP und verschwindet dann mit 106k Gold offline nachdem er fuck you in den Chat schreibt",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1149064882738704444",
+    category = "gdkp",
+    level = 3,
+    aliases = { "Allfredo" },
+  },
+  [94] = {
     name = "Zizmo",
     guid = "Player-4477-04A0BDED",
     class = "DEATHKNIGHT",
@@ -1019,7 +1053,7 @@ Blocklist.Entries = {
     category = "trade",
     level = 3,
   },
-  [92] = {
+  [95] = {
     name = "Zugzugondeez",
     guid = "Player-4477-04D7B02C",
     class = "WARRIOR",
@@ -1029,7 +1063,7 @@ Blocklist.Entries = {
     category = "dungeon",
     level = 3,
   },
-  [93] = {
+  [96] = {
     name = "Zullser",
     guid = "Player-4477-03B58DCD",
     class = "MAGE",
@@ -1039,7 +1073,7 @@ Blocklist.Entries = {
     category = "dungeon",
     level = 3,
   },
-  [94] = {
+  [97] = {
     name = "Zumbleistift",
     guid = "Player-4477-03B14913",
     class = "DRUID",

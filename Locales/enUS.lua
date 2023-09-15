@@ -8,10 +8,10 @@ L["BLOCKLIST_DESCRIPTION"] = "Scambuster database with chars of scammers and ina
 
 L["AVAILABLE_COMMANDS"] = "Available slash commands:";
 L["PRINT_COMMAND_1"] = "prints character data of your target into your chat frame.";
-L["PRINT_COMMAND_2"] = "prints character data of player <name> into your chat frame.";
+L["PRINT_COMMAND_2"] = "prints character data of entered players into your chat frame.";
 L["REPORT_COMMAND_1"] = "opens character data of your target inside a copy window.";
-L["REPORT_COMMAND_2"] = "opens character data of player <name> inside a copy window.";
-L["CHECK_COMMAND"] = "searches blocklist entrys for changed names/classes/races.";
+L["REPORT_COMMAND_2"] = "opens character data of entered players inside a copy window.";
+L["CHECK_COMMAND"] = "searches blocklist entrys for changed names/classes/factions.";
 L["ABOUT_COMMAND"] = "opens a window showing information about Scambuster-Venoxis.";
 L["ENTER_PLAYER_NAME"] = "Provide a name or target the player you want to report.";
 
@@ -27,12 +27,12 @@ L["CHECK_STARTED"] = "Search for changes in %d GUIDs. (duration ~%ds)";
 L["CHECK_PROGRESS"] = "Checking %s (%d/%d)";
 L["CHANGE_FOUND"] = "%s was changed!";
 L["NAME_CHANGE"] = "Name change";
-L["RACE_CHANGE"] = "Race change";
 L["CLASS_CHANGE"] = "Class change";
 L["FACTION_CHANGE"] = "Faction change";
 L["CHANGED_VALUE"] = "%s (Previous: %s)";
 L["UNKNOWN_GUID"] = "GUID %s is not available anymore.";
 L["CHECK_FINISHED"] = "Finished search for changes in %d GUIDs.";
+L["FOUND_NAME_COLLISION"] = "Different names were found for GUID %s: %s, %s.";
 
 L["CAUTION"] = "CAUTION!";
 L["FRIENDS_LIST_NOTE"] = format("From %s", AddonName);

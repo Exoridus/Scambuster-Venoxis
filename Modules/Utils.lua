@@ -79,6 +79,10 @@ local CHAT_FILTER = function(self, _, msg, ...)
   return false, msg, ...;
 end
 
+local EMPTY_STRING_FILTER = function(value)
+  return type(value) == "string" and strlen(value) > 0;
+end
+
 function Utils:Print(message, ...)
   local chatFrame = SELECTED_CHAT_FRAME or DEFAULT_CHAT_FRAME;
   local chatMessage = tostring(message);
@@ -148,6 +152,7 @@ function Utils:CreateCopyDialog(text, width, height)
   editbox:SetFullWidth(true);
   editbox:SetFullHeight(true);
   editbox:DisableButton(true);
+  editbox:SetLabel(nil);
   editbox:SetText(text);
 
   editbox:HighlightText();
@@ -335,6 +340,12 @@ end
 
 function Utils:GetMetadata(prop)
   return GetAddOnMetadata(AddonName, format("%s-%s", prop, locale)) or GetAddOnMetadata(AddonName, prop);
+end
+
+function Utils:GetCommandArgs(input, index)
+  local argList = strsplittable(" ", strtrim(strsub(input or "", index)));
+
+  return tFilter(argList, EMPTY_STRING_FILTER, true);
 end
 
 function Utils:WrapColor(text, color)

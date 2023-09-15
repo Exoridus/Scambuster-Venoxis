@@ -8,10 +8,10 @@ L["BLOCKLIST_DESCRIPTION"] = "Scambuster Datenbank mit Chars von Betrügern und 
 
 L["AVAILABLE_COMMANDS"] = "Verfügbare Slash Commands:";
 L["PRINT_COMMAND_1"] = "schreibt die Characterdaten deines Targets ins aktive Chatfenster.";
-L["PRINT_COMMAND_2"] = "schreibt Characterdaten vom Spieler <name> ins aktive Chatframe.";
+L["PRINT_COMMAND_2"] = "schreibt Characterdaten der genannten Spieler ins aktive Chatframe.";
 L["REPORT_COMMAND_1"] = "öffnet ein Kopierfenster mit Characterdaten deines Targets.";
-L["REPORT_COMMAND_2"] = "öffnet ein Kopierfenster mit Characterdaten vom Spieler <name>.";
-L["CHECK_COMMAND"] = "durchsucht Blockliste nach geänderten Namen/Klassen/Rassen.";
+L["REPORT_COMMAND_2"] = "öffnet ein Kopierfenster mit Characterdaten der genannten Spieler.";
+L["CHECK_COMMAND"] = "durchsucht Blockliste nach geänderten Namen/Klassen/Fraktionen.";
 L["ABOUT_COMMAND"] = "öffnet ein Fenster mit Informationen über Scambuster-Venoxis.";
 L["ENTER_PLAYER_NAME"] = "Gib einen Namen an oder nimm nimm den Spieler ins Target.";
 
@@ -27,12 +27,12 @@ L["CHECK_STARTED"] = "Suche nach Änderungen in %d GUIDs. (ca. %ds)";
 L["CHECK_PROGRESS"] = "Überprüfe %s (%d/%d)";
 L["CHANGE_FOUND"] = "%s wurde geändert!";
 L["NAME_CHANGE"] = "Namensänderung";
-L["RACE_CHANGE"] = "Völkeränderung";
 L["CLASS_CHANGE"] = "Klassenänderung";
 L["FACTION_CHANGE"] = "Fraktionsänderung";
 L["CHANGED_VALUE"] = "%s (Vorher: %s)";
 L["UNKNOWN_GUID"] = "GUID %s ist nicht mehr verfügbar.";
 L["CHECK_FINISHED"] = "Alle %d GUIDs erfolgreich überprüft.";
+L["FOUND_NAME_COLLISION"] = "Verschiedenen Namen gefunden bei GUID %s: %s, %s.";
 
 L["CAUTION"] = "ACHTUNG!";
 L["FRIENDS_LIST_NOTE"] = format("Von %s", AddonName);
