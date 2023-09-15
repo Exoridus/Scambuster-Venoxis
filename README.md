@@ -7,11 +7,11 @@
 
 ![Banner](https://repository-images.githubusercontent.com/606464603/aa7a516c-ae5c-4711-a5f8-fa1315156e73)
 
+[![WowUp](https://custom-icon-badges.demolab.com/badge/WowUp-50509d?style=for-the-badge&logo=wowup-logo)](https://wowup.io/)
 [![Wago.io](https://custom-icon-badges.demolab.com/badge/Wago.io-c2292f?style=for-the-badge&logo=wagoio-logo)](https://addons.wago.io/addons/scambuster-venoxis)
 [![WoWInterface](https://custom-icon-badges.demolab.com/badge/WoWInterface-d65219?style=for-the-badge&logo=wow-logo)](https://www.wowinterface.com/downloads/info26613-Scambuster-Venoxis.html)
 [![Discord](https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=fff)](https://discord.gg/NGtvvQYnmP)
 [![Blacklist](https://img.shields.io/badge/Blacklist-34A853?style=for-the-badge&logo=googlesheets&logoColor=fff)](https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit?usp=sharing)
-[![WowUp Client](https://custom-icon-badges.demolab.com/badge/WowUp-50509d?style=for-the-badge&logo=wowup_logo&logoColor=fff)](https://wowup.io/)
 
 </div>
 
@@ -21,7 +21,7 @@ Dieses Addon erweitert das [Scambuster](https://github.com/hypernormalisation/Sc
 
 Sobald eine interaktion mit einem Betrüger erkannt wurde, wird ein Warnsound abgespielt und eine detailierten Liste aller bekannten Vorfälle des Betrügers wird im Chat ausgegeben.
 
-Einstellungen für Warnungen, Scans können mit dem Befehl `/scambuster` bzw. `/sb` erreicht werden. Scambuster-Venoxis bietet auch eigene nützliche Befehle an, die mit `/venoxis` im Chat aufgerufen werden können.
+Einstellungen für Warnungen, Scans können mit dem Befehl `/scambuster` bzw. `/sb` erreicht werden. Scambuster-Venoxis bietet auch eigene nützliche Befehle an, die mit `/venoxis` bzw. `/v` im Chat aufgerufen werden können.
 
 ## Einrichtung mit automatischen updates
 
@@ -51,7 +51,7 @@ This addon packages realm data of known scammers and inappropriate players on Ve
 
 Once you install this addon alongside Scambuster, the game will alert you in real-time whenever you encounter a scammer and prints a list of all reported incidents of that player inside the chat panel.
 
-To access the configuration options simply type `/scambuster` or `/sb` into the chat panel. Scambuster-Venoxis also provides a set of helpful commands, which can be accessed by typing `/venoxis` into the chat panel.
+To access the configuration options simply type `/scambuster` or `/sb` into the chat panel. Scambuster-Venoxis also provides a set of helpful commands, which can be accessed by typing `/venoxis` or `/v` in the chat.
 
 ## Setup with automatic updates
 
