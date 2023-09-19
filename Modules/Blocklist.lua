@@ -1083,4 +1083,24 @@ Blocklist.Entries = {
     category = "dungeon",
     level = 3,
   },
+  [98] = {
+    description = "Gravehunt (RL) nimmt Herrlu (zweiter Mage) bei nem Specrun mit und bestätigt, dass er nur PvP Items braucht. Beim drop der PvE Hände werden diese dem PvP Mage zugeteilt mit der Aussage \"er dachte, es wäre PvP\".",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1152618912752619610",
+    category = "raid",
+    level = 3,
+    players = {
+      [1] = {
+        name = "Gravehunt",
+        guid = "Player-4477-03524E95",
+        class = "HUNTER",
+        faction = "Horde",
+      },
+      [2] = {
+        name = "Herrlu",
+        guid = "Player-4477-03B5A5D5",
+        class = "MAGE",
+        faction = "Horde",
+      },
+    },
+  },
 };

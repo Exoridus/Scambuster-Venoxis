@@ -1,19 +1,24 @@
-<div align="center">
+<section align="center">
 
 # Scambuster-Venoxis
+[![Latest](https://custom-icon-badges.demolab.com/github/v/release/Exoridus/Scambuster-Venoxis?style=for-the-badge&label=Latest&logo=github)](https://github.com/Exoridus/Scambuster-Venoxis/releases/latest)
+[![Build](https://custom-icon-badges.demolab.com/github/actions/workflow/status/Exoridus/Scambuster-Venoxis/package_and_release.yml?style=for-the-badge&label=Build&logo=play)](https://github.com/Exoridus/Scambuster-Venoxis/actions)
+[![Downloads](https://custom-icon-badges.demolab.com/github/downloads/Exoridus/Scambuster-Venoxis/total?style=for-the-badge&label=Downloads&logo=download)](https://github.com/Exoridus/Scambuster-Venoxis/releases/latest)
 
-[![Release](https://img.shields.io/github/v/release/Exoridus/Scambuster-Venoxis?style=for-the-badge&label=Release&logo=github&color=4c1)](https://github.com/Exoridus/Scambuster-Venoxis/releases/latest)
-[![Build](https://img.shields.io/github/actions/workflow/status/Exoridus/Scambuster-Venoxis/package_and_release.yml?style=for-the-badge)](https://github.com/Exoridus/Scambuster-Venoxis/actions)
-
-![Banner](https://repository-images.githubusercontent.com/606464603/aa7a516c-ae5c-4711-a5f8-fa1315156e73)
-
-[![WowUp](https://custom-icon-badges.demolab.com/badge/WowUp-50509d?style=for-the-badge&logo=wowup-logo)](https://wowup.io/)
-[![Wago.io](https://custom-icon-badges.demolab.com/badge/Wago.io-c2292f?style=for-the-badge&logo=wagoio-logo)](https://addons.wago.io/addons/scambuster-venoxis)
-[![WoWInterface](https://custom-icon-badges.demolab.com/badge/WoWInterface-d65219?style=for-the-badge&logo=wow-logo)](https://www.wowinterface.com/downloads/info26613-Scambuster-Venoxis.html)
-[![Discord](https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=fff)](https://discord.gg/NGtvvQYnmP)
-[![Blacklist](https://img.shields.io/badge/Blacklist-34A853?style=for-the-badge&logo=googlesheets&logoColor=fff)](https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit?usp=sharing)
-
+<div>
+  
+![Teaser](https://repository-images.githubusercontent.com/606464603/aa7a516c-ae5c-4711-a5f8-fa1315156e73)
+  
 </div>
+
+[![WowUp](https://custom-icon-badges.demolab.com/badge/WowUp-5050a2?style=for-the-badge&logo=wowup-logo)](https://wowup.io/)
+[![Wago.io](https://custom-icon-badges.demolab.com/badge/Wago.io-c2292f?style=for-the-badge&logo=wago_icon_white)](https://addons.wago.io/addons/scambuster-venoxis)
+[![WoWInterface](https://custom-icon-badges.demolab.com/badge/WoWInterface-d65219?style=for-the-badge&logo=wow-logo)](https://www.wowinterface.com/downloads/info26613-Scambuster-Venoxis.html)
+[![Discord](https://img.shields.io/badge/Discord-5a66ec?style=for-the-badge&logo=discord&logoColor=E6EDA3)](https://discord.gg/NGtvvQYnmP)
+[![Blacklist](https://img.shields.io/badge/Blacklist-34A853?style=for-the-badge&logo=googlesheets&logoColor=fff)](https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit?usp=sharing)
+[![GitHub](https://img.shields.io/badge/GitHub-212121?style=for-the-badge&logo=GitHub&logoColor=fff)](https://github.com/Exoridus/Scambuster-Venoxis)
+
+</section>
 
 ## Einleitung
 
@@ -29,8 +34,14 @@ Einstellungen für Warnungen, Scans können mit dem Befehl `/scambuster` bzw. `/
 2. Navigiere zum **Addons installieren** Tab
 3. Klick auf den **Mit URL installieren** Button
 4. **Importiere** und **Installiere** beide Addons über die folgenden URLs:
-   - `https://github.com/hypernormalisation/Scambuster`
-   - `https://github.com/Exoridus/Scambuster-Venoxis`
+   ```python
+   https://github.com/hpernormalisation/Scambuster
+   ```
+
+   ```python
+   https://github.com/exoridus/Scambuster-Venoxis
+   ```
+
 5. Navigiere zurück zum **Meine Addons** Tab
 6. Aktiviere die **Automatisch aktualisieren** Option (per Rechtsklick) bei beiden Addons 
 
@@ -59,8 +70,15 @@ To access the configuration options simply type `/scambuster` or `/sb` into the 
 2. Go to the **Get Addons** tab
 3. Click on the **Install from URL** button
 4. **Copy & Paste** both addons github urls:
-   - `https://github.com/hypernormalisation/Scambuster`
-   - `https://github.com/Exoridus/Scambuster-Venoxis`
+
+   ```python
+   https://github.com/hpernormalisation/Scambuster
+   ```
+
+   ```python
+   https://github.com/exoridus/Scambuster-Venoxis
+   ```
+
 5. Go back to the **My Addons** tab
 6. Turn on the **Auto Update** option (via rightclick) on both addons
 
