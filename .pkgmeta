@@ -4,6 +4,7 @@ enable-nolib-creation: no
 
 ignore:
   - README.md
+  - LICENSE
 
 externals:
   Libs/LibStub: https://repos.wowace.com/wow/libstub/trunk
