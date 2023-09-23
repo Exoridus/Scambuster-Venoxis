@@ -1022,7 +1022,7 @@ Blocklist.Entries = {
     aliases = { "Vhelron" },
   },
   [92] = {
-    name = "Zixana",
+    name = "Destrolayz",
     guid = "Player-4477-0515E3AC",
     class = "PALADIN",
     faction = "Horde",
@@ -1030,10 +1030,10 @@ Blocklist.Entries = {
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1151611466563211376",
     category = "gdkp",
     level = 3,
-    aliases = { "Allfredo" },
+    aliases = { "Zixana", "Allfredo" },
   },
   [93] = {
-    name = "Zixana",
+    name = "Destrolayz",
     guid = "Player-4477-0515E3AC",
     class = "PALADIN",
     faction = "Horde",
@@ -1041,7 +1041,7 @@ Blocklist.Entries = {
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1149064882738704444",
     category = "gdkp",
     level = 3,
-    aliases = { "Allfredo" },
+    aliases = { "Zixana", "Allfredo" },
   },
   [94] = {
     name = "Zizmo",
@@ -1102,5 +1102,15 @@ Blocklist.Entries = {
         faction = "Horde",
       },
     },
+  },
+  [99] = {
+    name = "Gladbach",
+    guid = "Player-4477-0519A01C",
+    class = "SHAMAN",
+    faction = "Horde",
+    description = "PDK 25er / spricht nur Englisch / verkauft alle Items und geht dann mit dem gesamten Pot 200k Gold offline	",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1154039081169330286",
+    category = "gdkp",
+    level = 3,
   },
 };
