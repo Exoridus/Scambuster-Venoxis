@@ -15,7 +15,7 @@
 
 </section>
 
-## Einleitung
+## Beschreibung
 
 Dieses Addon erweitert das [Scambuster](https://github.com/hypernormalisation/Scambuster) Addon Framework mit Realmdaten von bekannten Betrügern und unangemessenen Spielern auf Venoxis.
 
@@ -29,15 +29,13 @@ Einstellungen für Warnungen, Scans können mit dem Befehl `/scambuster` bzw. `/
 2. Navigiere zum **Addons installieren** Tab
 3. Klick auf den **Mit URL installieren** Button
 4. **Importiere** und **Installiere** beide Addons über die folgenden URLs:
-
+   <br><br>
    ```python
    https://github.com/hpernormalisation/Scambuster
    ```
-
    ```python
    https://github.com/exoridus/Scambuster-Venoxis
    ```
-
 5. Navigiere zurück zum **Meine Addons** Tab
 6. Aktiviere die **Automatisch aktualisieren** Option (per Rechtsklick) bei beiden Addons 
 
@@ -54,7 +52,7 @@ Einstellungen für Warnungen, Scans können mit dem Befehl `/scambuster` bzw. `/
 
 ---
 
-## Introduction
+## Description
 
 This addon packages realm data of known scammers and inappropriate players on Venoxis using the [Scambuster](https://github.com/hypernormalisation/Scambuster) addon framework.
 
@@ -68,15 +66,13 @@ To access the configuration options simply type `/scambuster` or `/sb` into the 
 2. Go to the **Get Addons** tab
 3. Click on the **Install from URL** button
 4. **Copy & Paste** both addons github urls:
-
+   <br><br>
    ```python
    https://github.com/hpernormalisation/Scambuster
    ```
-
    ```python
    https://github.com/exoridus/Scambuster-Venoxis
    ```
-
 5. Go back to the **My Addons** tab
 6. Turn on the **Auto Update** option (via rightclick) on both addons
 
