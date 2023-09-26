@@ -7,19 +7,23 @@ L["BLOCKLIST_PROVIDER"] = "Venoxis Discord";
 L["BLOCKLIST_DESCRIPTION"] = "Scambuster database with chars of scammers and inappropriate players on Venoxis.";
 
 L["AVAILABLE_COMMANDS"] = "Available slash commands: (/v also works)";
-L["PRINT_COMMAND_1"] = "prints character data of your target into your chat frame.";
-L["PRINT_COMMAND_2"] = "prints character data of entered players into your chat frame.";
-L["REPORT_COMMAND_1"] = "opens character data of your target inside a copy window.";
-L["REPORT_COMMAND_2"] = "opens character data of entered players inside a copy window.";
-L["CHECK_COMMAND"] = "searches blocklist entrys for changed names/classes/factions.";
-L["ABOUT_COMMAND"] = "opens a window showing information about Scambuster-Venoxis.";
+L["PRINT_COMMAND_1"] = "opens a copy window with character data of the player in your target.";
+L["PRINT_COMMAND_2"] = "opens a copy window with character data of players you provided.";
+L["REPORT_COMMAND_1"] = "opens a report window with character data of the player in your target.";
+L["REPORT_COMMAND_2"] = "opens a report window with character data of players you provided.";
+L["CONFIG_COMMAND_1"] = "opens the main configuration window of Scambuster-Venoxis.";
+L["CONFIG_COMMAND_2"] = "opens a subcategory inside the Scambuster-Venoxis configuration.";
+L["VERSION_COMMAND"] = "print the current addon version inside the active chat frame.";
 L["ENTER_PLAYER_NAME"] = "Provide a name or target the player you want to report.";
 
-L["NAME_PROP"] = "Name: ";
-L["GUID_PROP"] = "GUID: ";
-L["RACE_PROP"] = "Race: ";
-L["CLASS_PROP"] = "Class: ";
-L["FACTION_PROP"] = "Faction: ";
+L["NAME"] = "Name";
+L["GUID"] = "GUID";
+L["RACE"] = "Race";
+L["CLASS"] = "Class";
+L["FACTION"] = "Faction";
+L["SETTINGS"] = "Settings";
+L["PROFILES"] = "Profiles";
+L["ABOUT"] = "About";
 
 L["NO_BLOCKLIST_ENTRIES"] = "No blocklist entries found for %s";
 L["FOUND_BLOCKLIST_ENTRIES"] = "Found %d blocklist entries for %s:";
@@ -40,11 +44,13 @@ L["COPY_SHORTCUT_INFO"] = "Use CTRL+C to copy data.";
 L["GUID_FROM_ANOTHER_REALM"] = "player is from another realm (%s).";
 
 L["PLAYER_NOT_FOUND_TITLE"] = "Could not fetch player info for \"%s\". Possible reasons are:";
-L["PLAYER_NOT_FOUND_REASON_1"] = "1. The given name was misspelled or contains typos.";
-L["PLAYER_NOT_FOUND_REASON_2"] = "2. The character is on the opposite faction as you.";
-L["PLAYER_NOT_FOUND_REASON_3"] = "3. The character ignores your character and/or account.";
-L["PLAYER_NOT_FOUND_REASON_4"] = "4. The character was renamed, transferred or deleted.";
-L["PLAYER_NOT_FOUND_REASON_5"] = "5. Your friends list is full and can't fit any more players.";
+L["PLAYER_NOT_FOUND_REASONS"] = [[
+1. The given name was misspelled or contains typos.
+2. The character is on the opposite faction as you.
+3. The character ignores your character and/or account.
+4. The character was renamed, transferred or deleted.
+5. Your friends list is full and can't fit any more players.
+]];
 
 L["TURN_ON_GUID_MATCHING"] = "Turn on GUID Matching in Scambuster?";
 L["GUID_MATCHING_DESCRIPTION"] = "With activated GUID matching scammers still get found even after changing names.";

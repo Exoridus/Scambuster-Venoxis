@@ -7,19 +7,23 @@ L["BLOCKLIST_PROVIDER"] = "Venoxis Discord";
 L["BLOCKLIST_DESCRIPTION"] = "Scambuster Datenbank mit Chars von Betrügern und unangemessenen Spielern auf Venoxis.";
 
 L["AVAILABLE_COMMANDS"] = "Verfügbare Slash Commands: (/v auch möglich)";
-L["PRINT_COMMAND_1"] = "schreibt die Characterdaten deines Targets ins aktive Chatfenster.";
-L["PRINT_COMMAND_2"] = "schreibt Characterdaten der genannten Spieler ins aktive Chatframe.";
-L["REPORT_COMMAND_1"] = "öffnet ein Kopierfenster mit Characterdaten deines Targets.";
-L["REPORT_COMMAND_2"] = "öffnet ein Kopierfenster mit Characterdaten der genannten Spieler.";
-L["CHECK_COMMAND"] = "durchsucht Blockliste nach geänderten Namen/Klassen/Fraktionen.";
-L["ABOUT_COMMAND"] = "öffnet ein Fenster mit Informationen über Scambuster-Venoxis.";
+L["PRINT_COMMAND_1"] = "öffnet ein Kopierfenster mit Charakterdaten des anvisierten Spielers.";
+L["PRINT_COMMAND_2"] = "öffnet ein Kopierfenster mit Charakterdaten der genannten Spieler.";
+L["REPORT_COMMAND_1"] = "öffnet ein Reportfenster mit Charakterdaten des anvisierten Spielers.";
+L["REPORT_COMMAND_2"] = "öffnet ein Reportfenster mit Characterdaten der genannten Spieler.";
+L["CONFIG_COMMAND_1"] = "öffnet das Konfigurationsfenster von Scambuster-Venoxis.";
+L["CONFIG_COMMAND_2"] = "öffnet die Subkategorie innerhalb der Scambuster-Venoxis Konfiguration.";
+L["VERSION_COMMAND"] = "gibt die aktuelle Addon Version im aktiven Chatfenster aus.";
 L["ENTER_PLAYER_NAME"] = "Gib einen Namen an oder nimm nimm den Spieler ins Target.";
 
-L["NAME_PROP"] = "Name: ";
-L["GUID_PROP"] = "GUID: ";
-L["RACE_PROP"] = "Volk: ";
-L["CLASS_PROP"] = "Klasse: ";
-L["FACTION_PROP"] = "Fraktion: ";
+L["NAME"] = "Name";
+L["GUID"] = "GUID";
+L["RACE"] = "Volk";
+L["CLASS"] = "Klasse";
+L["FACTION"] = "Fraktion";
+L["SETTINGS"] = "Einstellungen";
+L["PROFILES"] = "Profile";
+L["ABOUT"] = "Über";
 
 L["NO_BLOCKLIST_ENTRIES"] = "Keine Einträge gefunden für %s";
 L["FOUND_BLOCKLIST_ENTRIES"] = "%d |4Eintrag:Einträge; in der Blockliste gefunden für %s:";
@@ -40,11 +44,13 @@ L["COPY_SHORTCUT_INFO"] = "CTRL+C zum kopieren";
 L["GUID_FROM_ANOTHER_REALM"] = "Spieler ist auf einem anderen Realm (%s).";
 
 L["PLAYER_NOT_FOUND_TITLE"] = "Konnte keine Spielerinformationen für \"%s\" anfragen. Mögliche Gründe sind:";
-L["PLAYER_NOT_FOUND_REASON_1"] = "1. Der eingegebene Name wurde falsch geschrieben.";
-L["PLAYER_NOT_FOUND_REASON_2"] = "2. Der Charakter ist deiner aktuellen Fraktion feindlich gesinnt.";
-L["PLAYER_NOT_FOUND_REASON_3"] = "3. Der Charakter ignoriert deinen Charakter und/oder Account.";
-L["PLAYER_NOT_FOUND_REASON_4"] = "4. Der Charakter wurde umbenannt, transferiert oder gelöscht.";
-L["PLAYER_NOT_FOUND_REASON_5"] = "5. Deine Freundesliste kann keine weiteren Spieler aufnehmen.";
+L["PLAYER_NOT_FOUND_REASONS"] = [[
+1. Der eingegebene Name wurde falsch geschrieben.
+2. Der Charakter ist deiner aktuellen Fraktion feindlich gesinnt.
+3. Der Charakter ignoriert deinen Charakter und/oder Account.
+4. Der Charakter wurde umbenannt, transferiert oder gelöscht.
+5. Deine Freundesliste kann keine weiteren Spieler aufnehmen.
+]];
 
 L["TURN_ON_GUID_MATCHING"] = "GUID Matching in Scambuster aktivieren?";
 L["GUID_MATCHING_DESCRIPTION"] = "Durch GUID Matching werden Betrüger selbst nach Namensänderungen weiterhin erkannt.";

@@ -6,72 +6,24 @@ local Utils = Addon:GetModule("Utils");
 local Config = Addon:GetModule("Config");
 local L = AceLocale:GetLocale(AddonName);
 
-function Commands:OnEnable()
-  self:RegisterChatCommand("venoxis", "ChatCommand");
-  self:RegisterChatCommand("v", "ChatCommand");
-end
+local function reportPlayers(type, ...)
+  if select("#", ...) > 0 then
+    local name = select(1, ...);
 
-function Commands:OnDisable()
-  self:UnregisterChatCommand("venoxis");
-  self:UnregisterChatCommand("v");
-end
-
-function Commands:ChatCommand(input)
-  local command, index = self:GetArgs(input);
-  local args = Utils:GetCommandArgs(input, index);
-
-  if command == "about" then
-    Config:OpenOptionsFrame();
-  elseif command == "print" then
-    self:ReportPlayers(args, "chat");
-  elseif command == "report" then
-    self:ReportPlayers(args, "dialog");
-  elseif command == "dump" then
-    if #args > 0 then
-      self:DumpPlayers(args);
-    else
-      self:DumpBlocklist();
-    end
-  elseif command == "check" then
-    self:CheckChanged();
-  elseif command == "ignored" then
-    self:CheckIgnored();
-  else
-    self:PrintCommands();
-  end
-end
-
-function Commands:PrintPlayerNotFoundInfo(name)
-  Utils:PrintAddonMessage(L["PLAYER_NOT_FOUND_TITLE"], name);
-  Utils:Print(L["PLAYER_NOT_FOUND_REASON_1"]);
-  Utils:Print(L["PLAYER_NOT_FOUND_REASON_2"]);
-  Utils:Print(L["PLAYER_NOT_FOUND_REASON_3"]);
-  Utils:Print(L["PLAYER_NOT_FOUND_REASON_4"]);
-  Utils:Print(L["PLAYER_NOT_FOUND_REASON_5"]);
-end
-
-function Commands:PrintCommands()
-  Utils:PrintAddonMessage(L["AVAILABLE_COMMANDS"]);
-  Utils:PrintCommand("/venoxis print", L["PRINT_COMMAND_1"]);
-  Utils:PrintCommand("/venoxis print Name", L["PRINT_COMMAND_2"]);
-  Utils:PrintCommand("/venoxis report", L["REPORT_COMMAND_1"]);
-  Utils:PrintCommand("/venoxis report Name", L["REPORT_COMMAND_2"]);
-  Utils:PrintCommand("/venoxis check", L["CHECK_COMMAND"]);
-  Utils:PrintCommand("/venoxis about", L["ABOUT_COMMAND"]);
-end
-
-function Commands:ReportPlayers(names, output)
-  if #names > 0 then
-    local name = names[1];
+    Utils:DisableNotifications();
 
     Utils:FetchGUIDInfoByName(name, function(info)
       if not info then
-        self:PrintPlayerNotFoundInfo(name);
-      elseif output == "chat" then
+        Utils:PrintPlayerNotFound(name);
+      elseif type == "print" then
         Utils:PrintMultiline(Utils:FormatPlayerInfo(info));
-      elseif output == "dialog" then
+      elseif type == "report" then
         Utils:CreateCopyDialog(Utils:FormatPlayerInfo(info));
+      elseif type == "dump" then
+        Utils:CreateCopyDialog(Utils:FormatPlayerEntry(info, #Blocklist.Entries + 1), 480, 320);
       end
+
+      Utils:EnableNotifications();
     end);
   elseif UnitIsPlayer("target") then
     local playerGUID = UnitGUID("target");
@@ -79,11 +31,13 @@ function Commands:ReportPlayers(names, output)
 
     Utils:FetchGUIDInfo(playerGUID, function(info)
       if not info then
-        self:PrintPlayerNotFoundInfo(playerName);
-      elseif output == "chat" then
+        Utils:PrintPlayerNotFound(playerName);
+      elseif type == "print" then
         Utils:PrintMultiline(Utils:FormatPlayerInfo(info));
-      elseif output == "dialog" then
+      elseif type == "report" then
         Utils:CreateCopyDialog(Utils:FormatPlayerInfo(info));
+      elseif type == "dump" then
+        Utils:CreateCopyDialog(Utils:FormatPlayerEntry(info, #Blocklist.Entries + 1), 480, 320);
       end
     end);
   else
@@ -91,20 +45,7 @@ function Commands:ReportPlayers(names, output)
   end
 end
 
-function Commands:DumpPlayers(names)
-  local name = names[1];
-
-  Utils:FetchGUIDInfoByName(name, function(info)
-    if info then
-      Utils:CreateCopyDialog(Utils:FormatPlayerEntry(info, #Blocklist.Entries + 1), 480, 320);
-    else
-      self:PrintPlayerNotFoundInfo(name);
-    end
-  end);
-end
-
-function Commands:DumpBlocklist()
-  local entries = Blocklist.Entries;
+local function dumpEntries(entries)
   local output = {};
   local index = 1;
 
@@ -139,8 +80,7 @@ function Commands:DumpBlocklist()
   Utils:CreateCopyDialog(table.concat(output, "\n"), 800, 600);
 end
 
-function Commands:CheckChanged()
-  local entries = Blocklist.Entries;
+local function checkChangedEntries(entries)
   local players = {};
 
   for _, entry in ipairs(entries) do
@@ -227,7 +167,7 @@ function Commands:CheckChanged()
         Utils:PrintAddonMessage(L["CHECK_FINISHED"], length);
 
         if #output > 0 then
-          Utils:CreateCopyDialog(table.concat(output, "\n"), 640, 480);
+          Utils:CreateCopyDialog(table.concat(output, "\n"));
         end
       end
     end);
@@ -236,13 +176,13 @@ function Commands:CheckChanged()
   end, length);
 end
 
-function Commands:GetFailedNames(names, callback)
+local function getFailedNames(names, callback)
   local guids = GetKeysArray(names);
   local length = #guids;
   local index = 1;
   local failed = {};
 
-  Utils:AddChatFilter();
+  Utils:DisableNotifications();
 
   C_Timer.NewTicker(2, function()
     local guid = guids[index];
@@ -257,7 +197,7 @@ function Commands:GetFailedNames(names, callback)
       end
 
       if playerIndex == length then
-        Utils:RemoveChatFilter();
+        Utils:EnableNotifications();
         callback(failed);
       end
     end);
@@ -266,8 +206,7 @@ function Commands:GetFailedNames(names, callback)
   end, length);
 end
 
-function Commands:CheckIgnored()
-  local entries = Blocklist.Entries;
+local function checkIgnoredEntries(entries)
   local names = {};
   local playerFaction = UnitFactionGroup("player");
 
@@ -291,7 +230,7 @@ function Commands:CheckIgnored()
     end
   end
 
-  self:GetFailedNames(names, function(failed)
+  getFailedNames(names, function(failed)
     if #failed == 0 then
       Utils:PrintAddonMessage("Finished search with no found ignores.");
       return;
@@ -333,4 +272,48 @@ function Commands:CheckIgnored()
       index = index + 1;
     end, length);
   end);
+end
+
+function Commands:OnInitialize()
+  self.SLASH_COMMANDS = { "venoxis", "v", "scambuster-venoxis", "sbv" };
+end
+
+function Commands:OnEnable()
+  for _, command in ipairs(self.SLASH_COMMANDS) do
+    self:RegisterChatCommand(command, "OnSlashCommand");
+  end
+end
+
+function Commands:OnDisable()
+  for _, command in ipairs(self.SLASH_COMMANDS) do
+    self:UnregisterChatCommand(command);
+  end
+end
+
+function Commands:OnSlashCommand(input)
+  self:RunSlashCommand(Utils:GetCommandArgs(input));
+end
+
+function Commands:RunSlashCommand(command, ...)
+  if command == "config" then
+    Config:OpenOptionsFrame(...);
+  elseif command == "print" then
+    return reportPlayers("print", ...);
+  elseif command == "report" then
+    return reportPlayers("report", ...);
+  elseif command == "dump" then
+    if select("#", ...) > 0 then
+      return reportPlayers("dump", ...);
+    else
+      return dumpEntries(Blocklist.Entries);
+    end
+  elseif command == "check" then
+    return checkChangedEntries(Blocklist.Entries);
+  elseif command == "ignored" then
+    return checkIgnoredEntries(Blocklist.Entries);
+  elseif command == "version" then
+    Utils:PrintAddonVersion();
+  else
+    Utils:PrintSlashCommands();
+  end
 end

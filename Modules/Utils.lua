@@ -3,41 +3,38 @@ local AceGUI = LibStub("AceGUI-3.0");
 local AceLocale = LibStub("AceLocale-3.0");
 local Utils = Addon:NewModule("Utils");
 local L = AceLocale:GetLocale(AddonName);
-local GetAddOnMetadata = C_AddOns and C_AddOns.GetAddOnMetadata or GetAddOnMetadata;
-local locale = GetLocale();
-
-local RACE_TO_FACTION = {
-  Orc = "Horde",
-  Scourge = "Horde",
-  Tauren = "Horde",
-  Troll = "Horde",
-  BloodElf = "Horde",
-  Human = "Alliance",
-  Dwarf = "Alliance",
-  NightElf = "Alliance",
-  Draenei = "Alliance",
-  Gnome = "Alliance",
-};
+local AddFriend = C_FriendList.AddFriend;
+local RemoveFriend = C_FriendList.RemoveFriend;
+local GetFriendInfo = C_FriendList.GetFriendInfo;
+local GetFactionInfo = C_CreatureInfo.GetFactionInfo;
+local GetAddOnMetadata = C_AddOns.GetAddOnMetadata;
+local NewTicker = C_Timer.NewTicker;
+local ChatFrame_ContainsMessageGroup = ChatFrame_ContainsMessageGroup;
+local GetPlayerInfoByGUID = GetPlayerInfoByGUID;
+local GetRealmName = GetRealmName;
+local RunNextFrame = RunNextFrame;
+local type, select, ipairs, tostring, tconcat = type, select, ipairs, tostring, table.concat;
+local strsplit, strlen, strmatch, gmatch, format, tinsert = strconcat, strsplit, strlen, strmatch, strjoin, gmatch, format, tinsert;
 
 local LIST_ENTRY = [[
   [%d] = {
-    name = "%s",
-    guid = "%s",
-    class = "%s",
-    faction = "%s",
-    description = "%s",
-    url = "%s",
-    category = "%s",
+    name = %q,
+    guid = %q,
+    class = %q,
+    faction = %q,
+    description = %q,
+    url = %q,
+    category = %q,
     level = %d,%s
   },]];
 
-local LIST_ENTRY_ALIAS = '\n    aliases = { "%s" },';
+local LIST_ENTRY_ALIAS = "\n    aliases = { %s },";
 
 local GROUP_ENTRY = [[
   [%d] = {
-    description = "%s",
-    url = "%s",
-    category = "%s",
+    description = %q,
+    url = %q,
+    category = %q,
     level = %d,
     players = {
 %s
@@ -46,57 +43,87 @@ local GROUP_ENTRY = [[
 
 local PLAYER_ENTRY = [[
       [%d] = {
-        name = "%s",
-        guid = "%s",
-        class = "%s",
-        faction = "%s",%s
+        name = %q,
+        guid = %q,
+        class = %q,
+        faction = %q,%s
       },]];
 
-local PLAYER_ENTRY_ALIAS = '\n        aliases = { "%s" },';
+local PLAYER_ENTRY_ALIASES = "\n        aliases = { %s },";
 
-local FRIENDS_LIST_SOUND = "Sound/Interface/FriendJoin.ogg";
+local NOTIFICATIONS_SOUND_FILE = "Sound/Interface/FriendJoin.ogg";
 
-local CHAT_FILTER_ACTIVE = false;
-
-local CHAT_FILTER_PATTERNS = {
-  ERR_FRIEND_ADDED_S:gsub("%.", "%%."):gsub("%%s", ".+"),
-  ERR_FRIEND_REMOVED_S:gsub("%.", "%%."):gsub("%%s", ".+"),
-  ERR_FRIEND_NOT_FOUND:gsub("%.", "%%."):gsub("%%s", ".+"),
-  ERR_FRIEND_ALREADY_S:gsub("%.", "%%."):gsub("%%s", ".+"),
-  ERR_FRIEND_OFFLINE_S:gsub("%.", "%%."):gsub("%%s", ".+"),
-  ERR_FRIEND_ONLINE_SS:gsub("|Hplayer:%%s|h%[%%s%]|h", "|Hplayer:.+|h%%[.+%%]|h"),
+local RaceList = {
+  Human = 1,
+  Orc = 2,
+  Dwarf = 3,
+  NightElf = 4,
+  Scourge = 5,
+  Tauren = 6,
+  Gnome = 7,
+  Troll = 8,
+  Goblin = 9,
+  BloodElf = 10,
+  Draenei = 11,
+  Worgen = 22,
+  Pandaren = 24,
 };
 
-local CHAT_FILTER = function(self, _, msg, ...)
-  if ChatFrame_ContainsMessageGroup(self, "SYSTEM") then
-    for _, pattern in pairs(CHAT_FILTER_PATTERNS) do
-      if msg:find(pattern) then
-        return true;
+function Utils:OnInitialize()
+  local notifications = {
+    self:EscapePattern(ERR_FRIEND_ADDED_S),
+    self:EscapePattern(ERR_FRIEND_REMOVED_S),
+    self:EscapePattern(ERR_FRIEND_NOT_FOUND),
+    self:EscapePattern(ERR_FRIEND_ALREADY_S),
+    self:EscapePattern(ERR_FRIEND_OFFLINE_S),
+    self:EscapePattern(ERR_FRIEND_ONLINE_SS),
+  };
+
+  self.notificationsFilter = function(chatFrame, _, msg, ...)
+    if ChatFrame_ContainsMessageGroup(chatFrame, "SYSTEM") then
+      for _, pattern in ipairs(notifications) do
+        if strmatch(msg, pattern) then
+          return true;
+        end
       end
     end
+
+    return false, msg, ...;
   end
 
-  return false, msg, ...;
+  self.notificationsDisabled = false;
 end
 
-local EMPTY_STRING_FILTER = function(value)
-  return type(value) == "string" and strlen(value) > 0;
+function Utils:OnDisable()
+  self:EnableNotifications();
 end
 
 function Utils:Print(message, ...)
   local chatFrame = SELECTED_CHAT_FRAME or DEFAULT_CHAT_FRAME;
   local chatMessage = tostring(message);
 
-  if select('#', ...) > 0 then
+  if select("#", ...) > 0 then
     chatFrame:AddMessage(format(chatMessage, ...));
   else
     chatFrame:AddMessage(chatMessage);
   end
 end
 
-function Utils:PrintMultiline(message)
-  for line in string.gmatch(message, "[^\n]+") do
-    Utils:Print(line);
+function Utils:PrintMultiline(...)
+  local length = select("#", ...);
+
+  for i = 1, length do
+    local message = select(i, ...);
+
+    if type(message) == "table" then
+      message = tconcat(message, "\n");
+    elseif type(message) ~= "string" then
+      message = tostring(message);
+    end
+
+    for line in gmatch(message, "[^\n]+") do
+      Utils:Print(line);
+    end
   end
 end
 
@@ -104,21 +131,10 @@ function Utils:PrintAddonMessage(message, ...)
   local chatPrefix = self:AddonText(AddonName);
   local chatMessage = tostring(message);
 
-  if select('#', ...) > 0 then
+  if select("#", ...) > 0 then
     self:Print("%s: %s", chatPrefix, format(chatMessage, ...));
   else
     self:Print("%s: %s", chatPrefix, chatMessage);
-  end
-end
-
-function Utils:PrintCommand(slashCommand, description)
-  local slash, action, args = strtrim(slashCommand):match("^(%/%a+)%s*(%a*)%s*(.*)$");
-  local command = format("%s %s", self:SystemText(slash), self:SpecialText(action));
-
-  if args and args ~= "" then
-    self:Print("%s %s - %s", command, self:SuccessText(args), self:PlainText(description));
-  else
-    self:Print("%s - %s", command, self:PlainText(description));
   end
 end
 
@@ -134,18 +150,56 @@ function Utils:PrintWarning(message)
   self:Print("%s %s", self:CautionText(L["CAUTION"]), message);
 end
 
+function Utils:PrintAddonVersion()
+  local major, minor, patch = self:GetVersionParts(self:GetAddOnMetadata("Version"));
+  local version = format("v%d.%d.%d", major, minor, patch);
+
+  self:PrintAddonMessage(self:SuccessText(version));
+end
+
+function Utils:PrintPlayerNotFound(name)
+  self:PrintAddonMessage(L["PLAYER_NOT_FOUND_TITLE"], name);
+  self:PrintMultiline(L["PLAYER_NOT_FOUND_REASONS"]);
+end
+
+function Utils:PrintSlashCommands()
+  self:PrintAddonMessage(L["AVAILABLE_COMMANDS"]);
+  self:PrintCommand("/venoxis print", L["PRINT_COMMAND_1"]);
+  self:PrintCommand("/venoxis print Name [Name2 Name3...]", L["PRINT_COMMAND_2"]);
+  self:PrintCommand("/venoxis report", L["REPORT_COMMAND_1"]);
+  self:PrintCommand("/venoxis report Name [Name2 Name3...]", L["REPORT_COMMAND_2"]);
+  self:PrintCommand("/venoxis config", L["CONFIG_COMMAND_1"]);
+  self:PrintCommand("/venoxis config [settings|profiles|about]", L["CONFIG_COMMAND_2"]);
+  self:PrintCommand("/venoxis version", L["VERSION_COMMAND"]);
+end
+
+function Utils:PrintCommand(input, description)
+  local slash, command, args = strsplit(" ", strtrim(input), 3);
+  local params = {
+    self:SystemText(slash),
+    self:SpecialText(command),
+    self:DescriptionText(format("- %s", description)),
+  };
+
+  if type(args) == "string" or strlen(args) > 0 then
+    tinsert(params, 3, self:ArgsText(args));
+  end
+
+  self:Print(tconcat(params, " "));
+end
+
 function Utils:CreateCopyDialog(text, width, height)
   local frame = AceGUI:Create("Frame");
 
-  frame:SetCallback("OnClose", function(widget)
-    AceGUI:Release(widget)
-  end);
   frame:SetTitle(AddonName);
   frame:SetStatusText(L["COPY_SHORTCUT_INFO"]);
   frame:SetLayout("Flow");
   frame:SetWidth(width or 400);
   frame:SetHeight(height or 200);
   frame:EnableResize(false);
+  frame:SetCallback("OnClose", function(widget)
+    widget:Release();
+  end);
 
   local editbox = AceGUI:Create("MultiLineEditBox");
 
@@ -154,37 +208,39 @@ function Utils:CreateCopyDialog(text, width, height)
   editbox:DisableButton(true);
   editbox:SetLabel(nil);
   editbox:SetText(text);
-
-  editbox:HighlightText();
-  editbox:SetFocus();
+  editbox:SetCallback("OnTextChanged", function(widget)
+    widget:SetText(text);
+  end);
 
   frame:AddChild(editbox);
+
+  RunNextFrame(function()
+    editbox:HighlightText();
+    editbox:SetFocus();
+  end);
 end
 
 function Utils:GetGUIDInfo(guid)
   local className, class, raceName, race, _, name, server = GetPlayerInfoByGUID(guid);
 
-  if name and race and class then
-    local faction = RACE_TO_FACTION[race];
-    local factionName = FACTION_LABELS_FROM_STRING[faction];
-    local realm = server ~= "" and server or GetRealmName();
-
-    if realm ~= "Venoxis" then
-      self:PrintWarning(format(L["GUID_FROM_ANOTHER_REALM"], realm));
-    end
-
-    return {
-      guid = guid,
-      name = name,
-      className = className,
-      class = class,
-      raceName = raceName,
-      race = race,
-      faction = faction,
-      factionName = factionName,
-      realm = realm,
-    };
+  if not (name or race or class) then
+    return;
   end
+
+  local factionInfo = GetFactionInfo(RaceList[race]);
+  local realm = (server ~= "" and server) or GetRealmName();
+
+  return {
+    guid = guid,
+    name = name,
+    className = className,
+    class = class,
+    raceName = raceName,
+    race = race,
+    faction = factionInfo.groupTag,
+    factionName = factionInfo.name,
+    realm = realm,
+  };
 end
 
 function Utils:FetchGUIDInfo(guid, callback)
@@ -198,7 +254,7 @@ function Utils:FetchGUIDInfo(guid, callback)
   local ticks, maxTicks = 0, 4;
   local ticker;
 
-  ticker = C_Timer.NewTicker(0.5, function()
+  ticker = NewTicker(0.5, function()
     ticks = ticks + 1;
     info = self:GetGUIDInfo(guid);
 
@@ -210,10 +266,10 @@ function Utils:FetchGUIDInfo(guid, callback)
 end
 
 function Utils:FetchFriendInfo(name, callback)
-  local info = C_FriendList.GetFriendInfo(name);
+  local info = GetFriendInfo(name);
 
   if info and info.notes == L["FRIENDS_LIST_NOTE"] then
-    C_FriendList.RemoveFriend(name);
+    RemoveFriend(name);
   end
 
   if info then
@@ -224,14 +280,14 @@ function Utils:FetchFriendInfo(name, callback)
   local ticks, maxTicks = 0, 4;
   local ticker;
 
-  C_FriendList.AddFriend(name, L["FRIENDS_LIST_NOTE"]);
+  AddFriend(name, L["FRIENDS_LIST_NOTE"]);
 
-  ticker = C_Timer.NewTicker(0.5, function()
+  ticker = NewTicker(0.5, function()
     ticks = ticks + 1;
-    info = C_FriendList.GetFriendInfo(name);
+    info = GetFriendInfo(name);
 
     if info and info.notes == L["FRIENDS_LIST_NOTE"] then
-      C_FriendList.RemoveFriend(name);
+      RemoveFriend(name);
     end
 
     if info or ticks == maxTicks then
@@ -242,11 +298,7 @@ function Utils:FetchFriendInfo(name, callback)
 end
 
 function Utils:FetchGUIDInfoByName(name, callback)
-  self:AddChatFilter();
-
   self:FetchFriendInfo(name, function(info)
-    self:RemoveChatFilter();
-
     if info then
       self:FetchGUIDInfo(info.guid, callback);
     else
@@ -256,15 +308,13 @@ function Utils:FetchGUIDInfoByName(name, callback)
 end
 
 function Utils:FormatPlayerInfo(info)
-  local props = {
-    [1] = strconcat(self:SystemText(L["NAME_PROP"]), self:PlainText(info.name)),
-    [2] = strconcat(self:SystemText(L["GUID_PROP"]), self:PlainText(info.guid)),
-    [3] = strconcat(self:SystemText(L["RACE_PROP"]), self:PlainText(info.raceName)),
-    [4] = strconcat(self:SystemText(L["CLASS_PROP"]), self:ClassColor(info.className, info.class)),
-    [5] = strconcat(self:SystemText(L["FACTION_PROP"]), self:FactionColor(info.factionName, info.faction)),
-  };
-
-  return table.concat(props, "\n");
+  return tconcat({
+    self:SystemText(format("%s: %s", L["NAME"], self:PlainText(info.name))),
+    self:SystemText(format("%s: %s", L["GUID"], self:PlainText(info.guid))),
+    self:SystemText(format("%s: %s", L["RACE"], self:PlainText(info.raceName))),
+    self:SystemText(format("%s: %s", L["CLASS"], self:ClassColor(info.className, info.class))),
+    self:SystemText(format("%s: %s", L["FACTION"], self:FactionColor(info.factionName, info.faction))),
+  }, "\n");
 end
 
 function Utils:FormatPlayerEntry(info, index)
@@ -276,11 +326,17 @@ function Utils:FormatPlayerEntry(info, index)
 end
 
 function Utils:FormatAliases(entry, template)
-  if type(entry.aliases) ~= "table" or #entry.aliases == 0 then
+  if not entry or type(entry.aliases) ~= "table" or #entry.aliases == 0 then
     return "";
   end
 
-  return format(template, table.concat(entry.aliases, '", "'));
+  local escaped = {};
+
+  for _, alias in ipairs(entry.aliases) do
+    tinsert(escaped, format("%q", alias))
+  end
+
+  return format(template, tconcat(escaped, ", "));
 end
 
 function Utils:FormatListItemEntry(index, entry)
@@ -294,7 +350,7 @@ function Utils:FormatListItemEntry(index, entry)
         player.guid,
         player.class,
         player.faction,
-        self:FormatAliases(player, PLAYER_ENTRY_ALIAS)
+        self:FormatAliases(player, PLAYER_ENTRY_ALIASES)
       ));
     end
 
@@ -304,7 +360,7 @@ function Utils:FormatListItemEntry(index, entry)
       entry.url,
       entry.category,
       entry.level,
-      table.concat(players, '\n')
+      tconcat(players, "\n")
     );
   end
 
@@ -322,30 +378,50 @@ function Utils:FormatListItemEntry(index, entry)
   );
 end
 
-function Utils:AddChatFilter()
-  if not CHAT_FILTER_ACTIVE then
-    ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", CHAT_FILTER);
-    MuteSoundFile(FRIENDS_LIST_SOUND);
-    CHAT_FILTER_ACTIVE = true;
+function Utils:DisableNotifications()
+  if not self.notificationsDisabled then
+    ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", self.notificationsFilter);
+    MuteSoundFile(NOTIFICATIONS_SOUND_FILE);
+    self.notificationsDisabled = true;
   end
 end
 
-function Utils:RemoveChatFilter()
-  if CHAT_FILTER_ACTIVE then
-    ChatFrame_RemoveMessageEventFilter("CHAT_MSG_SYSTEM", CHAT_FILTER);
-    UnmuteSoundFile(FRIENDS_LIST_SOUND);
-    CHAT_FILTER_ACTIVE = false;
+function Utils:EnableNotifications()
+  if self.notificationsDisabled then
+    ChatFrame_RemoveMessageEventFilter("CHAT_MSG_SYSTEM", self.notificationsFilter);
+    UnmuteSoundFile(NOTIFICATIONS_SOUND_FILE);
+    self.notificationsDisabled = false;
   end
 end
 
-function Utils:GetMetadata(prop)
-  return GetAddOnMetadata(AddonName, format("%s-%s", prop, locale)) or GetAddOnMetadata(AddonName, prop);
+function Utils:GetAddOnMetadata(prop)
+  return GetAddOnMetadata(AddonName, prop);
 end
 
-function Utils:GetCommandArgs(input, index)
-  local argList = strsplittable(" ", strtrim(strsub(input or "", index)));
+function Utils:GetVersionParts(version)
+  local major, minor, patch = strmatch(version, "(%d+)%.(%d+)%.(%d+)");
 
-  return tFilter(argList, EMPTY_STRING_FILTER, true);
+  return unpack({
+    major and tonumber(major) or 0,
+    minor and tonumber(minor) or 0,
+    patch and tonumber(patch) or 0,
+  });
+end
+
+function Utils:GetCommandArgs(input)
+  local args = {};
+
+  for match in gmatch(input, "[^%s%p]+") do
+    if type(match) == "string" and strlen(match) > 0 then
+      tinsert(args, strlower(match));
+    end
+  end
+
+  return unpack(args);
+end
+
+function Utils:EscapePattern(str)
+  return str:gsub("[().+%-*?%%[^$]", "%%%1"):gsub("%%%%s", "(.+)");
 end
 
 function Utils:WrapColor(text, color)
@@ -378,6 +454,14 @@ end
 
 function Utils:SpecialText(text)
   return self:WrapColor(text, "FF33FFFF");
+end
+
+function Utils:ArgsText(text)
+  return self:WrapColor(text, "FFFF33FF");
+end
+
+function Utils:DescriptionText(text)
+  return self:WrapColor(text, "FFEFEFEF");
 end
 
 function Utils:AddonText(text)

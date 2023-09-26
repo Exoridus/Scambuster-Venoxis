@@ -23,7 +23,7 @@ Sobald eine interaktion mit einem Betrüger erkannt wurde, wird ein Warnsound ab
 
 Einstellungen für Warnungen, Scans können mit dem Befehl `/scambuster` bzw. `/sb` erreicht werden. Scambuster-Venoxis bietet auch eigene nützliche Befehle an, die mit `/venoxis` bzw. `/v` im Chat aufgerufen werden können.
 
-### Einrichtung mit automatischen updates
+## Einrichtung mit automatischen updates
 
 1. Downloade den **[WowUp Addon Client](https://wowup.io/)**
 2. Navigiere zum **Addons installieren** Tab
@@ -39,7 +39,7 @@ Einstellungen für Warnungen, Scans können mit dem Befehl `/scambuster` bzw. `/
 5. Navigiere zurück zum **Meine Addons** Tab
 6. Aktiviere die **Automatisch aktualisieren** Option (per Rechtsklick) bei beiden Addons 
 
-### Weitere Links
+## Weitere Links
 
 - [Scambuster-Venoxis auf Wago.io](https://addons.wago.io/addons/scambuster-venoxis)
 - [Scambuster-Venoxis auf WoWInterface](https://www.wowinterface.com/downloads/info26613-Scambuster-Venoxis.html)

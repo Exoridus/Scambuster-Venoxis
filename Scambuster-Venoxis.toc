@@ -11,13 +11,13 @@
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Realm: Venoxis
 ## X-License: GPLv3
-## X-Embeds: LibStub, Ace3
-## X-Category: Chat/Communication
+## X-Embeds: LibStub, Ace3, LibAboutPanel-2.0
+## X-Category: Chat/Communication, Raid, Party, Tradeskill, Miscellaneous, Plugins
 ## X-Localizations: enUS, deDE
 ## X-Website: https://github.com/Exoridus/Scambuster-Venoxis
 ## X-Email: contact@codexo.de
 ## X-Donate: https://github.com/sponsors/Exoridus
-## X-Credits: Venoxis Discord Community, Ven, Dantos
+## X-Credits: Venoxis Discord Community
 ## X-WoWI-ID: 26613
 ## X-Wago-ID: 4N2mEdGL
 
@@ -29,5 +29,5 @@ Locales\deDE.lua
 Modules\Addon.lua
 Modules\Utils.lua
 Modules\Config.lua
-Modules\Blocklist.lua
 Modules\Commands.lua
+Modules\Blocklist.lua

@@ -7,7 +7,11 @@ local L = AceLocale:GetLocale(AddonName);
 Addon = AceAddon:NewAddon(Addon, AddonName);
 
 function Addon:OnInitialize()
-  Scambuster.RegisterCallback(self, "SCAMBUSTER_LIST_CONSTRUCTION", "RegisterProvider");
+  if GetRealmName() == "Venoxis" then
+    Scambuster.RegisterCallback(self, "SCAMBUSTER_LIST_CONSTRUCTION", "RegisterProvider");
+  elseif Addon:IsEnabled() then
+    Addon:Disable();
+  end
 end
 
 function Addon:RegisterProvider()
@@ -18,7 +22,7 @@ function Addon:RegisterProvider()
     name = L["BLOCKLIST_NAME"],
     provider = L["BLOCKLIST_PROVIDER"],
     description = L["BLOCKLIST_DESCRIPTION"],
-    url = Utils:GetMetadata("X-Website"),
+    url = Utils:GetAddOnMetadata("X-Website"),
     realm_data = {
       ["Venoxis"] = Blocklist.Entries,
     }
