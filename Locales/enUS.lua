@@ -24,6 +24,8 @@ L["FACTION"] = "Faction";
 L["SETTINGS"] = "Settings";
 L["PROFILES"] = "Profiles";
 L["ABOUT"] = "About";
+L["ACTIVATE"] = "Activate";
+L["IGNORE"] = "Ignore";
 
 L["NO_BLOCKLIST_ENTRIES"] = "No blocklist entries found for %s";
 L["FOUND_BLOCKLIST_ENTRIES"] = "Found %d blocklist entries for %s:";

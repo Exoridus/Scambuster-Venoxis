@@ -5,6 +5,14 @@ local Blocklist = Addon:GetModule("Blocklist");
 local Utils = Addon:GetModule("Utils");
 local Config = Addon:GetModule("Config");
 local L = AceLocale:GetLocale(AddonName);
+local select, ipairs, tconcat = select, ipairs, table.concat;
+local strlower, format, unpack, sort, tinsert = strlower, format, unpack, sort, tinsert;
+local UnitFactionGroup = UnitFactionGroup;
+local UnitIsPlayer = UnitIsPlayer;
+local UnitGUID = UnitGUID;
+local UnitName = UnitName;
+local GetKeysArray = GetKeysArray;
+local NewTicker = C_Timer.NewTicker;
 
 local function reportPlayers(type, ...)
   if select("#", ...) > 0 then
@@ -49,7 +57,7 @@ local function dumpEntries(entries)
   local output = {};
   local index = 1;
 
-  for _, entry in pairs(entries) do
+  for _, entry in ipairs(entries) do
     if entry.players and #entry.players > 0 then
       sort(entry.players, function(a, b)
         return a.name < b.name;
@@ -77,7 +85,7 @@ local function dumpEntries(entries)
 
   tinsert(output, "};");
 
-  Utils:CreateCopyDialog(table.concat(output, "\n"), 800, 600);
+  Utils:CreateCopyDialog(tconcat(output, "\n"), 800, 600);
 end
 
 local function checkChangedEntries(entries)
@@ -116,7 +124,7 @@ local function checkChangedEntries(entries)
 
   Utils:PrintAddonMessage(L["CHECK_STARTED"], length, length * 2);
 
-  C_Timer.NewTicker(2, function()
+  NewTicker(2, function()
     local guid = guids[index];
     local player = players[guid];
     local playerIndex = index;
@@ -167,7 +175,7 @@ local function checkChangedEntries(entries)
         Utils:PrintAddonMessage(L["CHECK_FINISHED"], length);
 
         if #output > 0 then
-          Utils:CreateCopyDialog(table.concat(output, "\n"));
+          Utils:CreateCopyDialog(tconcat(output, "\n"));
         end
       end
     end);
@@ -184,7 +192,7 @@ local function getFailedNames(names, callback)
 
   Utils:DisableNotifications();
 
-  C_Timer.NewTicker(2, function()
+  NewTicker(2, function()
     local guid = guids[index];
     local player = names[guid];
     local playerIndex = index;
@@ -207,12 +215,12 @@ local function getFailedNames(names, callback)
 end
 
 local function checkIgnoredEntries(entries)
-  local names = {};
   local playerFaction = UnitFactionGroup("player");
+  local names = {};
 
   for _, entry in ipairs(entries) do
     if entry.players then
-      for _, player in pairs(entry.players) do
+      for _, player in ipairs(entry.players) do
         if player.faction == playerFaction then
           if not names[player.guid] then
             names[player.guid] = player.name;
@@ -241,7 +249,7 @@ local function checkIgnoredEntries(entries)
     local ignores = 0;
     local output = {};
 
-    C_Timer.NewTicker(2, function()
+    NewTicker(2, function()
       local guid, name = unpack(failed[index]);
       local playerIndex = index;
 
@@ -264,7 +272,7 @@ local function checkIgnoredEntries(entries)
           Utils:PrintAddonMessage(format("Finished search with %d found ignores.", ignores));
 
           if #output > 0 then
-            Utils:CreateCopyDialog(table.concat(output, "\n"), 640, 480);
+            Utils:CreateCopyDialog(tconcat(output, "\n"), 640, 480);
           end
         end
       end);
@@ -274,18 +282,16 @@ local function checkIgnoredEntries(entries)
   end);
 end
 
-function Commands:OnInitialize()
-  self.SLASH_COMMANDS = { "venoxis", "v", "scambuster-venoxis", "sbv" };
-end
+local SLASH_COMMANDS = { "venoxis", "v", "scambuster-venoxis", "sbv" };
 
 function Commands:OnEnable()
-  for _, command in ipairs(self.SLASH_COMMANDS) do
+  for _, command in ipairs(SLASH_COMMANDS) do
     self:RegisterChatCommand(command, "OnSlashCommand");
   end
 end
 
 function Commands:OnDisable()
-  for _, command in ipairs(self.SLASH_COMMANDS) do
+  for _, command in ipairs(SLASH_COMMANDS) do
     self:UnregisterChatCommand(command);
   end
 end

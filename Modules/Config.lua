@@ -8,6 +8,11 @@ local Config = Addon:NewModule("Config", "LibAboutPanel-2.0");
 local Utils = Addon:GetModule("Utils");
 local Scambuster = AceAddon:GetAddon("Scambuster");
 local L = AceLocale:GetLocale(AddonName);
+local setmetatable, ipairs = setmetatable, ipairs;
+local UserInputNonEmpty = UserInputNonEmpty;
+local ConfirmationStringMatches = ConfirmationStringMatches;
+local StaticPopupDialogs = StaticPopupDialogs;
+local StaticPopup_Show = StaticPopup_Show;
 local GetCategory = Settings.GetCategory;
 local OpenToCategory = Settings.OpenToCategory;
 
@@ -46,15 +51,15 @@ function Config:ShowGUIDMatchingDialog()
   });
 end
 
-function Config:OpenOptionsFrame(categoryName)
+function Config:OpenOptionsFrame(subcategoryName)
   local category = GetCategory(AddonName);
 
   if category and category:HasSubcategories() then
     category.expanded = true;
 
-    if type(categoryName) == "string" then
+    if subcategoryName and UserInputNonEmpty(subcategoryName) then
       for _, subcategory in ipairs(category:GetSubcategories()) do
-        if strupper(subcategory:GetName()) == strupper(categoryName) then
+        if ConfirmationStringMatches(subcategoryName, subcategory:GetName()) then
           OpenToCategory(subcategory:GetID());
         end
       end
@@ -67,8 +72,8 @@ end
 StaticPopupDialogs["SCAMBUSTER_GUID_MATCHING_DIALOG"] = {
   text = L["TURN_ON_GUID_MATCHING"],
   subText = L["GUID_MATCHING_DESCRIPTION"],
-  button1 = ACTIVATE,
-  button2 = IGNORE,
+  button1 = L["ACTIVATE"],
+  button2 = L["IGNORE"],
   OnButton1 = function(_, data)
     data.callback(1)
   end,

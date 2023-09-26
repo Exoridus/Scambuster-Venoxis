@@ -24,6 +24,8 @@ L["FACTION"] = "Fraktion";
 L["SETTINGS"] = "Einstellungen";
 L["PROFILES"] = "Profile";
 L["ABOUT"] = "Über";
+L["ACTIVATE"] = "Aktivieren";
+L["IGNORE"] = "Ignorieren";
 
 L["NO_BLOCKLIST_ENTRIES"] = "Keine Einträge gefunden für %s";
 L["FOUND_BLOCKLIST_ENTRIES"] = "%d |4Eintrag:Einträge; in der Blockliste gefunden für %s:";
