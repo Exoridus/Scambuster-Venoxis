@@ -3,15 +3,16 @@ local AceAddon = LibStub("AceAddon-3.0");
 local AceLocale = LibStub("AceLocale-3.0");
 local Scambuster = AceAddon:GetAddon("Scambuster");
 local L = AceLocale:GetLocale(AddonName);
+local GetRealmName = GetRealmName;
 
 Addon = AceAddon:NewAddon(Addon, AddonName);
 
 function Addon:OnInitialize()
-  if GetRealmName() ~= "Venoxis" then
-    return self:Disable();
+  if GetRealmName() == "Venoxis" then
+    Scambuster.RegisterCallback(self, "SCAMBUSTER_LIST_CONSTRUCTION", "RegisterProvider");
+  elseif self:IsEnabled() then
+    self:Disable();
   end
-
-  Scambuster.RegisterCallback(self, "SCAMBUSTER_LIST_CONSTRUCTION", "RegisterProvider");
 end
 
 function Addon:RegisterProvider()
