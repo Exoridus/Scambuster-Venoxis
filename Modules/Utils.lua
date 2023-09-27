@@ -4,11 +4,18 @@ local AceLocale = LibStub("AceLocale-3.0");
 local Utils = Addon:NewModule("Utils");
 local L = AceLocale:GetLocale(AddonName);
 local type, select, ipairs, assert, tostring, tonumber, tconcat = type, select, ipairs, assert, tostring, tonumber, table.concat;
-local strsplit, strlen, strmatch, gmatch, gsub, format, tinsert = strsplit, strlen, strmatch, gmatch, gsub, format, tinsert;
-local ChatFrame_ContainsMessageGroup = ChatFrame_ContainsMessageGroup;
+local strsplit, strlower, strmatch, gmatch, gsub, format, tinsert, unpack = strsplit, strlower, strmatch, gmatch, gsub, format, tinsert, unpack;
 local GetPlayerInfoByGUID = GetPlayerInfoByGUID;
 local GetRealmName = GetRealmName;
 local RunNextFrame = RunNextFrame;
+local GetFactionColor = GetFactionColor;
+local GetClassColorObj = GetClassColorObj;
+local WrapTextInColorCode = WrapTextInColorCode;
+local MuteSoundFile = MuteSoundFile;
+local UnmuteSoundFile = UnmuteSoundFile;
+local ContainsMessageGroup = ChatFrame_ContainsMessageGroup;
+local AddMessageEventFilter = ChatFrame_AddMessageEventFilter;
+local RemoveMessageEventFilter = ChatFrame_RemoveMessageEventFilter;
 local NewTicker = C_Timer.NewTicker;
 local AddFriend = C_FriendList.AddFriend;
 local RemoveFriend = C_FriendList.RemoveFriend;
@@ -80,7 +87,7 @@ function Utils:OnInitialize()
   };
 
   self.notificationsFilter = function(chatFrame, _, msg, ...)
-    if ChatFrame_ContainsMessageGroup(chatFrame, "SYSTEM") then
+    if ContainsMessageGroup(chatFrame, "SYSTEM") then
       for _, pattern in ipairs(notifications) do
         if strmatch(msg, pattern) then
           return true;
@@ -181,7 +188,7 @@ function Utils:PrintCommand(input, description)
     self:DescriptionText(format("- %s", description)),
   };
 
-  if type(args) == "string" or strlen(args) > 0 then
+  if type(args) == "string" or args:len() > 0 then
     tinsert(params, 3, self:ArgsText(args));
   end
 
@@ -380,7 +387,7 @@ end
 
 function Utils:DisableNotifications()
   if not self.notificationsDisabled then
-    ChatFrame_AddMessageEventFilter("CHAT_MSG_SYSTEM", self.notificationsFilter);
+    AddMessageEventFilter("CHAT_MSG_SYSTEM", self.notificationsFilter);
     MuteSoundFile(NOTIFICATIONS_SOUND_FILE);
     self.notificationsDisabled = true;
   end
@@ -388,7 +395,7 @@ end
 
 function Utils:EnableNotifications()
   if self.notificationsDisabled then
-    ChatFrame_RemoveMessageEventFilter("CHAT_MSG_SYSTEM", self.notificationsFilter);
+    RemoveMessageEventFilter("CHAT_MSG_SYSTEM", self.notificationsFilter);
     UnmuteSoundFile(NOTIFICATIONS_SOUND_FILE);
     self.notificationsDisabled = false;
   end
@@ -412,7 +419,7 @@ function Utils:GetCommandArgs(input)
   local args = {};
 
   for match in gmatch(input, "[^%s%p]+") do
-    if type(match) == "string" and strlen(match) > 0 then
+    if type(match) == "string" and match:len() > 0 then
       tinsert(args, strlower(match));
     end
   end

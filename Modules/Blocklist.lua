@@ -1124,4 +1124,14 @@ Blocklist.Entries = {
     category = "dungeon",
     level = 3,
   },
+  [101] = {
+    name = "Popiat",
+    guid = "Player-4477-03DA297A",
+    class = "WARRIOR",
+    faction = "Horde",
+    description = "Kickt gern ungerechtfertigt Spieler aus HC ++ Dungeons und klaut ihnen somit die ID",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1156349549238030417",
+    category = "gdkp",
+    level = 3,
+  },
 };

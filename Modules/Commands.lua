@@ -257,14 +257,8 @@ local function checkIgnoredEntries(entries)
 
       Utils:FetchGUIDInfo(guid, function(info)
         if info and info.name == name then
-          if #output > 0 then
-            tinsert(output, "");
-          end
-
           ignores = ignores + 1;
           Utils:PrintTitle(format("Player %s (%s) is ignoring you.", name, guid));
-          tinsert(output, format("[%s]", guid));
-          tinsert(output, format("%d. %s (%s)", ignores, name, guid));
           tinsert(output, format("%d. %s (%s)", ignores, name, guid));
         end
 
