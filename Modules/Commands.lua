@@ -1,9 +1,9 @@
 local AddonName, Addon = ...;
 local AceLocale = LibStub("AceLocale-3.0");
-local Commands = Addon:NewModule("Commands", "AceConsole-3.0");
-local Blocklist = Addon:GetModule("Blocklist");
 local Utils = Addon:GetModule("Utils");
-local Config = Addon:GetModule("Config");
+local Settings = Addon:GetModule("Settings");
+local Blocklist = Addon:GetModule("Blocklist");
+local Commands = Addon:NewModule("Commands", "AceConsole-3.0");
 local L = AceLocale:GetLocale(AddonName);
 local select, ipairs, tconcat = select, ipairs, table.concat;
 local strlower, format, unpack, sort, tinsert = strlower, format, unpack, sort, tinsert;
@@ -302,7 +302,7 @@ end
 
 function Commands:RunSlashCommand(command, ...)
   if command == "config" then
-    Config:OpenOptionsFrame(...);
+    Settings:OpenOptionsFrame(...);
   elseif command == "print" then
     return reportPlayers("print", ...);
   elseif command == "report" then

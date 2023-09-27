@@ -4,7 +4,7 @@ local AceLocale = LibStub("AceLocale-3.0");
 local Utils = Addon:NewModule("Utils");
 local L = AceLocale:GetLocale(AddonName);
 local type, select, ipairs, assert, tostring, tonumber, tconcat = type, select, ipairs, assert, tostring, tonumber, table.concat;
-local strsplit, strlen, strmatch, gmatch, format, tinsert = strsplit, strlen, strmatch, gmatch, format, tinsert;
+local strsplit, strlen, strmatch, gmatch, gsub, format, tinsert = strsplit, strlen, strmatch, gmatch, gsub, format, tinsert;
 local ChatFrame_ContainsMessageGroup = ChatFrame_ContainsMessageGroup;
 local GetPlayerInfoByGUID = GetPlayerInfoByGUID;
 local GetRealmName = GetRealmName;
@@ -421,7 +421,7 @@ function Utils:GetCommandArgs(input)
 end
 
 function Utils:EscapePattern(str)
-  return str:gsub("[().+%-*?%%[^$]", "%%%1"):gsub("%%%%s", "(.+)");
+  return gsub(gsub(str, "[().+%-*?%%[^$]", "%%%1"), "%%%%s", "(.+)");
 end
 
 function Utils:WrapColor(text, color)

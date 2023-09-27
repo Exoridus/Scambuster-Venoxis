@@ -5,7 +5,9 @@ on:
     branches:
       - master
     tags:
-      - '**'
+      - '*.*.*'
+    paths-ignore:
+      - '.github/**'
 
 jobs:
   release:

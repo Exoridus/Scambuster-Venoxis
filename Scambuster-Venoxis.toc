@@ -28,6 +28,6 @@ Locales\deDE.lua
 
 Modules\Addon.lua
 Modules\Utils.lua
-Modules\Config.lua
-Modules\Commands.lua
 Modules\Blocklist.lua
+Modules\Settings.lua
+Modules\Commands.lua
