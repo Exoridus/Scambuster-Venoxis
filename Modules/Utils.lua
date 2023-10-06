@@ -4,7 +4,7 @@ local AceLocale = LibStub("AceLocale-3.0");
 local Utils = Addon:NewModule("Utils");
 local L = AceLocale:GetLocale(AddonName);
 local type, select, ipairs, assert, tostring, tonumber, tconcat = type, select, ipairs, assert, tostring, tonumber, table.concat;
-local strsplit, strlower, strmatch, gmatch, gsub, format, tinsert, unpack = strsplit, strlower, strmatch, gmatch, gsub, format, tinsert, unpack;
+local strsplit, strtrim, strlower, strmatch, gmatch, gsub, format, tinsert, unpack = strsplit, strtrim, strlower, strmatch, gmatch, gsub, format, tinsert, unpack;
 local GetPlayerInfoByGUID = GetPlayerInfoByGUID;
 local GetRealmName = GetRealmName;
 local RunNextFrame = RunNextFrame;
@@ -60,6 +60,8 @@ local PLAYER_ENTRY_ALIASES = "\n        aliases = { %s },";
 
 local NOTIFICATIONS_SOUND_FILE = "Sound/Interface/FriendJoin.ogg";
 
+local CODE_FONT_PATH = "Interface\\Addons\\WeakAuras\\Media\\Fonts\\FiraMono-Medium.ttf";
+
 local RaceList = {
   Human = 1,
   Orc = 2,
@@ -99,6 +101,8 @@ function Utils:OnInitialize()
   end
 
   self.notificationsDisabled = false;
+
+  self.playerInfos = {};
 end
 
 function Utils:OnDisable()
@@ -195,63 +199,89 @@ function Utils:PrintCommand(input, description)
   self:Print(tconcat(params, " "));
 end
 
-function Utils:CreateCopyDialog(text, width, height)
-  local frame = AceGUI:Create("Frame");
+function Utils:CreateCopyDialog(text, width, height, isCode)
+  local frameWidget = AceGUI:Create("Frame");
 
-  frame:SetTitle(AddonName);
-  frame:SetStatusText(L["COPY_SHORTCUT_INFO"]);
-  frame:SetLayout("Flow");
-  frame:SetWidth(width or 400);
-  frame:SetHeight(height or 200);
-  frame:EnableResize(false);
-  frame:SetCallback("OnClose", function(widget)
+  frameWidget:SetTitle(AddonName);
+  frameWidget:SetStatusText(L["COPY_SHORTCUT_INFO"]);
+  frameWidget:SetLayout("Flow");
+  frameWidget:SetWidth(width or 400);
+  frameWidget:SetHeight(height or 200);
+  frameWidget:EnableResize(false);
+  frameWidget:SetCallback("OnClose", function(widget)
     widget:Release();
   end);
 
-  local editbox = AceGUI:Create("MultiLineEditBox");
+  local editBoxWidget = AceGUI:Create("MultiLineEditBox");
+  local editBox = editBoxWidget.editBox;
+  local selectEditBoxText = function()
+    editBoxWidget:SetFocus();
+    editBoxWidget:HighlightText();
+    editBoxWidget:SetCursorPosition(editBox:GetNumLetters());
+  end
 
-  editbox:SetFullWidth(true);
-  editbox:SetFullHeight(true);
-  editbox:DisableButton(true);
-  editbox:SetLabel(nil);
-  editbox:SetText(text);
-  editbox:SetCallback("OnTextChanged", function(widget)
+  editBoxWidget:SetFullWidth(true);
+  editBoxWidget:SetFullHeight(true);
+  editBoxWidget:DisableButton(true);
+  editBoxWidget:SetLabel(nil);
+  editBoxWidget:SetText(text);
+  editBoxWidget:SetCallback("OnTextChanged", function(widget)
     widget:SetText(text);
+    selectEditBoxText();
   end);
 
-  frame:AddChild(editbox);
-
-  RunNextFrame(function()
-    editbox:HighlightText();
-    editbox:SetFocus();
+  editBox:HookScript("OnKeyUp", selectEditBoxText);
+  editBox:HookScript("OnMouseUp", selectEditBoxText);
+  editBox:HookScript("OnCursorChanged", selectEditBoxText);
+  editBox:HookScript("OnEscapePressed", function()
+    frameWidget:Hide();
   end);
+
+  if isCode then
+    editBox:SetFont(CODE_FONT_PATH, 12, "");
+  end
+
+  frameWidget:AddChild(editBoxWidget);
+
+  RunNextFrame(selectEditBoxText);
 end
 
-function Utils:GetGUIDInfo(guid)
-  local className, class, raceName, race, _, name, server = GetPlayerInfoByGUID(guid);
-
-  if not (name or race or class) then
+function Utils:GetPlayerInfo(guid)
+  if not guid then
     return;
   end
 
-  local factionInfo = GetFactionInfo(RaceList[race]);
-  local realm = (server ~= "" and server) or GetRealmName();
+  if not self.playerInfos[guid] then
+    local className, class, raceName, race, _, name, server = GetPlayerInfoByGUID(guid);
 
-  return {
-    guid = guid,
-    name = name,
-    className = className,
-    class = class,
-    raceName = raceName,
-    race = race,
-    faction = factionInfo.groupTag,
-    factionName = factionInfo.name,
-    realm = realm,
-  };
+    if name and race and class then
+      local factionInfo = GetFactionInfo(RaceList[race]);
+      local realm = (server ~= "" and server) or GetRealmName();
+
+      self.playerInfos[guid] = {
+        guid = guid,
+        name = name,
+        className = className,
+        class = class,
+        raceName = raceName,
+        race = race,
+        faction = factionInfo.groupTag,
+        factionName = factionInfo.name,
+        realm = realm,
+      };
+    end
+  end
+
+  return self.playerInfos[guid];
 end
 
-function Utils:FetchGUIDInfo(guid, callback)
-  local info = self:GetGUIDInfo(guid);
+function Utils:FetchPlayerInfoByGUID(guid, callback)
+  if not guid then
+    callback(nil);
+    return;
+  end
+
+  local info = self:GetPlayerInfo(guid);
 
   if info then
     callback(info);
@@ -263,7 +293,7 @@ function Utils:FetchGUIDInfo(guid, callback)
 
   ticker = NewTicker(0.5, function()
     ticks = ticks + 1;
-    info = self:GetGUIDInfo(guid);
+    info = self:GetPlayerInfo(guid);
 
     if info or ticks == maxTicks then
       ticker:Cancel();
@@ -272,7 +302,13 @@ function Utils:FetchGUIDInfo(guid, callback)
   end, maxTicks);
 end
 
-function Utils:FetchFriendInfo(name, callback)
+function Utils:FetchPlayerInfoByName(name, callback)
+  self:FetchGUIDByName(name, function(guid)
+    self:FetchPlayerInfoByGUID(guid, callback);
+  end);
+end
+
+function Utils:FetchGUIDByName(name, callback)
   local info = GetFriendInfo(name);
 
   if info and info.notes == L["FRIENDS_LIST_NOTE"] then
@@ -280,7 +316,7 @@ function Utils:FetchFriendInfo(name, callback)
   end
 
   if info then
-    callback(info);
+    callback(info.guid);
     return;
   end
 
@@ -299,19 +335,9 @@ function Utils:FetchFriendInfo(name, callback)
 
     if info or ticks == maxTicks then
       ticker:Cancel();
-      callback(info or nil);
+      callback(info and info.guid);
     end
   end, maxTicks);
-end
-
-function Utils:FetchGUIDInfoByName(name, callback)
-  self:FetchFriendInfo(name, function(info)
-    if info then
-      self:FetchGUIDInfo(info.guid, callback);
-    else
-      callback(nil);
-    end
-  end);
 end
 
 function Utils:FormatPlayerInfo(info)
@@ -325,11 +351,9 @@ function Utils:FormatPlayerInfo(info)
 end
 
 function Utils:FormatPlayerEntry(info, index)
-  if not info or not index then
-    return "";
+  if info and index then
+    return LIST_ENTRY:format(index, info.name, info.guid, info.class, info.faction, "", "", "", 3, "");
   end
-
-  return LIST_ENTRY:format(index, info.name, info.guid, info.class, info.faction, "", "", "", 3, "");
 end
 
 function Utils:FormatAliases(entry, template)

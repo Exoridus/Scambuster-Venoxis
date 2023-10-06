@@ -1,12 +1,12 @@
 local AddonName, Addon = ...;
 local AceLocale = LibStub("AceLocale-3.0");
 local Utils = Addon:GetModule("Utils");
-local Settings = Addon:GetModule("Settings");
+local Config = Addon:GetModule("Config");
 local Blocklist = Addon:GetModule("Blocklist");
 local Commands = Addon:NewModule("Commands", "AceConsole-3.0");
 local L = AceLocale:GetLocale(AddonName);
 local select, ipairs, tconcat = select, ipairs, table.concat;
-local strlower, format, unpack, sort, tinsert = strlower, format, unpack, sort, tinsert;
+local format, unpack, tinsert = format, unpack, tinsert;
 local UnitFactionGroup = UnitFactionGroup;
 local UnitIsPlayer = UnitIsPlayer;
 local UnitGUID = UnitGUID;
@@ -20,7 +20,7 @@ local function reportPlayers(type, ...)
 
     Utils:DisableNotifications();
 
-    Utils:FetchGUIDInfoByName(name, function(info)
+    Utils:FetchPlayerInfoByName(name, function(info)
       if not info then
         Utils:PrintPlayerNotFound(name);
       elseif type == "print" then
@@ -37,7 +37,7 @@ local function reportPlayers(type, ...)
     local playerGUID = UnitGUID("target");
     local playerName = UnitName("target");
 
-    Utils:FetchGUIDInfo(playerGUID, function(info)
+    Utils:FetchPlayerInfoByGUID(playerGUID, function(info)
       if not info then
         Utils:PrintPlayerNotFound(playerName);
       elseif type == "print" then
@@ -55,37 +55,16 @@ end
 
 local function dumpEntries(entries)
   local output = {};
-  local index = 1;
-
-  for _, entry in ipairs(entries) do
-    if entry.players and #entry.players > 0 then
-      sort(entry.players, function(a, b)
-        return a.name < b.name;
-      end)
-    end
-  end
-
-  sort(entries, function(a, b)
-    local nameA = a.name or (a.players and a.players[1].name);
-    local nameB = b.name or (b.players and b.players[1].name);
-
-    if nameA and nameB then
-      return strlower(nameA) < strlower(nameB);
-    end
-
-    return not nameA;
-  end);
 
   tinsert(output, "Blocklist.Entries = {");
 
-  for _, entry in ipairs(entries) do
-    tinsert(output, Utils:FormatListItemEntry(index, entry));
-    index = index + 1;
+  for i, entry in ipairs(entries) do
+    tinsert(output, Utils:FormatListItemEntry(i, entry));
   end
 
   tinsert(output, "};");
 
-  Utils:CreateCopyDialog(tconcat(output, "\n"), 800, 600);
+  Utils:CreateCopyDialog(tconcat(output, "\n"), 800, 600, true);
 end
 
 local function checkChangedEntries(entries)
@@ -129,9 +108,11 @@ local function checkChangedEntries(entries)
     local player = players[guid];
     local playerIndex = index;
 
-    Utils:Print(Utils:SystemText(format(L["CHECK_PROGRESS"], guid, index, length)));
+    if index == 1 or index == length or index % 10 == 0 then
+      Utils:Print(Utils:SystemText(format(L["CHECK_PROGRESS"], guid, index, length)));
+    end
 
-    Utils:FetchGUIDInfo(guid, function(info)
+    Utils:FetchPlayerInfoByGUID(guid, function(info)
       if info and player then
         local nameChanged = player.name ~= info.name;
         local classChanged = player.class ~= info.class;
@@ -194,14 +175,14 @@ local function getFailedNames(names, callback)
 
   NewTicker(2, function()
     local guid = guids[index];
-    local player = names[guid];
+    local playerName = names[guid];
     local playerIndex = index;
 
-    Utils:Print(Utils:SystemText(format(L["CHECK_PROGRESS"], player, index, length)));
+    Utils:Print(Utils:SystemText(format(L["CHECK_PROGRESS"], playerName, index, length)));
 
-    Utils:FetchFriendInfo(player, function(info)
+    Utils:FetchGUIDByName(playerName, function(info)
       if not info then
-        tinsert(failed, { guid, player });
+        tinsert(failed, { guid, playerName });
       end
 
       if playerIndex == length then
@@ -214,7 +195,7 @@ local function getFailedNames(names, callback)
   end, length);
 end
 
-local function checkIgnoredEntries(entries)
+local function checkBannedEntries(entries)
   local playerFaction = UnitFactionGroup("player");
   local names = {};
 
@@ -240,33 +221,31 @@ local function checkIgnoredEntries(entries)
 
   getFailedNames(names, function(failed)
     if #failed == 0 then
-      Utils:PrintAddonMessage("Finished search with no found ignores.");
+      Utils:PrintAddonMessage(L["NO_BANNED_ENTRIES"]);
       return;
     end
 
     local length = #failed;
     local index = 1;
-    local ignores = 0;
+    local banned = 0;
     local output = {};
 
     NewTicker(2, function()
       local guid, name = unpack(failed[index]);
       local playerIndex = index;
 
-      Utils:Print(Utils:SystemText(format(L["CHECK_PROGRESS"], guid, index, length)));
-
-      Utils:FetchGUIDInfo(guid, function(info)
-        if info and info.name == name then
-          ignores = ignores + 1;
-          Utils:PrintTitle(format("Player %s (%s) is ignoring you.", name, guid));
-          tinsert(output, format("%d. %s (%s)", ignores, name, guid));
+      Utils:FetchPlayerInfoByGUID(guid, function(info)
+        if info and info.guid == guid then
+          banned = banned + 1;
+          Utils:PrintTitle(format(L["PLAYER_WAS_BANNED"], name, guid));
+          tinsert(output, format("%2d. %s (%s)", banned, name, guid));
         end
 
         if playerIndex == length then
-          Utils:PrintAddonMessage(format("Finished search with %d found ignores.", ignores));
+          Utils:PrintAddonMessage(L["CHECK_FINISHED"], length);
 
           if #output > 0 then
-            Utils:CreateCopyDialog(tconcat(output, "\n"), 640, 480);
+            Utils:CreateCopyDialog(tconcat(output, "\n"), 480, 320, true);
           end
         end
       end);
@@ -296,7 +275,7 @@ end
 
 function Commands:RunSlashCommand(command, ...)
   if command == "config" then
-    Settings:OpenOptionsFrame(...);
+    Config:OpenOptionsFrame(...);
   elseif command == "print" then
     return reportPlayers("print", ...);
   elseif command == "report" then
@@ -309,8 +288,8 @@ function Commands:RunSlashCommand(command, ...)
     end
   elseif command == "check" then
     return checkChangedEntries(Blocklist.Entries);
-  elseif command == "ignored" then
-    return checkIgnoredEntries(Blocklist.Entries);
+  elseif command == "banned" then
+    return checkBannedEntries(Blocklist.Entries);
   elseif command == "version" then
     Utils:PrintAddonVersion();
   else

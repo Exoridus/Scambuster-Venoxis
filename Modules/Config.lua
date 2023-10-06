@@ -5,7 +5,7 @@ local AceConfigDialog = LibStub("AceConfigDialog-3.0");
 local AceDB = LibStub("AceDB-3.0");
 local AceLocale = LibStub("AceLocale-3.0");
 local Utils = Addon:GetModule("Utils");
-local Settings = Addon:NewModule("Settings", "LibAboutPanel-2.0");
+local Config = Addon:NewModule("Config", "LibAboutPanel-2.0");
 local Scambuster = AceAddon:GetAddon("Scambuster");
 local L = AceLocale:GetLocale(AddonName);
 local setmetatable, ipairs = setmetatable, ipairs;
@@ -16,13 +16,13 @@ local StaticPopup_Show = StaticPopup_Show;
 local GetCategory = Settings.GetCategory;
 local OpenToCategory = Settings.OpenToCategory;
 
-Settings.defaults = {
+Config.defaults = {
   profile = {
     showGUIDDialog = true,
   },
 };
 
-function Settings:OnInitialize()
+function Config:OnInitialize()
   self.db = AceDB:New("ScambusterVenoxisDB", self.defaults, true);
 
   self.opts = setmetatable({}, {
@@ -38,7 +38,7 @@ function Settings:OnInitialize()
   end
 end
 
-function Settings:ShowGUIDMatchingDialog()
+function Config:ShowGUIDMatchingDialog()
   StaticPopup_Show("SCAMBUSTER_GUID_MATCHING_DIALOG", nil, nil, {
     callback = function(button)
       self.opts.showGUIDDialog = false;
@@ -51,7 +51,7 @@ function Settings:ShowGUIDMatchingDialog()
   });
 end
 
-function Settings:OpenOptionsFrame(subcategoryName)
+function Config:OpenOptionsFrame(subcategoryName)
   local category = GetCategory(AddonName);
 
   if category and category:HasSubcategories() then

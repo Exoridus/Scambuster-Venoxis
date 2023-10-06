@@ -29,6 +29,8 @@ L["IGNORE"] = "Ignorieren";
 
 L["NO_BLOCKLIST_ENTRIES"] = "Keine Einträge gefunden für %s";
 L["FOUND_BLOCKLIST_ENTRIES"] = "%d |4Eintrag:Einträge; in der Blockliste gefunden für %s:";
+L["NO_BANNED_ENTRIES"] = "Keine Einträge gefunden die gebannt sein könnten.";
+L["PLAYER_WAS_BANNED"] = "Player %s (%s) was banned.";
 L["CHECK_STARTED"] = "Suche nach Änderungen in %d GUIDs. (ca. %ds)";
 L["CHECK_PROGRESS"] = "Überprüfe %s (%d/%d)";
 L["CHANGE_FOUND"] = "%s wurde geändert!";
