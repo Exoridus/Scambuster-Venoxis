@@ -429,6 +429,40 @@ function Utils:GetAddOnMetadata(prop)
   return GetAddOnMetadata(AddonName, prop);
 end
 
+function Utils:CreateEntryByInfo(...)
+  local length = select("#", ...);
+
+  if length == 0 then
+    return;
+  end
+
+  local entry = {
+    description = "",
+    url = "",
+    category = "",
+    level = 3,
+  };
+
+  local players = {};
+
+  for i = 1, length do
+    local info = select(i, ...);
+
+    tinsert(players, {
+      name = info.name,
+      guid = info.guid,
+      class = info.class,
+      faction = info.faction,
+    });
+  end
+
+  if #players > 1 then
+    return MergeTable(entry, { players = players });
+  end
+
+  return MergeTable(entry, players[1]);
+end
+
 function Utils:GetVersionParts(version)
   local major, minor, patch = strmatch(version, "(%d+)%.(%d+)%.(%d+)");
 

@@ -3,6 +3,7 @@
 -- https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY --
 --=====================================================================================--
 local _, Addon = ...;
+local Utils = Addon:GetModule("Utils");
 local Blocklist = Addon:NewModule("Blocklist");
 local ipairs, sort, strlower = ipairs, sort, strlower;
 
@@ -29,25 +30,6 @@ function Blocklist:Sort()
 
     return not nameA;
   end);
-end
-
-function Blocklist:Insert(info)
-  local entry = {
-    name = info.name,
-    guid = info.guid,
-    class = info.class,
-    faction = info.faction,
-    description = "",
-    url = "",
-    category = "",
-    level = 3,
-  };
-
-  tinsert(self.Entries, entry);
-
-  self:Sort();
-
-  return entry;
 end
 
 Blocklist.Entries = {
@@ -176,7 +158,7 @@ Blocklist.Entries = {
     guid = "Player-4477-0519A01C",
     class = "SHAMAN",
     faction = "Horde",
-    description = "PDK 25er / spricht nur Englisch / verkauft alle Items und geht dann mit dem gesamten Pot 200k Gold offline	",
+    description = "PDK 25er / geht mit dem gesamten Pot 200k Gold offline / spricht nur Englisch",
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1154039081169330286",
     category = "gdkp",
     level = 3,
@@ -280,7 +262,7 @@ Blocklist.Entries = {
     guid = "Player-4477-046669DD",
     class = "MAGE",
     faction = "Horde",
-    description = "Eröffnet Gdkp run und haut dann mit dem gesamten Pot ab.  81.402 Gold / Zweiter Gdkp Scam: 56.500",
+    description = "GDKP - geht mit dem gesamten Pot offline / 81.402 Gold / Zweiter Gdkp Scam: 56.500",
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1080868571279790210",
     category = "gdkp",
     level = 3,
@@ -403,7 +385,7 @@ Blocklist.Entries = {
     guid = "Player-4477-03B0FD91",
     class = "SHAMAN",
     faction = "Horde",
-    description = "ZA GDKP Orga: Will loot behalten statt diss aber nicht zahlen. Geht off vorm Endboss mitm Pot",
+    description = "	ZA GDKP Geht mit dem gesamten Pot offline / Will loot behalten statt diss aber nicht zahlen.",
     url = "https://discord.com/channels/613060619738021890/915181409155563521/972439422299693076",
     category = "gdkp",
     level = 3,
@@ -536,7 +518,7 @@ Blocklist.Entries = {
     guid = "Player-4477-04C72D08",
     class = "WARRIOR",
     faction = "Horde",
-    description = "Geht mit 116k Gold offline und verteilt keinen Cut",
+    description = "GDKP geht mit dem gesamten Pot 116k Gold offline",
     url = "https://discord.com/channels/613060619738021890/972036752283926578/1068898422259732531",
     category = "gdkp",
     level = 3,
@@ -557,7 +539,7 @@ Blocklist.Entries = {
     guid = "Player-4477-04D9ADE0",
     class = "PALADIN",
     faction = "Horde",
-    description = "Geht mit 23.5k vom Gdkp offline und kommt nicht wieder",
+    description = "GDKP - geht mit dem gesamten Pot offline / 23,5k Gold",
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1078427424926220409",
     category = "gdkp",
     level = 3,
@@ -587,7 +569,7 @@ Blocklist.Entries = {
     guid = "Player-4477-04489AB5",
     class = "DRUID",
     faction = "Horde",
-    description = "GDKP PKD10er - Ninjat sich items und geht bevor der Pot ausbezahlt wird offline.",
+    description = "GDKP PKD10er - Geht mit dem gesamten Pot offline und ninjat auch items. Zahlt dann einigen Leuten den CUT zurück um von der Blacklist entfernt zu werden.",
     url = "https://docs.google.com/spreadsheets/d/1IKAr8A4P0-LhkXqMxizvgYy1E2gph_00M_O0r3rDGkY/edit",
     category = "gdkp",
     level = 3,
@@ -787,7 +769,7 @@ Blocklist.Entries = {
     guid = "Player-4477-044CA3A0",
     class = "WARRIOR",
     faction = "Horde",
-    description = "Steckt kompletten Pot im 10er GDKP ein. Scam",
+    description = "GDKP geht mit dem gesamten Pot offline.",
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1045384854042324992",
     category = "gdkp",
     level = 3,
@@ -807,7 +789,7 @@ Blocklist.Entries = {
     guid = "Player-4477-0432F85F",
     class = "PRIEST",
     faction = "Horde",
-    description = "Bekommt in PDOK 25 ein Item zugewiesen, welches ihm nicht gehörte und geht danach offline	",
+    description = "Bekommt in PDOK 25 ein Item zugewiesen, welches ihm nicht gehörte und geht danach offline",
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1158535753282900019",
     category = "raid",
     level = 3,
@@ -1051,7 +1033,7 @@ Blocklist.Entries = {
     guid = "Player-4477-0310DAC1",
     class = "MAGE",
     faction = "Horde",
-    description = "Macht Gdkp auf und verschwindet mit dem ganzen Pot / 108.750 Gold",
+    description = "GDKP geht mit dem gesamten Pot offline / 108.750 Gold",
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1069276743430570035",
     category = "gdkp",
     level = 3,
@@ -1209,4 +1191,44 @@ Blocklist.Entries = {
     category = "dungeon",
     level = 3,
   },
+  [105] = {
+    name = "Wonderholy",
+    guid = "Player-4477-050BEB47",
+    class = "PRIEST",
+    faction = "Horde",
+    description = "PDOK 25 GDKP - geht mit dem gesamten Pot 82444 Gold offline (kommuniziert sehr wahrscheinlich über Google Übersetzer)	",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1159919188580778045",
+    category = "gdkp",
+    level = 3,
+  },
+  [106] = {
+    name = "Weezyamk",
+    guid = "Player-4477-050FE4E0",
+    class = "DEATHKNIGHT",
+    faction = "Horde",
+    description = "PDK25 GDKP - Öffnet Raids, bietet aber selbst nichtmal Minbid auf ein Upgrade - Item wird nicht gedisst sondern nach dem Raid einfach angezogen",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1156577725637726359",
+    category = "gdkp",
+    level = 3,
+  },
+  [107] = {
+    name = "Moonlooll",
+    guid = "Player-4477-04BCE542",
+    class = "DRUID",
+    faction = "Horde",
+    description = "PDOK 25 GDKP - geht mit dem gesamten Pot offline 108.000 Gold",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1160223729608036412",
+    category = "gdkp",
+    level = 3,
+  },
+  [108] = {
+    name = "Mentolizar",
+    guid = "Player-4477-0487B9B5",
+    class = "MAGE",
+    faction = "Horde",
+    description = "PDK 25er / Geht mit dem gesamten Pot offline 96.500 Gold / spricht nur Englisch",
+    url = "https://discord.com/channels/613060619738021890/915181409155563521/1157751428325052498",
+    category = "gdkp",
+    level = 3,
+  }
 };

@@ -1,4 +1,4 @@
-## Interface: 30402
+## Interface: 30403
 ## Title: |TInterface/Addons/Scambuster-Venoxis/Assets/Scambuster:16:16|t Scambuster-Venoxis |cFF00FF00v@project-version@|r
 ## Notes: |cff666666By Exoridus|r |n|nScambuster database with chars of scammers and|ninappropriate players on Venoxis.|n|n|TInterface/Addons/Scambuster-Venoxis/Assets/Github:12:12:0:-2|t |cff82c5ffgithub.com/Exoridus|r|n|TInterface/Addons/Scambuster-Venoxis/Assets/Discord:12:12:0:-2|t |cff82c5ffExoridus|r|n|n
 ## Notes-deDE: |cff666666By Exoridus|r |n|nScambuster Datenbank mit Chars von Betrügern|nund unangemessenen Spielern auf Venoxis.|n|n|TInterface/Addons/Scambuster-Venoxis/Assets/Github:12:12:0:-2|t |cff82c5ffgithub.com/Exoridus|r|n|TInterface/Addons/Scambuster-Venoxis/Assets/Discord:12:12:0:-2|t |cff82c5ffExoridus|r|n|n
