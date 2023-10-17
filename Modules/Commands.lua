@@ -13,6 +13,7 @@ local UnitGUID = UnitGUID;
 local UnitName = UnitName;
 local GetKeysArray = GetKeysArray;
 local NewTicker = C_Timer.NewTicker;
+local NAME_CHANGE_COMPARE = VAS_NAME_CHANGE_CONFIRMATION;
 
 local function reportPlayers(type, ...)
   if select("#", ...) > 0 then
@@ -108,45 +109,18 @@ local function checkChangedEntries(entries)
     local player = players[guid];
     local playerIndex = index;
 
-    if index == 1 or index == length or index % 10 == 0 then
-      Utils:Print(Utils:SystemText(format(L["CHECK_PROGRESS"], guid, index, length)));
+    if index % 10 == 0 then
+      Utils:Print(Utils:SystemText(format(L["CHECK_PROGRESS"], index, length)));
     end
 
     Utils:FetchPlayerInfoByGUID(guid, function(info)
       if info and player then
-        local nameChanged = player.name ~= info.name;
-        local classChanged = player.class ~= info.class;
-        local factionChanged = player.faction ~= info.faction;
-        local changeDetected = nameChanged or classChanged or factionChanged;
-
-        if changeDetected then
+        if player.name ~= info.name then
           if #output > 0 then
             tinsert(output, "");
           end
-
-          Utils:Print(Utils:SuccessText(format(L["CHANGE_FOUND"], info.guid)));
           tinsert(output, format("[%s]", info.guid));
-        end
-
-        if nameChanged then
-          local changed = format(L["CHANGED_VALUE"], info.name, player.name);
-
-          tinsert(output, format("%s: %s", L["NAME_CHANGE"], changed));
-          Utils:PrintKeyValue(L["NAME_CHANGE"], changed);
-        end
-
-        if classChanged then
-          local changed = format(L["CHANGED_VALUE"], info.class, player.class);
-
-          tinsert(output, format("%s: %s", L["CLASS_CHANGE"], changed));
-          Utils:PrintKeyValue(L["CLASS_CHANGE"], changed);
-        end
-
-        if factionChanged then
-          local changed = format(L["CHANGED_VALUE"], info.faction, player.faction);
-
-          tinsert(output, format("%s: %s", L["FACTION_CHANGE"], changed));
-          Utils:PrintKeyValue(L["FACTION_CHANGE"], changed);
+          tinsert(output, format(NAME_CHANGE_COMPARE, info.name, player.name));
         end
       else
         Utils:PrintWarning(format(L["UNKNOWN_GUID"], guid));
@@ -178,7 +152,9 @@ local function getFailedNames(names, callback)
     local playerName = names[guid];
     local playerIndex = index;
 
-    Utils:Print(Utils:SystemText(format(L["CHECK_PROGRESS"], playerName, index, length)));
+    if index % 10 == 0 then
+      Utils:Print(Utils:SystemText(format(L["CHECK_PROGRESS"], index, length)));
+    end
 
     Utils:FetchGUIDByName(playerName, function(info)
       if not info then
@@ -187,6 +163,11 @@ local function getFailedNames(names, callback)
 
       if playerIndex == length then
         Utils:EnableNotifications();
+
+        if #failed == 0 then
+          Utils:PrintAddonMessage(L["NO_BANNED_ENTRIES"]);
+          return;
+        end
         callback(failed);
       end
     end);
@@ -219,9 +200,12 @@ local function checkBannedEntries(entries)
     end
   end
 
-  getFailedNames(names, function(failed)
+  local guids = GetKeysArray(names);
+  local numEntries = #guids;
+
+  getFailedNames(names, guids, function(failed)
     if #failed == 0 then
-      Utils:PrintAddonMessage(L["NO_BANNED_ENTRIES"]);
+      Utils:PrintAddonMessage(L["CHECK_FINISHED"], numEntries);
       return;
     end
 
@@ -237,12 +221,12 @@ local function checkBannedEntries(entries)
       Utils:FetchPlayerInfoByGUID(guid, function(info)
         if info and info.guid == guid then
           banned = banned + 1;
-          Utils:PrintTitle(format(L["PLAYER_WAS_BANNED"], name, guid));
-          tinsert(output, format("%2d. %s (%s)", banned, name, guid));
+          Utils:PrintTitle();
+          tinsert(output, format(L["BANNED_ENTRY"], banned, name, guid));
         end
 
         if playerIndex == length then
-          Utils:PrintAddonMessage(L["CHECK_FINISHED"], length);
+          Utils:PrintAddonMessage(L["CHECK_FINISHED"], numEntries);
 
           if #output > 0 then
             Utils:CreateCopyDialog(tconcat(output, "\n"), 480, 320, true);
@@ -255,7 +239,7 @@ local function checkBannedEntries(entries)
   end);
 end
 
-local SLASH_COMMANDS = { "venoxis", "v", "scambuster-venoxis", "sbv" };
+local SLASH_COMMANDS = { "venoxis", "v", "sbv" };
 
 function Commands:OnEnable()
   for _, command in ipairs(SLASH_COMMANDS) do

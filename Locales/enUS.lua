@@ -29,23 +29,17 @@ L["IGNORE"] = "Ignore";
 
 L["NO_BLOCKLIST_ENTRIES"] = "No blocklist entries found for %s";
 L["FOUND_BLOCKLIST_ENTRIES"] = "Found %d blocklist entries for %s:";
-L["NO_BANNED_ENTRIES"] = "No blocklist entries found that could be banned.";
-L["PLAYER_WAS_BANNED"] = "Player %s (%s) was banned.";
-L["CHECK_STARTED"] = "Search for changes in %d GUIDs. (duration ~%ds)";
-L["CHECK_PROGRESS"] = "Checking %s (%d/%d)";
-L["CHANGE_FOUND"] = "%s was changed!";
-L["NAME_CHANGE"] = "Name change";
-L["CLASS_CHANGE"] = "Class change";
-L["FACTION_CHANGE"] = "Faction change";
-L["CHANGED_VALUE"] = "%s (Previous: %s)";
+L["NO_BANNED_ENTRIES"] = "No banned entries found in blocklist.";
+L["BANNED_ENTRY"] = "%d. %s (%s)";
+L["CHECK_STARTED"] = "Search for changes in %d entries. (duration ~%ds)";
+L["CHECK_PROGRESS"] = "Checking entry %d/%d";
+L["CHECK_FINISHED"] = "Finished search for changes in %d entries.";
 L["UNKNOWN_GUID"] = "GUID %s is not available anymore.";
-L["CHECK_FINISHED"] = "Finished search for changes in %d GUIDs.";
 L["FOUND_NAME_COLLISION"] = "Different names were found for GUID %s: %s, %s.";
 
 L["CAUTION"] = "CAUTION!";
-L["FRIENDS_LIST_NOTE"] = format("From %s", AddonName);
 L["COPY_SHORTCUT_INFO"] = "Use CTRL+C to copy data.";
-L["GUID_FROM_ANOTHER_REALM"] = "player is from another realm (%s).";
+L["GUID_FROM_ANOTHER_REALM"] = "Player is from another realm (%s).";
 
 L["PLAYER_NOT_FOUND_TITLE"] = "Could not fetch player info for \"%s\". Possible reasons are:";
 L["PLAYER_NOT_FOUND_REASONS"] = [[

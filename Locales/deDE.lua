@@ -30,20 +30,14 @@ L["IGNORE"] = "Ignorieren";
 L["NO_BLOCKLIST_ENTRIES"] = "Keine Einträge gefunden für %s";
 L["FOUND_BLOCKLIST_ENTRIES"] = "%d |4Eintrag:Einträge; in der Blockliste gefunden für %s:";
 L["NO_BANNED_ENTRIES"] = "Keine Einträge gefunden die gebannt sein könnten.";
-L["PLAYER_WAS_BANNED"] = "Player %s (%s) was banned.";
-L["CHECK_STARTED"] = "Suche nach Änderungen in %d GUIDs. (ca. %ds)";
-L["CHECK_PROGRESS"] = "Überprüfe %s (%d/%d)";
-L["CHANGE_FOUND"] = "%s wurde geändert!";
-L["NAME_CHANGE"] = "Namensänderung";
-L["CLASS_CHANGE"] = "Klassenänderung";
-L["FACTION_CHANGE"] = "Fraktionsänderung";
-L["CHANGED_VALUE"] = "%s (Vorher: %s)";
+L["BANNED_ENTRY"] = "%d. %s (%s)";
+L["CHECK_STARTED"] = "Suche nach Änderungen in %d Einträgen. (ca. %ds)";
+L["CHECK_PROGRESS"] = "Überprüfe Eintrag %d/%d";
+L["CHECK_FINISHED"] = "Alle %d Einträge erfolgreich überprüft.";
 L["UNKNOWN_GUID"] = "GUID %s ist nicht mehr verfügbar.";
-L["CHECK_FINISHED"] = "Alle %d GUIDs erfolgreich überprüft.";
 L["FOUND_NAME_COLLISION"] = "Verschiedenen Namen gefunden bei GUID %s: %s, %s.";
 
 L["CAUTION"] = "ACHTUNG!";
-L["FRIENDS_LIST_NOTE"] = format("Von %s", AddonName);
 L["COPY_SHORTCUT_INFO"] = "CTRL+C zum kopieren";
 L["GUID_FROM_ANOTHER_REALM"] = "Spieler ist auf einem anderen Realm (%s).";
 

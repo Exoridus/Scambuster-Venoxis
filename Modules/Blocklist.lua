@@ -794,7 +794,7 @@ Blocklist.Entries = {
     level = 3,
   },
   [66] = {
-    name = "Mentolizar",
+    name = "Elfinmage",
     guid = "Player-4477-0487B9B5",
     class = "MAGE",
     faction = "Horde",
@@ -802,6 +802,7 @@ Blocklist.Entries = {
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1157751428325052498",
     category = "gdkp",
     level = 3,
+    aliases = { "Mentolizar" },
   },
   [67] = {
     name = "Moonlooll",
@@ -875,7 +876,7 @@ Blocklist.Entries = {
     level = 3,
   },
   [74] = {
-    name = "Popiat",
+    name = "Glurenz",
     guid = "Player-4477-03DA297A",
     class = "WARRIOR",
     faction = "Horde",
@@ -883,6 +884,7 @@ Blocklist.Entries = {
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1156349549238030417",
     category = "gdkp",
     level = 3,
+    aliases = { "Popiat" },
   },
   [75] = {
     name = "Sandmanncs",
@@ -1180,7 +1182,7 @@ Blocklist.Entries = {
     level = 3,
   },
   [104] = {
-    name = "Zeirø",
+    name = "Razíèl",
     guid = "Player-4477-04D84FE0",
     class = "DEATHKNIGHT",
     faction = "Horde",
@@ -1188,6 +1190,7 @@ Blocklist.Entries = {
     url = "https://discord.com/channels/613060619738021890/915181409155563521/1159211034960220221",
     category = "gdkp",
     level = 3,
+    aliases = { "Zeirø" },
   },
   [105] = {
     name = "Zenjen",

@@ -100,7 +100,7 @@ function Utils:OnInitialize()
     return false, msg, ...;
   end
 
-  self.notificationsDisabled = false;
+  self.notificationLocks = 0;
 
   self.playerInfos = {};
 end
@@ -162,7 +162,7 @@ function Utils:PrintWarning(message)
 end
 
 function Utils:PrintAddonVersion()
-  local major, minor, patch = self:GetVersionParts(self:GetAddOnMetadata("Version"));
+  local major, minor, patch = self:GetVersionParts(GetAddOnMetadata(AddonName, "Version"));
   local version = format("v%d.%d.%d", major, minor, patch);
 
   self:PrintAddonMessage(self:SuccessText(version));
@@ -311,7 +311,7 @@ end
 function Utils:FetchGUIDByName(name, callback)
   local info = GetFriendInfo(name);
 
-  if info and info.notes == L["FRIENDS_LIST_NOTE"] then
+  if info and strmatch(info.notes, AddonName) then
     RemoveFriend(name);
   end
 
@@ -323,13 +323,13 @@ function Utils:FetchGUIDByName(name, callback)
   local ticks, maxTicks = 0, 4;
   local ticker;
 
-  AddFriend(name, L["FRIENDS_LIST_NOTE"]);
+  AddFriend(name, AddonName);
 
   ticker = NewTicker(0.5, function()
     ticks = ticks + 1;
     info = GetFriendInfo(name);
 
-    if info and info.notes == L["FRIENDS_LIST_NOTE"] then
+    if info and strmatch(info.notes, AddonName) then
       RemoveFriend(name);
     end
 
@@ -410,23 +410,21 @@ function Utils:FormatListItemEntry(index, entry)
 end
 
 function Utils:DisableNotifications()
-  if not self.notificationsDisabled then
+  if self.notificationLocks == 0 then
     AddMessageEventFilter("CHAT_MSG_SYSTEM", self.notificationsFilter);
     MuteSoundFile(NOTIFICATIONS_SOUND_FILE);
-    self.notificationsDisabled = true;
   end
+
+  self.notificationLocks = self.notificationLocks + 1;
 end
 
 function Utils:EnableNotifications()
-  if self.notificationsDisabled then
+  if self.notificationLocks == 1 then
     RemoveMessageEventFilter("CHAT_MSG_SYSTEM", self.notificationsFilter);
     UnmuteSoundFile(NOTIFICATIONS_SOUND_FILE);
-    self.notificationsDisabled = false;
   end
-end
 
-function Utils:GetAddOnMetadata(prop)
-  return GetAddOnMetadata(AddonName, prop);
+  self.notificationLocks = max(self.notificationLocks - 1, 0);
 end
 
 function Utils:CreateEntryByInfo(...)
