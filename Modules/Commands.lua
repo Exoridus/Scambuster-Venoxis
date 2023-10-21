@@ -13,7 +13,7 @@ local UnitGUID = UnitGUID;
 local UnitName = UnitName;
 local GetKeysArray = GetKeysArray;
 local NewTicker = C_Timer.NewTicker;
-local NAME_CHANGE_COMPARE = VAS_NAME_CHANGE_CONFIRMATION;
+local NAME_CHANGE_COMPARE = "Alter Name: %s|nNeuer Name: %s";
 
 local function reportPlayers(type, ...)
   if select("#", ...) > 0 then
@@ -120,7 +120,7 @@ local function checkChangedEntries(entries)
             tinsert(output, "");
           end
           tinsert(output, format("[%s]", info.guid));
-          tinsert(output, format(NAME_CHANGE_COMPARE, info.name, player.name));
+          tinsert(output, format(NAME_CHANGE_COMPARE, player.name, info.name));
         end
       else
         Utils:PrintWarning(format(L["UNKNOWN_GUID"], guid));
