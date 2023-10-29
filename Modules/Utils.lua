@@ -302,6 +302,18 @@ function Utils:FetchPlayerInfoByGUID(guid, callback)
   end, maxTicks);
 end
 
+function Utils:CleanupFriendList()
+  local pattern = self:EscapePattern(AddonName);
+
+  for i = C_FriendList.GetNumFriends(), 1, -1 do
+    local info = C_FriendList.GetFriendInfoByIndex(i);
+
+    if info and strmatch(info.notes, pattern) then
+      RemoveFriend(info.name);
+    end
+  end
+end
+
 function Utils:FetchPlayerInfoByName(name, callback)
   self:FetchGUIDByName(name, function(guid)
     self:FetchPlayerInfoByGUID(guid, callback);
@@ -311,7 +323,7 @@ end
 function Utils:FetchGUIDByName(name, callback)
   local info = GetFriendInfo(name);
 
-  if info and strmatch(info.notes, AddonName) then
+  if info and strmatch(info.notes, self:EscapePattern(AddonName)) then
     RemoveFriend(name);
   end
 
@@ -329,7 +341,7 @@ function Utils:FetchGUIDByName(name, callback)
     ticks = ticks + 1;
     info = GetFriendInfo(name);
 
-    if info and strmatch(info.notes, AddonName) then
+    if info and strmatch(info.notes, self:EscapePattern(AddonName)) then
       RemoveFriend(name);
     end
 
@@ -459,6 +471,40 @@ function Utils:CreateEntryByInfo(...)
   end
 
   return MergeTable(entry, players[1]);
+end
+
+function Utils:GetUniquePlayers(entries)
+  local players = {};
+
+  for _, entry in ipairs(entries) do
+    if entry.players and #entry.players > 0 then
+      for _, player in ipairs(entry.players) do
+        if not players[player.guid] then
+          players[player.guid] = {
+            guid = player.guid,
+            name = player.name,
+            class = player.class,
+            faction = player.faction,
+          };
+        elseif players[player.guid].name ~= player.name then
+          self:PrintWarning(format(L["FOUND_NAME_COLLISION"], player.guid, players[player.guid].name, player.name));
+        end
+      end
+    elseif entry.name then
+      if not players[entry.guid] then
+        players[entry.guid] = {
+          guid = entry.guid,
+          name = entry.name,
+          class = entry.class,
+          faction = entry.faction,
+        };
+      elseif players[entry.guid].name ~= entry.name then
+        self:PrintWarning(format(L["FOUND_NAME_COLLISION"], entry.guid, players[entry.guid].name, entry.name));
+      end
+    end
+  end
+
+  return GetValuesArray(players);
 end
 
 function Utils:GetVersionParts(version)

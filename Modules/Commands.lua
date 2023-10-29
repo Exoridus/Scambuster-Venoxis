@@ -6,12 +6,12 @@ local Blocklist = Addon:GetModule("Blocklist");
 local Commands = Addon:NewModule("Commands", "AceConsole-3.0");
 local L = AceLocale:GetLocale(AddonName);
 local select, ipairs, tconcat = select, ipairs, table.concat;
-local format, unpack, tinsert = format, unpack, tinsert;
+local format, tinsert = format, tinsert;
 local UnitFactionGroup = UnitFactionGroup;
 local UnitIsPlayer = UnitIsPlayer;
 local UnitGUID = UnitGUID;
 local UnitName = UnitName;
-local GetKeysArray = GetKeysArray;
+local GetValuesArray = GetValuesArray;
 local NewTicker = C_Timer.NewTicker;
 local NAME_CHANGE_COMPARE = "Alter Name: %s|nNeuer Name: %s";
 
@@ -69,52 +69,23 @@ local function dumpEntries(entries)
 end
 
 local function checkChangedEntries(entries)
-  local players = {};
-
-  for _, entry in ipairs(entries) do
-    if entry.players and #entry.players > 0 then
-      for _, player in ipairs(entry.players) do
-        if not players[player.guid] then
-          players[player.guid] = {
-            name = player.name,
-            class = player.class,
-            faction = player.faction,
-          };
-        elseif players[player.guid].name ~= player.name then
-          Utils:PrintWarning(format(L["FOUND_NAME_COLLISION"], player.guid, players[player.guid].name, player.name));
-        end
-      end
-    elseif entry.name then
-      if not players[entry.guid] then
-        players[entry.guid] = {
-          name = entry.name,
-          class = entry.class,
-          faction = entry.faction,
-        };
-      elseif players[entry.guid].name ~= entry.name then
-        Utils:PrintWarning(format(L["FOUND_NAME_COLLISION"], entry.guid, players[entry.guid].name, entry.name));
-      end
-    end
-  end
-
-  local guids = GetKeysArray(players);
-  local length = #guids;
+  local players = Utils:GetUniquePlayers(entries);
+  local length = #players;
   local index = 1;
   local output = {};
 
   Utils:PrintAddonMessage(L["CHECK_STARTED"], length, length * 2);
 
   NewTicker(2, function()
-    local guid = guids[index];
-    local player = players[guid];
+    local player = players[index];
     local playerIndex = index;
 
     if index % 10 == 0 then
       Utils:Print(Utils:SystemText(format(L["CHECK_PROGRESS"], index, length)));
     end
 
-    Utils:FetchPlayerInfoByGUID(guid, function(info)
-      if info and player then
+    Utils:FetchPlayerInfoByGUID(player.guid, function(info)
+      if info then
         if player.name ~= info.name then
           if #output > 0 then
             tinsert(output, "");
@@ -123,7 +94,7 @@ local function checkChangedEntries(entries)
           tinsert(output, format(NAME_CHANGE_COMPARE, player.name, info.name));
         end
       else
-        Utils:PrintWarning(format(L["UNKNOWN_GUID"], guid));
+        Utils:PrintWarning(format(L["UNKNOWN_GUID"], player.guid));
       end
 
       if playerIndex == length then
@@ -139,35 +110,30 @@ local function checkChangedEntries(entries)
   end, length);
 end
 
-local function getFailedNames(names, callback)
-  local guids = GetKeysArray(names);
-  local length = #guids;
+local function getFailedNames(players, callback)
+  local length = #players;
   local index = 1;
   local failed = {};
 
   Utils:DisableNotifications();
 
+  Utils:CleanupFriendList();
+
   NewTicker(2, function()
-    local guid = guids[index];
-    local playerName = names[guid];
+    local player = players[index];
     local playerIndex = index;
 
     if index % 10 == 0 then
       Utils:Print(Utils:SystemText(format(L["CHECK_PROGRESS"], index, length)));
     end
 
-    Utils:FetchGUIDByName(playerName, function(info)
+    Utils:FetchGUIDByName(player.name, function(info)
       if not info then
-        tinsert(failed, { guid, playerName });
+        tinsert(failed, player);
       end
 
       if playerIndex == length then
         Utils:EnableNotifications();
-
-        if #failed == 0 then
-          Utils:PrintAddonMessage(L["NO_BANNED_ENTRIES"]);
-          return;
-        end
         callback(failed);
       end
     end);
@@ -178,58 +144,36 @@ end
 
 local function checkBannedEntries(entries)
   local playerFaction = UnitFactionGroup("player");
-  local names = {};
-
-  for _, entry in ipairs(entries) do
-    if entry.players then
-      for _, player in ipairs(entry.players) do
-        if player.faction == playerFaction then
-          if not names[player.guid] then
-            names[player.guid] = player.name;
-          elseif names[player.guid] ~= player.name then
-            Utils:PrintWarning(format(L["FOUND_NAME_COLLISION"], player.guid, names[player.guid], player.name));
-          end
-        end
-      end
-    elseif entry.name and entry.faction == playerFaction then
-      if not names[entry.guid] then
-        names[entry.guid] = entry.name;
-      elseif names[entry.guid] ~= entry.name then
-        Utils:PrintWarning(format(L["FOUND_NAME_COLLISION"], entry.guid, names[entry.guid], entry.name));
-      end
-    end
+  local function FilterPredicate(player)
+    return player.faction == playerFaction;
   end
+  local players = tFilter(Utils:GetUniquePlayers(entries), FilterPredicate, true);
+  local numEntries = #players;
 
-  local guids = GetKeysArray(names);
-  local numEntries = #guids;
-
-  getFailedNames(names, guids, function(failed)
+  getFailedNames(players, function(failed)
     if #failed == 0 then
-      Utils:PrintAddonMessage(L["CHECK_FINISHED"], numEntries);
+      Utils:PrintAddonMessage(L["NO_BANNED_ENTRIES"]);
       return;
     end
 
     local length = #failed;
     local index = 1;
-    local banned = 0;
-    local output = {};
+    local banned = {};
 
     NewTicker(2, function()
-      local guid, name = unpack(failed[index]);
+      local player = failed[index];
       local playerIndex = index;
 
-      Utils:FetchPlayerInfoByGUID(guid, function(info)
-        if info and info.guid == guid then
-          banned = banned + 1;
-          Utils:PrintTitle();
-          tinsert(output, format(L["BANNED_ENTRY"], banned, name, guid));
+      Utils:FetchPlayerInfoByGUID(player.guid, function(info)
+        if info then
+          tinsert(banned, format(L["BANNED_ENTRY"], #banned + 1, info.name, info.guid));
         end
 
         if playerIndex == length then
           Utils:PrintAddonMessage(L["CHECK_FINISHED"], numEntries);
 
-          if #output > 0 then
-            Utils:CreateCopyDialog(tconcat(output, "\n"), 480, 320, true);
+          if #banned > 0 then
+            Utils:CreateCopyDialog(tconcat(banned, "\n"), 480, 320, true);
           end
         end
       end);
