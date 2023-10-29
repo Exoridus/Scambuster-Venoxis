@@ -8,6 +8,7 @@ local strsplit, strtrim, strlower, strmatch, gmatch, gsub, format, tinsert, unpa
 local GetPlayerInfoByGUID = GetPlayerInfoByGUID;
 local GetRealmName = GetRealmName;
 local RunNextFrame = RunNextFrame;
+local GetValuesArray = GetValuesArray;
 local GetFactionColor = GetFactionColor;
 local GetClassColorObj = GetClassColorObj;
 local WrapTextInColorCode = WrapTextInColorCode;

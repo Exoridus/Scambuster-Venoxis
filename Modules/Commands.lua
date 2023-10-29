@@ -11,7 +11,6 @@ local UnitFactionGroup = UnitFactionGroup;
 local UnitIsPlayer = UnitIsPlayer;
 local UnitGUID = UnitGUID;
 local UnitName = UnitName;
-local GetValuesArray = GetValuesArray;
 local NewTicker = C_Timer.NewTicker;
 local NAME_CHANGE_COMPARE = "Alter Name: %s|nNeuer Name: %s";
 
