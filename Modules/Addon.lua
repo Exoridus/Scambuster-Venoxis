@@ -2,27 +2,26 @@ local AddonName, Addon = ...;
 local AceAddon = LibStub("AceAddon-3.0");
 local AceLocale = LibStub("AceLocale-3.0");
 local L = AceLocale:GetLocale(AddonName);
-local GetRealmName = GetRealmName;
-local GetAddOnMetadata = C_AddOns.GetAddOnMetadata;
 
+---@class Addon : AceAddon
 Addon = AceAddon:NewAddon(Addon, AddonName);
 
 function Addon:OnInitialize()
   if GetRealmName() ~= "Venoxis" then
-    self:Disable();
+    self:SetEnabledState(false);
   end
 end
 
 function Addon:OnEnable()
-  local Blocklist = self:GetModule("Blocklist");
+  local Utils = self:GetModule("Utils") --[[@as Utils]];
+  local Blocklist = self:GetModule("Blocklist") --[[@as Blocklist]];
+  local Scambuster = AceAddon:GetAddon("Scambuster") --[[@as Scambuster]];
 
-  AceAddon:GetAddon("Scambuster"):register_case_data({
-    name = L["BLOCKLIST_NAME"],
-    provider = L["BLOCKLIST_PROVIDER"],
-    description = L["BLOCKLIST_DESCRIPTION"],
-    url = GetAddOnMetadata(AddonName, "X-Website"),
-    realm_data = {
-      ["Venoxis"] = Blocklist.Entries,
-    },
+  Scambuster:register_case_data({
+    name = L.BLOCKLIST_NAME --[[@as string]],
+    provider = L.BLOCKLIST_PROVIDER --[[@as string]],
+    description = L.BLOCKLIST_DESCRIPTION --[[@as string]],
+    url = Utils:GetMetadata("X-Website"),
+    realm_data = { ["Venoxis"] = Blocklist.Entries },
   });
 end

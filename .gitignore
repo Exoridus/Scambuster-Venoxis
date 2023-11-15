@@ -5,4 +5,5 @@
 .install
 .lua
 .luarocks
+.luarc.json
 CHANGELOG.md

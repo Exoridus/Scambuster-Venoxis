@@ -3,7 +3,10 @@ local AceLocale = LibStub("AceLocale-3.0");
 local Utils = Addon:GetModule("Utils");
 local Config = Addon:GetModule("Config");
 local Blocklist = Addon:GetModule("Blocklist");
+local Networking = Addon:GetModule("Networking");
+---@class Commands : AceModule
 local Commands = Addon:NewModule("Commands", "AceConsole-3.0");
+---@type AddonLocale
 local L = AceLocale:GetLocale(AddonName);
 local select, ipairs, tconcat = select, ipairs, table.concat;
 local format, tinsert = format, tinsert;
@@ -12,7 +15,6 @@ local UnitIsPlayer = UnitIsPlayer;
 local UnitGUID = UnitGUID;
 local UnitName = UnitName;
 local NewTicker = C_Timer.NewTicker;
-local NAME_CHANGE_COMPARE = "Alter Name: %s|nNeuer Name: %s";
 
 local function reportPlayers(type, ...)
   if select("#", ...) > 0 then
@@ -49,7 +51,7 @@ local function reportPlayers(type, ...)
       end
     end);
   else
-    Utils:PrintAddonMessage(L["ENTER_PLAYER_NAME"]);
+    Utils:PrintAddonMessage(L.ENTER_PLAYER_NAME);
   end
 end
 
@@ -73,14 +75,14 @@ local function checkChangedEntries(entries)
   local index = 1;
   local output = {};
 
-  Utils:PrintAddonMessage(L["CHECK_STARTED"], length, length * 2);
+  Utils:PrintAddonMessage(L.CHECK_STARTED, length, length * 2);
 
   NewTicker(2, function()
     local player = players[index];
     local playerIndex = index;
 
     if index % 10 == 0 then
-      Utils:Print(Utils:SystemText(format(L["CHECK_PROGRESS"], index, length)));
+      Utils:Print(Utils:SystemText(format(L.CHECK_PROGRESS, index, length)));
     end
 
     Utils:FetchPlayerInfoByGUID(player.guid, function(info)
@@ -90,14 +92,14 @@ local function checkChangedEntries(entries)
             tinsert(output, "");
           end
           tinsert(output, format("[%s]", info.guid));
-          tinsert(output, format(NAME_CHANGE_COMPARE, player.name, info.name));
+          tinsert(output, format(L.NAME_CHANGE_COMPARE, player.name, info.name));
         end
       else
-        Utils:PrintWarning(format(L["UNKNOWN_GUID"], player.guid));
+        Utils:PrintWarning(format(L.UNKNOWN_GUID, player.guid));
       end
 
       if playerIndex == length then
-        Utils:PrintAddonMessage(L["CHECK_FINISHED"], length);
+        Utils:PrintAddonMessage(L.CHECK_FINISHED, length);
 
         if #output > 0 then
           Utils:CreateCopyDialog(tconcat(output, "\n"));
@@ -116,14 +118,12 @@ local function getFailedNames(players, callback)
 
   Utils:DisableNotifications();
 
-  Utils:CleanupFriendList();
-
   NewTicker(2, function()
     local player = players[index];
     local playerIndex = index;
 
     if index % 10 == 0 then
-      Utils:Print(Utils:SystemText(format(L["CHECK_PROGRESS"], index, length)));
+      Utils:Print(Utils:SystemText(format(L.CHECK_PROGRESS, index, length)));
     end
 
     Utils:FetchGUIDByName(player.name, function(info)
@@ -151,7 +151,7 @@ local function checkBannedEntries(entries)
 
   getFailedNames(players, function(failed)
     if #failed == 0 then
-      Utils:PrintAddonMessage(L["NO_BANNED_ENTRIES"]);
+      Utils:PrintAddonMessage(L.NO_BANNED_ENTRIES);
       return;
     end
 
@@ -165,11 +165,11 @@ local function checkBannedEntries(entries)
 
       Utils:FetchPlayerInfoByGUID(player.guid, function(info)
         if info then
-          tinsert(banned, format(L["BANNED_ENTRY"], #banned + 1, info.name, info.guid));
+          tinsert(banned, format(L.BANNED_ENTRY, #banned + 1, info.name, info.guid));
         end
 
         if playerIndex == length then
-          Utils:PrintAddonMessage(L["CHECK_FINISHED"], numEntries);
+          Utils:PrintAddonMessage(L.CHECK_FINISHED, numEntries);
 
           if #banned > 0 then
             Utils:CreateCopyDialog(tconcat(banned, "\n"), 480, 320, true);
@@ -219,6 +219,9 @@ function Commands:RunSlashCommand(command, ...)
     return checkBannedEntries(Blocklist.Entries);
   elseif command == "version" then
     Utils:PrintAddonVersion();
+  elseif command == "debug" then
+    Networking.debug = not Networking.debug;
+    print("Networking.debug is %s", Networking.debug and "ON" or "OFF");
   else
     Utils:PrintSlashCommands();
   end

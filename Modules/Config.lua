@@ -1,24 +1,23 @@
 local AddonName, Addon = ...;
-local AceAddon = LibStub("AceAddon-3.0");
-local AceConfig = LibStub("AceConfig-3.0");
-local AceConfigDialog = LibStub("AceConfigDialog-3.0");
 local AceDB = LibStub("AceDB-3.0");
-local AceLocale = LibStub("AceLocale-3.0");
-local Utils = Addon:GetModule("Utils");
-local Config = Addon:NewModule("Config", "LibAboutPanel-2.0");
-local Scambuster = AceAddon:GetAddon("Scambuster");
-local L = AceLocale:GetLocale(AddonName);
-local setmetatable, ipairs = setmetatable, ipairs;
-local UserInputNonEmpty = UserInputNonEmpty;
-local ConfirmationStringMatches = ConfirmationStringMatches;
-local StaticPopupDialogs = StaticPopupDialogs;
-local StaticPopup_Show = StaticPopup_Show;
-local GetCategory = Settings.GetCategory;
+---@class Config : AceModule
+local Config = Addon:NewModule("Config");
+local setmetatable = setmetatable;
 local OpenToCategory = Settings.OpenToCategory;
+local RegisterProxySetting = Settings.RegisterProxySetting;
+local CreateCheckBox = Settings.CreateCheckBox;
+local RegisterAddOnCategory = Settings.RegisterAddOnCategory;
+local RegisterVerticalLayoutCategory = Settings.RegisterVerticalLayoutCategory;
+local Boolean = Settings.VarType.Boolean;
 
 Config.defaults = {
   profile = {
-    showGUIDDialog = true,
+    overrideScambuster = true,
+    enableGUIDMatching = true, -- require_guid_match false
+    disableAllMatching = true, -- match_all_incidents true
+    extendAlertLockout = true, -- alert_lockout_seconds 900
+    enableSystemAlerts = true, -- use_system_alert true
+    disableGroupAlerts = true, -- use_group_chat_alert true
   },
 };
 
@@ -29,63 +28,41 @@ function Config:OnInitialize()
     __index = self.db.profile,
     __newindex = self.db.profile,
   });
-
-  AceConfig:RegisterOptionsTable(AddonName, self:AboutOptionsTable(AddonName));
-  AceConfigDialog:AddToBlizOptions(AddonName, AddonName);
-
-  if self.opts.showGUIDDialog == true and Scambuster.db.profile.require_guid_match == false then
-    self:ShowGUIDMatchingDialog();
-  end
 end
 
-function Config:ShowGUIDMatchingDialog()
-  StaticPopup_Show("SCAMBUSTER_GUID_MATCHING_DIALOG", nil, nil, {
-    callback = function(button)
-      self.opts.showGUIDDialog = false;
+function Config:OnEnable()
+  local category = RegisterVerticalLayoutCategory(AddonName);
 
-      if button == 1 then
-        Scambuster.db.profile.require_guid_match = true;
-        Utils:PrintAddonMessage(L["GUID_MATCHING_ENABLED"]);
-      end
-    end
-  });
-end
+  local overrideScambusterSetting = RegisterProxySetting(category, "overrideScambuster", self.opts, Boolean, "Scambuster überschreiben (empfohlen)");
+  local overrideScambusterInitializer = CreateCheckBox(category, overrideScambusterSetting);
 
-function Config:OpenOptionsFrame(subcategoryName)
-  local category = GetCategory(AddonName);
-
-  if category and category:HasSubcategories() then
-    category.expanded = true;
-
-    if subcategoryName and UserInputNonEmpty(subcategoryName) then
-      for _, subcategory in ipairs(category:GetSubcategories()) do
-        if ConfirmationStringMatches(subcategoryName, subcategory:GetName()) then
-          OpenToCategory(subcategory:GetID());
-        end
-      end
-    end
+  local function IsModifiable()
+    return overrideScambusterSetting:GetValue();
   end
 
+  local enableGUIDMatchingSetting = RegisterProxySetting(category, "enableGUIDMatching", self.opts, Boolean, "GUID Matching aktivieren");
+  local enableGUIDMatchingInitializer = CreateCheckBox(category, enableGUIDMatchingSetting);
+  enableGUIDMatchingInitializer:SetParentInitializer(overrideScambusterInitializer, IsModifiable);
+
+  local disableAllMatchingSetting = RegisterProxySetting(category, "disableAllMatching", self.opts, Boolean, "Name Matching deaktivieren");
+  local disableAllMatchingInitializer = CreateCheckBox(category, disableAllMatchingSetting);
+  disableAllMatchingInitializer:SetParentInitializer(overrideScambusterInitializer, IsModifiable);
+
+  local extendAlertLockoutSetting = RegisterProxySetting(category, "extendAlertLockout", self.opts, Boolean, "Alert Lockout verlängern");
+  local extendAlertLockoutInitializer = CreateCheckBox(category, extendAlertLockoutSetting);
+  extendAlertLockoutInitializer:SetParentInitializer(overrideScambusterInitializer, IsModifiable);
+
+  local enableSystemAlertsSetting = RegisterProxySetting(category, "enableSystemAlerts", self.opts, Boolean, "System Messages aktivieren");
+  local enableSystemAlertsInitializer = CreateCheckBox(category, enableSystemAlertsSetting);
+  enableSystemAlertsInitializer:SetParentInitializer(overrideScambusterInitializer, IsModifiable);
+
+  local disableGroupAlertsSetting = RegisterProxySetting(category, "disableGroupAlerts", self.opts, Boolean, "Gruppen/Raidchat deaktivieren");
+  local disableGroupAlertsInitializer = CreateCheckBox(category, disableGroupAlertsSetting);
+  disableGroupAlertsInitializer:SetParentInitializer(overrideScambusterInitializer, IsModifiable);
+
+  RegisterAddOnCategory(category);
+end
+
+function Config:OpenOptionsFrame()
   OpenToCategory(AddonName);
 end
-
-StaticPopupDialogs["SCAMBUSTER_GUID_MATCHING_DIALOG"] = {
-  text = L["TURN_ON_GUID_MATCHING"],
-  subText = L["GUID_MATCHING_DESCRIPTION"],
-  button1 = L["ACTIVATE"],
-  button2 = L["IGNORE"],
-  OnButton1 = function(_, data)
-    data.callback(1)
-  end,
-  OnButton2 = function(_, data)
-    data.callback(2)
-  end,
-  timeout = 0,
-  whileDead = true,
-  hideOnEscape = false,
-  noCancelOnReuse = true,
-  notClosableByLogout = true,
-  enterClicksFirstButton = true,
-  interruptCinematic = true,
-  preferredIndex = 3,
-};

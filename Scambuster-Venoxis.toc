@@ -11,7 +11,7 @@
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Realm: Venoxis
 ## X-License: GPLv3
-## X-Embeds: LibStub, Ace3, LibAboutPanel-2.0
+## X-Embeds: LibStub, LibSerialize, LibDeflate, Ace3
 ## X-Category: Chat/Communication, Raid, Party, Tradeskill, Miscellaneous, Plugins
 ## X-Localizations: enUS, deDE
 ## X-Website: https://github.com/Exoridus/Scambuster-Venoxis
@@ -30,4 +30,5 @@ Modules\Addon.lua
 Modules\Utils.lua
 Modules\Config.lua
 Modules\Blocklist.lua
+Modules\Networking.lua
 Modules\Commands.lua

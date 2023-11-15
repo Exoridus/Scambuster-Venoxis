@@ -1,9 +1,10 @@
 local AddonName, Addon = ...;
 local AceGUI = LibStub("AceGUI-3.0");
 local AceLocale = LibStub("AceLocale-3.0");
+---@class Utils : AceModule
 local Utils = Addon:NewModule("Utils");
 local L = AceLocale:GetLocale(AddonName);
-local type, select, ipairs, assert, tostring, tonumber, tconcat = type, select, ipairs, assert, tostring, tonumber, table.concat;
+local type, select, ipairs, assert, tostring, tconcat, fmod = type, select, ipairs, assert, tostring, table.concat, math.fmod;
 local strsplit, strtrim, strlower, strmatch, gmatch, gsub, format, tinsert, unpack = strsplit, strtrim, strlower, strmatch, gmatch, gsub, format, tinsert, unpack;
 local GetPlayerInfoByGUID = GetPlayerInfoByGUID;
 local GetRealmName = GetRealmName;
@@ -63,6 +64,10 @@ local NOTIFICATIONS_SOUND_FILE = "Sound/Interface/FriendJoin.ogg";
 
 local CODE_FONT_PATH = "Interface\\Addons\\WeakAuras\\Media\\Fonts\\FiraMono-Medium.ttf";
 
+local VERSION_PATTERN = "(%d+)%.(%d+)%.(%d+)";
+
+local VERSION_FORMAT = "%d.%d.%d";
+
 local RaceList = {
   Human = 1,
   Orc = 2,
@@ -81,12 +86,12 @@ local RaceList = {
 
 function Utils:OnInitialize()
   local notifications = {
-    self:EscapePattern(ERR_FRIEND_ADDED_S),
-    self:EscapePattern(ERR_FRIEND_REMOVED_S),
-    self:EscapePattern(ERR_FRIEND_NOT_FOUND),
-    self:EscapePattern(ERR_FRIEND_ALREADY_S),
-    self:EscapePattern(ERR_FRIEND_OFFLINE_S),
-    self:EscapePattern(ERR_FRIEND_ONLINE_SS),
+    self:SanitizePattern(ERR_FRIEND_ADDED_S),
+    self:SanitizePattern(ERR_FRIEND_REMOVED_S),
+    self:SanitizePattern(ERR_FRIEND_NOT_FOUND),
+    self:SanitizePattern(ERR_FRIEND_ALREADY_S),
+    self:SanitizePattern(ERR_FRIEND_OFFLINE_S),
+    self:SanitizePattern(ERR_FRIEND_ONLINE_SS),
   };
 
   self.notificationsFilter = function(chatFrame, _, msg, ...)
@@ -102,7 +107,7 @@ function Utils:OnInitialize()
   end
 
   self.notificationLocks = 0;
-
+  self.cachedMetadata = {};
   self.playerInfos = {};
 end
 
@@ -159,30 +164,27 @@ function Utils:PrintKeyValue(key, value)
 end
 
 function Utils:PrintWarning(message)
-  self:Print("%s %s", self:CautionText(L["CAUTION"]), message);
+  self:Print("%s %s", self:CautionText(L.CAUTION), message);
 end
 
 function Utils:PrintAddonVersion()
-  local major, minor, patch = self:GetVersionParts(GetAddOnMetadata(AddonName, "Version"));
-  local version = format("v%d.%d.%d", major, minor, patch);
-
-  self:PrintAddonMessage(self:SuccessText(version));
+  self:PrintAddonMessage(format("v%s", self:GetMetadata("Version")));
 end
 
 function Utils:PrintPlayerNotFound(name)
-  self:PrintAddonMessage(L["PLAYER_NOT_FOUND_TITLE"], name);
-  self:PrintMultiline(L["PLAYER_NOT_FOUND_REASONS"]);
+  self:PrintAddonMessage(L.PLAYER_NOT_FOUND_TITLE, name);
+  self:PrintMultiline(L.PLAYER_NOT_FOUND_REASONS);
 end
 
 function Utils:PrintSlashCommands()
-  self:PrintAddonMessage(L["AVAILABLE_COMMANDS"]);
-  self:PrintCommand("/venoxis print", L["PRINT_COMMAND_1"]);
-  self:PrintCommand("/venoxis print Name [Name2 Name3...]", L["PRINT_COMMAND_2"]);
-  self:PrintCommand("/venoxis report", L["REPORT_COMMAND_1"]);
-  self:PrintCommand("/venoxis report Name [Name2 Name3...]", L["REPORT_COMMAND_2"]);
-  self:PrintCommand("/venoxis config", L["CONFIG_COMMAND_1"]);
-  self:PrintCommand("/venoxis config [settings|profiles|about]", L["CONFIG_COMMAND_2"]);
-  self:PrintCommand("/venoxis version", L["VERSION_COMMAND"]);
+  self:PrintAddonMessage(L.AVAILABLE_COMMANDS);
+  self:PrintCommand("/venoxis print", L.PRINT_COMMAND_1);
+  self:PrintCommand("/venoxis print Name [Name2 Name3...]", L.PRINT_COMMAND_2);
+  self:PrintCommand("/venoxis report", L.REPORT_COMMAND_1);
+  self:PrintCommand("/venoxis report Name [Name2 Name3...]", L.REPORT_COMMAND_2);
+  self:PrintCommand("/venoxis config", L.CONFIG_COMMAND_1);
+  self:PrintCommand("/venoxis config [settings|profiles|about]", L.CONFIG_COMMAND_2);
+  self:PrintCommand("/venoxis version", L.VERSION_COMMAND);
 end
 
 function Utils:PrintCommand(input, description)
@@ -201,10 +203,10 @@ function Utils:PrintCommand(input, description)
 end
 
 function Utils:CreateCopyDialog(text, width, height, isCode)
-  local frameWidget = AceGUI:Create("Frame");
+  local frameWidget = AceGUI:Create("Frame") --[[@as AceGUIFrame]];
 
   frameWidget:SetTitle(AddonName);
-  frameWidget:SetStatusText(L["COPY_SHORTCUT_INFO"]);
+  frameWidget:SetStatusText(L.COPY_SHORTCUT_INFO);
   frameWidget:SetLayout("Flow");
   frameWidget:SetWidth(width or 400);
   frameWidget:SetHeight(height or 200);
@@ -213,8 +215,8 @@ function Utils:CreateCopyDialog(text, width, height, isCode)
     widget:Release();
   end);
 
-  local editBoxWidget = AceGUI:Create("MultiLineEditBox");
-  local editBox = editBoxWidget.editBox;
+  local editBoxWidget = AceGUI:Create("MultiLineEditBox") --[[@as AceGUIMultiLineEditBox]];
+  local editBox = editBoxWidget.editBox --[[@as EditBox]];
   local selectEditBoxText = function()
     editBoxWidget:SetFocus();
     editBoxWidget:HighlightText();
@@ -253,12 +255,10 @@ function Utils:GetPlayerInfo(guid)
   end
 
   if not self.playerInfos[guid] then
-    local className, class, raceName, race, _, name, server = GetPlayerInfoByGUID(guid);
+    local className, class, raceName, race, _, name, realm = GetPlayerInfoByGUID(guid);
+    local factionInfo = GetFactionInfo(RaceList[race]);
 
-    if name and race and class then
-      local factionInfo = GetFactionInfo(RaceList[race]);
-      local realm = (server ~= "" and server) or GetRealmName();
-
+    if name and race and class and factionInfo then
       self.playerInfos[guid] = {
         guid = guid,
         name = name,
@@ -268,7 +268,7 @@ function Utils:GetPlayerInfo(guid)
         race = race,
         faction = factionInfo.groupTag,
         factionName = factionInfo.name,
-        realm = realm,
+        realm = (realm ~= "" and realm) or GetRealmName(),
       };
     end
   end
@@ -304,12 +304,12 @@ function Utils:FetchPlayerInfoByGUID(guid, callback)
 end
 
 function Utils:CleanupFriendList()
-  local pattern = self:EscapePattern(AddonName);
+  local pattern = self:SanitizePattern(AddonName);
 
   for i = C_FriendList.GetNumFriends(), 1, -1 do
     local info = C_FriendList.GetFriendInfoByIndex(i);
 
-    if info and strmatch(info.notes, pattern) then
+    if info and info.notes and strmatch(info.notes, pattern) then
       RemoveFriend(info.name);
     end
   end
@@ -324,7 +324,7 @@ end
 function Utils:FetchGUIDByName(name, callback)
   local info = GetFriendInfo(name);
 
-  if info and strmatch(info.notes, self:EscapePattern(AddonName)) then
+  if info and strmatch(info.notes, self:SanitizePattern(AddonName)) then
     RemoveFriend(name);
   end
 
@@ -342,7 +342,7 @@ function Utils:FetchGUIDByName(name, callback)
     ticks = ticks + 1;
     info = GetFriendInfo(name);
 
-    if info and strmatch(info.notes, self:EscapePattern(AddonName)) then
+    if info and strmatch(info.notes, self:SanitizePattern(AddonName)) then
       RemoveFriend(name);
     end
 
@@ -355,11 +355,11 @@ end
 
 function Utils:FormatPlayerInfo(info)
   return tconcat({
-    self:SystemText(format("%s: %s", L["NAME"], self:PlainText(info.name))),
-    self:SystemText(format("%s: %s", L["GUID"], self:PlainText(info.guid))),
-    self:SystemText(format("%s: %s", L["RACE"], self:PlainText(info.raceName))),
-    self:SystemText(format("%s: %s", L["CLASS"], self:ClassColor(info.className, info.class))),
-    self:SystemText(format("%s: %s", L["FACTION"], self:FactionColor(info.factionName, info.faction))),
+    self:SystemText(format("%s: %s", L.NAME, self:PlainText(info.name))),
+    self:SystemText(format("%s: %s", L.GUID, self:PlainText(info.guid))),
+    self:SystemText(format("%s: %s", L.RACE, self:PlainText(info.raceName))),
+    self:SystemText(format("%s: %s", L.CLASS, self:ClassColor(info.className, info.class))),
+    self:SystemText(format("%s: %s", L.FACTION, self:FactionColor(info.factionName, info.faction))),
   }, "\n");
 end
 
@@ -488,7 +488,7 @@ function Utils:GetUniquePlayers(entries)
             faction = player.faction,
           };
         elseif players[player.guid].name ~= player.name then
-          self:PrintWarning(format(L["FOUND_NAME_COLLISION"], player.guid, players[player.guid].name, player.name));
+          self:PrintWarning(format(L.FOUND_NAME_COLLISION, player.guid, players[player.guid].name, player.name));
         end
       end
     elseif entry.name then
@@ -500,7 +500,7 @@ function Utils:GetUniquePlayers(entries)
           faction = entry.faction,
         };
       elseif players[entry.guid].name ~= entry.name then
-        self:PrintWarning(format(L["FOUND_NAME_COLLISION"], entry.guid, players[entry.guid].name, entry.name));
+        self:PrintWarning(format(L.FOUND_NAME_COLLISION, entry.guid, players[entry.guid].name, entry.name));
       end
     end
   end
@@ -508,14 +508,40 @@ function Utils:GetUniquePlayers(entries)
   return GetValuesArray(players);
 end
 
-function Utils:GetVersionParts(version)
-  local major, minor, patch = strmatch(version, "(%d+)%.(%d+)%.(%d+)");
+function Utils:VersionToNumber(version)
+  local major, minor, patch = version:match(VERSION_PATTERN);
 
-  return unpack({
-    major and tonumber(major) or 0,
-    minor and tonumber(minor) or 0,
-    patch and tonumber(patch) or 0,
-  });
+  return floor((major or 0) * 1e6 + (minor or 0) * 1e3 + (patch or 0));
+end
+
+function Utils:GetVersionString(version)
+  local major = floor(version / (10 ^ 4));
+  local minor = floor(version % (10 ^ 4) / (10 ^ 2));
+  local patch = version % (10 ^ 2);
+
+  return format(VERSION_FORMAT, major, minor, patch);
+end
+
+function Utils:GetMetadata(key)
+  local metadata = self.cachedMetadata[key];
+
+  if not metadata then
+    metadata = GetAddOnMetadata(AddonName, key);
+    self.cachedMetadata[key] = metadata;
+  end
+
+  return metadata;
+end
+
+function Utils:GetHash(str)
+  local counter = 1;
+  local len = strlen(str);
+
+  for i = 1, len, 3 do
+    counter = fmod(counter * 8161, 4294967279) + (strbyte(str, i) * 16776193) + ((strbyte(str, i + 1) or (len - i + 256)) * 8372226) + ((strbyte(str, i + 2) or (len - i + 256)) * 3932164);
+  end
+
+  return fmod(counter, 4294967291);
 end
 
 function Utils:GetCommandArgs(input)
@@ -530,8 +556,18 @@ function Utils:GetCommandArgs(input)
   return unpack(args);
 end
 
-function Utils:EscapePattern(str)
-  return gsub(gsub(str, "[().+%-*?%%[^$]", "%%%1"), "%%%%s", "(.+)");
+local cachedPatterns = {}
+function Utils:SanitizePattern(pattern)
+  if not cachedPatterns[pattern] then
+    local result = pattern;
+    result = gsub(result, "([%+%-%*%(%)%?%[%]%^%.])", "%%%1");
+    result = gsub(result, "%d%$", "");
+    result = gsub(result, "(%%%a)", "(%1+)");
+    result = gsub(result, "%%s%+", ".+");
+    cachedPatterns[pattern] = result;
+  end
+
+  return cachedPatterns[pattern];
 end
 
 function Utils:WrapColor(text, color)

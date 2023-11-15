@@ -9,6 +9,7 @@ include_files = {
 exclude_files = {
 	"**/Libs/",
 	".*/",
+	"Modules/Networking.lua",
 }
 ignore = {
 	"122/StaticPopupDialogs", -- Setting a read-only field of a global variable.
