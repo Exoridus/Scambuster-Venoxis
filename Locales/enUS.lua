@@ -15,8 +15,7 @@ L.PRINT_COMMAND_1 = "opens a copy window with character data of the player in yo
 L.PRINT_COMMAND_2 = "opens a copy window with character data of players you provided.";
 L.REPORT_COMMAND_1 = "opens a report window with character data of the player in your target.";
 L.REPORT_COMMAND_2 = "opens a report window with character data of players you provided.";
-L.CONFIG_COMMAND_1 = "opens the main configuration window of Scambuster-Venoxis.";
-L.CONFIG_COMMAND_2 = "opens a subcategory inside the Scambuster-Venoxis configuration.";
+L.CONFIG_COMMAND = "opens the main configuration window of Scambuster-Venoxis.";
 L.VERSION_COMMAND = "print the current addon version inside the active chat frame.";
 L.ENTER_PLAYER_NAME = "Provide a name or target the player you want to report.";
 

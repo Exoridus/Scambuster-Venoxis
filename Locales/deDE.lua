@@ -15,8 +15,7 @@ L.PRINT_COMMAND_1 = "öffnet ein Kopierfenster mit Charakterdaten des anvisierte
 L.PRINT_COMMAND_2 = "öffnet ein Kopierfenster mit Charakterdaten der genannten Spieler.";
 L.REPORT_COMMAND_1 = "öffnet ein Reportfenster mit Charakterdaten des anvisierten Spielers.";
 L.REPORT_COMMAND_2 = "öffnet ein Reportfenster mit Characterdaten der genannten Spieler.";
-L.CONFIG_COMMAND_1 = "öffnet das Konfigurationsfenster von Scambuster-Venoxis.";
-L.CONFIG_COMMAND_2 = "öffnet die Subkategorie innerhalb der Scambuster-Venoxis Konfiguration.";
+L.CONFIG_COMMAND = "öffnet das Konfigurationsfenster von Scambuster-Venoxis.";
 L.VERSION_COMMAND = "gibt die aktuelle Addon Version im aktiven Chatfenster aus.";
 L.ENTER_PLAYER_NAME = "Gib einen Namen an oder nimm nimm den Spieler ins Target.";
 

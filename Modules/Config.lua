@@ -12,6 +12,7 @@ local Boolean = Settings.VarType.Boolean;
 
 Config.defaults = {
   profile = {
+    welcomeMessage = true,
     overrideScambuster = true,
     enableGUIDMatching = true, -- require_guid_match false
     disableAllMatching = true, -- match_all_incidents true
@@ -31,9 +32,18 @@ function Config:OnInitialize()
 end
 
 function Config:OnEnable()
-  local category = RegisterVerticalLayoutCategory(AddonName);
+  self.category = self:CreateSettingsCategory();
+  RegisterAddOnCategory(self.category);
+end
 
-  local overrideScambusterSetting = RegisterProxySetting(category, "overrideScambuster", self.opts, Boolean, "Scambuster überschreiben (empfohlen)");
+function Config:CreateSettingsCategory()
+  local category, layout = RegisterVerticalLayoutCategory(AddonName);
+
+	layout:AddInitializer(CreateSettingsListSectionHeaderInitializer("Allgemein"));
+
+	layout:AddInitializer(CreateSettingsListSectionHeaderInitializer("Scambuster"));
+
+  local overrideScambusterSetting = RegisterProxySetting(category, "overrideScambuster", self.opts, Boolean, "Scambuster überschreiben");
   local overrideScambusterInitializer = CreateCheckBox(category, overrideScambusterSetting);
 
   local function IsModifiable()
@@ -60,9 +70,11 @@ function Config:OnEnable()
   local disableGroupAlertsInitializer = CreateCheckBox(category, disableGroupAlertsSetting);
   disableGroupAlertsInitializer:SetParentInitializer(overrideScambusterInitializer, IsModifiable);
 
-  RegisterAddOnCategory(category);
+  return category;
 end
 
 function Config:OpenOptionsFrame()
-  OpenToCategory(AddonName);
+  if self.category then
+    OpenToCategory(self.category:GetID());
+  end
 end

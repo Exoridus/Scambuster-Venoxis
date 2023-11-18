@@ -20,9 +20,9 @@ local Channels = {
 };
 
 ---@enum Flags
-SEND_VERSION_GUILD =     0x01;
-SEND_VERSION_GROUP =     0x02;
-SEND_VERSION_INSTANCE =  0x04;
+local SEND_VERSION_GUILD = 0x01;
+local SEND_VERSION_GROUP = 0x02;
+local SEND_VERSION_INSTANCE = 0x04;
 
 function Networking:OnInitialize()
   self.flags = CreateFlags();

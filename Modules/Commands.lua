@@ -16,7 +16,86 @@ local UnitGUID = UnitGUID;
 local UnitName = UnitName;
 local NewTicker = C_Timer.NewTicker;
 
-local function reportPlayers(type, ...)
+local function getFailedNames(players, callback)
+  local length = #players;
+  local index = 1;
+  local failed = {};
+
+  Utils:DisableNotifications();
+
+  NewTicker(2, function()
+    local player = players[index];
+    local playerIndex = index;
+
+    if index % 10 == 0 then
+      Utils:Print(Utils:SystemText(format(L.CHECK_PROGRESS, index, length)));
+    end
+
+    Utils:FetchGUIDByName(player.name, function(info)
+      if not info then
+        tinsert(failed, player);
+      end
+
+      if playerIndex == length then
+        Utils:EnableNotifications();
+        callback(failed);
+      end
+    end);
+
+    index = index + 1;
+  end, length);
+end
+
+
+function Commands:OnInitialize()
+  self.slashCommands = { "v", "sbv", "venoxis" };
+  self.checkInProgress = false;
+end
+
+function Commands:OnEnable()
+  for _, command in ipairs(self.slashCommands) do
+    self:RegisterChatCommand(command, "OnSlashCommand");
+  end
+end
+
+function Commands:OnDisable()
+  for _, command in ipairs(self.slashCommands) do
+    self:UnregisterChatCommand(command);
+  end
+end
+
+function Commands:OnSlashCommand(input)
+  self:RunSlashCommand(Utils:GetCommandArgs(input));
+end
+
+function Commands:RunSlashCommand(command, ...)
+  if command == "config" then
+    return Config:OpenOptionsFrame(...);
+  elseif command == "print" then
+    return self:ReportPlayers("print", ...);
+  elseif command == "report" then
+    return self:ReportPlayers("report", ...);
+  elseif command == "dump" then
+    if select("#", ...) > 0 then
+      return self:ReportPlayers("dump", ...);
+    else
+      return self:DumpEntries(Blocklist.Entries);
+    end
+  elseif command == "check" then
+    return self:CheckChangedEntries(Blocklist.Entries);
+  elseif command == "banned" then
+    return self:CheckBannedEntries(Blocklist.Entries);
+  elseif command == "version" then
+    return Utils:PrintAddonVersion();
+  elseif command == "debug" then
+    Networking.debug = not Networking.debug;
+    print("Networking.debug is %s", Networking.debug and "ON" or "OFF");
+  else
+    return Utils:PrintSlashCommands();
+  end
+end
+
+function Commands:ReportPlayers(type, ...)
   if select("#", ...) > 0 then
     local name = select(1, ...);
 
@@ -55,21 +134,11 @@ local function reportPlayers(type, ...)
   end
 end
 
-local function dumpEntries(entries)
-  local output = {};
-
-  tinsert(output, "Blocklist.Entries = {");
-
-  for i, entry in ipairs(entries) do
-    tinsert(output, Utils:FormatListItemEntry(i, entry));
+function Commands:CheckChangedEntries(entries)
+  if self.checkInProgress then
+    return;
   end
-
-  tinsert(output, "};");
-
-  Utils:CreateCopyDialog(tconcat(output, "\n"), 800, 600, true);
-end
-
-local function checkChangedEntries(entries)
+  self.checkInProgress = true;
   local players = Utils:GetUniquePlayers(entries);
   local length = #players;
   local index = 1;
@@ -100,6 +169,7 @@ local function checkChangedEntries(entries)
 
       if playerIndex == length then
         Utils:PrintAddonMessage(L.CHECK_FINISHED, length);
+        self.checkInProgress = false;
 
         if #output > 0 then
           Utils:CreateCopyDialog(tconcat(output, "\n"));
@@ -111,37 +181,11 @@ local function checkChangedEntries(entries)
   end, length);
 end
 
-local function getFailedNames(players, callback)
-  local length = #players;
-  local index = 1;
-  local failed = {};
-
-  Utils:DisableNotifications();
-
-  NewTicker(2, function()
-    local player = players[index];
-    local playerIndex = index;
-
-    if index % 10 == 0 then
-      Utils:Print(Utils:SystemText(format(L.CHECK_PROGRESS, index, length)));
-    end
-
-    Utils:FetchGUIDByName(player.name, function(info)
-      if not info then
-        tinsert(failed, player);
-      end
-
-      if playerIndex == length then
-        Utils:EnableNotifications();
-        callback(failed);
-      end
-    end);
-
-    index = index + 1;
-  end, length);
-end
-
-local function checkBannedEntries(entries)
+function Commands:CheckBannedEntries(entries)
+  if self.checkInProgress then
+    return;
+  end
+  self.checkInProgress = true;
   local playerFaction = UnitFactionGroup("player");
   local function FilterPredicate(player)
     return player.faction == playerFaction;
@@ -170,6 +214,7 @@ local function checkBannedEntries(entries)
 
         if playerIndex == length then
           Utils:PrintAddonMessage(L.CHECK_FINISHED, numEntries);
+          self.checkInProgress = false;
 
           if #banned > 0 then
             Utils:CreateCopyDialog(tconcat(banned, "\n"), 480, 320, true);
@@ -182,47 +227,16 @@ local function checkBannedEntries(entries)
   end);
 end
 
-local SLASH_COMMANDS = { "venoxis", "v", "sbv" };
+function Commands:DumpEntries(entries)
+  local output = {};
 
-function Commands:OnEnable()
-  for _, command in ipairs(SLASH_COMMANDS) do
-    self:RegisterChatCommand(command, "OnSlashCommand");
+  tinsert(output, "Blocklist.Entries = {");
+
+  for i, entry in ipairs(entries) do
+    tinsert(output, Utils:FormatListItemEntry(i, entry));
   end
-end
 
-function Commands:OnDisable()
-  for _, command in ipairs(SLASH_COMMANDS) do
-    self:UnregisterChatCommand(command);
-  end
-end
+  tinsert(output, "};");
 
-function Commands:OnSlashCommand(input)
-  self:RunSlashCommand(Utils:GetCommandArgs(input));
-end
-
-function Commands:RunSlashCommand(command, ...)
-  if command == "config" then
-    Config:OpenOptionsFrame(...);
-  elseif command == "print" then
-    return reportPlayers("print", ...);
-  elseif command == "report" then
-    return reportPlayers("report", ...);
-  elseif command == "dump" then
-    if select("#", ...) > 0 then
-      return reportPlayers("dump", ...);
-    else
-      return dumpEntries(Blocklist.Entries);
-    end
-  elseif command == "check" then
-    return checkChangedEntries(Blocklist.Entries);
-  elseif command == "banned" then
-    return checkBannedEntries(Blocklist.Entries);
-  elseif command == "version" then
-    Utils:PrintAddonVersion();
-  elseif command == "debug" then
-    Networking.debug = not Networking.debug;
-    print("Networking.debug is %s", Networking.debug and "ON" or "OFF");
-  else
-    Utils:PrintSlashCommands();
-  end
+  Utils:CreateCopyDialog(tconcat(output, "\n"), 800, 600, true);
 end

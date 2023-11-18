@@ -178,13 +178,12 @@ end
 
 function Utils:PrintSlashCommands()
   self:PrintAddonMessage(L.AVAILABLE_COMMANDS);
-  self:PrintCommand("/venoxis print", L.PRINT_COMMAND_1);
-  self:PrintCommand("/venoxis print Name [Name2 Name3...]", L.PRINT_COMMAND_2);
-  self:PrintCommand("/venoxis report", L.REPORT_COMMAND_1);
-  self:PrintCommand("/venoxis report Name [Name2 Name3...]", L.REPORT_COMMAND_2);
-  self:PrintCommand("/venoxis config", L.CONFIG_COMMAND_1);
-  self:PrintCommand("/venoxis config [settings|profiles|about]", L.CONFIG_COMMAND_2);
-  self:PrintCommand("/venoxis version", L.VERSION_COMMAND);
+  self:PrintCommand("/v print", L.PRINT_COMMAND_1);
+  self:PrintCommand("/v print Name [Name2 Name3...]", L.PRINT_COMMAND_2);
+  self:PrintCommand("/v report", L.REPORT_COMMAND_1);
+  self:PrintCommand("/v report Name [Name2 Name3...]", L.REPORT_COMMAND_2);
+  self:PrintCommand("/v config", L.CONFIG_COMMAND);
+  self:PrintCommand("/v version", L.VERSION_COMMAND);
 end
 
 function Utils:PrintCommand(input, description)
@@ -195,7 +194,7 @@ function Utils:PrintCommand(input, description)
     self:DescriptionText(format("- %s", description)),
   };
 
-  if type(args) == "string" or args:len() > 0 then
+  if type(args) == "string" and args:len() > 0 then
     tinsert(params, 3, self:ArgsText(args));
   end
 
@@ -256,7 +255,7 @@ function Utils:GetPlayerInfo(guid)
 
   if not self.playerInfos[guid] then
     local className, class, raceName, race, _, name, realm = GetPlayerInfoByGUID(guid);
-    local factionInfo = GetFactionInfo(RaceList[race]);
+    local factionInfo = race and RaceList[race] and GetFactionInfo(RaceList[race]);
 
     if name and race and class and factionInfo then
       self.playerInfos[guid] = {
