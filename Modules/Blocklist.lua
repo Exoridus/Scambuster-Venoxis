@@ -1,7 +1,22 @@
-local _, Addon = ...;
+local AddonName, Addon = ...;
+local AceLocale = LibStub("AceLocale-3.0");
+local Utils = Addon:GetModule("Utils") --[[@as Utils]];
 ---@class Blocklist : AceModule
 local Blocklist = Addon:NewModule("Blocklist");
+---@type AddonLocale
+local L = AceLocale:GetLocale(AddonName);
 local sort, strlower = sort, strlower;
+
+function Blocklist.SortComparator(a, b)
+  local nameA = a and (a.players and a.players[1] or a).name;
+  local nameB = b and (b.players and b.players[1] or b).name;
+
+  if nameA and nameB then
+    return strlower(nameA) < strlower(nameB);
+  end
+
+  return not nameA;
+end
 
 function Blocklist:OnInitialize()
   self:Sort();
@@ -9,23 +24,50 @@ end
 
 function Blocklist:Sort()
   for _, entry in ipairs(self.Entries) do
-    if entry.players and #entry.players > 0 then
-      sort(entry.players, function(a, b)
-        return a.name < b.name;
-      end)
+    if entry and entry.players and #entry.players > 0 then
+      sort(entry.players, self.SortComparator);
     end
   end
 
-  sort(self.Entries, function(a, b)
-    local nameA = a.name or (a.players and a.players[1].name);
-    local nameB = b.name or (b.players and b.players[1].name);
+  sort(self.Entries, self.SortComparator);
+end
 
-    if nameA and nameB then
-      return strlower(nameA) < strlower(nameB);
+function Blocklist:GetUniquePlayers()
+  local players = {};
+
+  for _, entry in ipairs(self.Entries) do
+    if entry.players and #entry.players > 0 then
+      for _, player in ipairs(entry.players) do
+        if not players[player.guid] then
+          players[player.guid] = {
+            guid = player.guid,
+            name = player.name,
+            class = player.class,
+            faction = player.faction,
+          };
+        elseif players[player.guid].name ~= player.name then
+          Utils:PrintWarning(L.FOUND_NAME_COLLISION, player.guid, players[player.guid].name, player.name);
+        end
+      end
+    elseif entry.name then
+      if not players[entry.guid] then
+        players[entry.guid] = {
+          guid = entry.guid,
+          name = entry.name,
+          class = entry.class,
+          faction = entry.faction,
+        };
+      elseif players[entry.guid].name ~= entry.name then
+        Utils:PrintWarning(L.FOUND_NAME_COLLISION, entry.guid, players[entry.guid].name, entry.name);
+      end
     end
+  end
 
-    return not nameA;
-  end);
+  return GetValuesArray(players);
+end
+
+function Blocklist:GetUniquePlayersByPredicate(FilterPredicate)
+  return tFilter(self:GetUniquePlayers(), FilterPredicate, true);
 end
 
 Blocklist.Entries = {

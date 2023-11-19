@@ -41,7 +41,6 @@ L.UNKNOWN_GUID = "GUID %s is not available anymore.";
 L.FOUND_NAME_COLLISION = "Different names were found for GUID %s: %s, %s.";
 L.NAME_CHANGE_COMPARE = "Old Name: %s|nNew Name: %s";
 
-L.CAUTION = "CAUTION!";
 L.COPY_SHORTCUT_INFO = "Use CTRL+C to copy data.";
 L.GUID_FROM_ANOTHER_REALM = "Player is from another realm (%s).";
 

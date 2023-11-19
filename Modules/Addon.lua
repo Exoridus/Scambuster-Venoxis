@@ -1,6 +1,7 @@
 local AddonName, Addon = ...;
 local AceAddon = LibStub("AceAddon-3.0");
 local AceLocale = LibStub("AceLocale-3.0");
+---@type AddonLocale
 local L = AceLocale:GetLocale(AddonName);
 
 ---@class Addon : AceAddon
@@ -18,9 +19,9 @@ function Addon:OnEnable()
   local Scambuster = AceAddon:GetAddon("Scambuster") --[[@as Scambuster]];
 
   Scambuster:register_case_data({
-    name = L.BLOCKLIST_NAME --[[@as string]],
-    provider = L.BLOCKLIST_PROVIDER --[[@as string]],
-    description = L.BLOCKLIST_DESCRIPTION --[[@as string]],
+    name = L.BLOCKLIST_NAME,
+    provider = L.BLOCKLIST_PROVIDER,
+    description = L.BLOCKLIST_DESCRIPTION,
     url = Utils:GetMetadata("X-Website"),
     realm_data = { ["Venoxis"] = Blocklist.Entries },
   });

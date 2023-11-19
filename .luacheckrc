@@ -4,11 +4,9 @@ codes = true
 color = true
 include_files = {
 	"**/*.lua",
-	".luacheckrc",
 }
 exclude_files = {
-	"**/Libs/",
-	".*/",
+	".*",
 }
 ignore = {
 	"122/StaticPopupDialogs", -- Setting a read-only field of a global variable.

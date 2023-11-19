@@ -3,13 +3,13 @@ local AceGUI = LibStub("AceGUI-3.0");
 local AceLocale = LibStub("AceLocale-3.0");
 ---@class Utils : AceModule
 local Utils = Addon:NewModule("Utils");
+---@type AddonLocale
 local L = AceLocale:GetLocale(AddonName);
-local type, select, ipairs, assert, tostring, tconcat, fmod = type, select, ipairs, assert, tostring, table.concat, math.fmod;
-local strsplit, strtrim, strlower, strmatch, gmatch, gsub, format, tinsert, unpack = strsplit, strtrim, strlower, strmatch, gmatch, gsub, format, tinsert, unpack;
+local type, select, ipairs, assert, tostring, tconcat = type, select, ipairs, assert, tostring, table.concat;
+local strmatch, gmatch, gsub, format, tinsert = strmatch, gmatch, gsub, format, tinsert;
 local GetPlayerInfoByGUID = GetPlayerInfoByGUID;
 local GetRealmName = GetRealmName;
 local RunNextFrame = RunNextFrame;
-local GetValuesArray = GetValuesArray;
 local GetFactionColor = GetFactionColor;
 local GetClassColorObj = GetClassColorObj;
 local WrapTextInColorCode = WrapTextInColorCode;
@@ -61,12 +61,6 @@ local PLAYER_ENTRY = [[
 local PLAYER_ENTRY_ALIASES = "\n        aliases = { %s },";
 
 local NOTIFICATIONS_SOUND_FILE = "Sound/Interface/FriendJoin.ogg";
-
-local CODE_FONT_PATH = "Interface\\Addons\\WeakAuras\\Media\\Fonts\\FiraMono-Medium.ttf";
-
-local VERSION_PATTERN = "(%d+)%.(%d+)%.(%d+)";
-
-local VERSION_FORMAT = "%d.%d.%d";
 
 local RaceList = {
   Human = 1,
@@ -139,7 +133,7 @@ function Utils:PrintMultiline(...)
     end
 
     for line in gmatch(message, "[^\n]+") do
-      Utils:Print(line);
+      self:Print(line);
     end
   end
 end
@@ -155,53 +149,35 @@ function Utils:PrintAddonMessage(message, ...)
   end
 end
 
-function Utils:PrintTitle(title)
-  self:Print(self:SpecialText("[%s]"), title);
+---@param message string
+---@param ... (string|number|nil)
+function Utils:PrintWarning(message, ...)
+  local chatMessage = tostring(message);
+
+  if select("#", ...) > 0 then
+    chatMessage = format(chatMessage, ...);
+  end
+
+  self:Print(self:WarningText(chatMessage));
 end
 
-function Utils:PrintKeyValue(key, value)
-  self:Print("%s %s", self:SystemText(format("%s:", key)), value);
-end
+---@param message string
+---@param ... (string|number|nil)
+function Utils:PrintStatus(message, ...)
+  local chatMessage = tostring(message);
 
-function Utils:PrintWarning(message)
-  self:Print("%s %s", self:CautionText(L.CAUTION), message);
+  if select("#", ...) > 0 then
+    chatMessage = format(chatMessage, ...);
+  end
+
+  self:Print(self:SystemText(chatMessage));
 end
 
 function Utils:PrintAddonVersion()
   self:PrintAddonMessage(format("v%s", self:GetMetadata("Version")));
 end
 
-function Utils:PrintPlayerNotFound(name)
-  self:PrintAddonMessage(L.PLAYER_NOT_FOUND_TITLE, name);
-  self:PrintMultiline(L.PLAYER_NOT_FOUND_REASONS);
-end
-
-function Utils:PrintSlashCommands()
-  self:PrintAddonMessage(L.AVAILABLE_COMMANDS);
-  self:PrintCommand("/v print", L.PRINT_COMMAND_1);
-  self:PrintCommand("/v print Name [Name2 Name3...]", L.PRINT_COMMAND_2);
-  self:PrintCommand("/v report", L.REPORT_COMMAND_1);
-  self:PrintCommand("/v report Name [Name2 Name3...]", L.REPORT_COMMAND_2);
-  self:PrintCommand("/v config", L.CONFIG_COMMAND);
-  self:PrintCommand("/v version", L.VERSION_COMMAND);
-end
-
-function Utils:PrintCommand(input, description)
-  local slash, command, args = strsplit(" ", strtrim(input), 3);
-  local params = {
-    self:SystemText(slash),
-    self:SpecialText(command),
-    self:DescriptionText(format("- %s", description)),
-  };
-
-  if type(args) == "string" and args:len() > 0 then
-    tinsert(params, 3, self:ArgsText(args));
-  end
-
-  self:Print(tconcat(params, " "));
-end
-
-function Utils:CreateCopyDialog(text, width, height, isCode)
+function Utils:CreateCopyDialog(text, width, height)
   local frameWidget = AceGUI:Create("Frame") --[[@as AceGUIFrame]];
 
   frameWidget:SetTitle(AddonName);
@@ -219,13 +195,13 @@ function Utils:CreateCopyDialog(text, width, height, isCode)
   local selectEditBoxText = function()
     editBoxWidget:SetFocus();
     editBoxWidget:HighlightText();
-    editBoxWidget:SetCursorPosition(editBox:GetNumLetters());
+    editBoxWidget:SetCursorPosition(editBox:GetNumLetters() or 0);
   end
 
   editBoxWidget:SetFullWidth(true);
   editBoxWidget:SetFullHeight(true);
   editBoxWidget:DisableButton(true);
-  editBoxWidget:SetLabel(nil);
+  editBoxWidget:SetLabel("");
   editBoxWidget:SetText(text);
   editBoxWidget:SetCallback("OnTextChanged", function(widget)
     widget:SetText(text);
@@ -239,13 +215,39 @@ function Utils:CreateCopyDialog(text, width, height, isCode)
     frameWidget:Hide();
   end);
 
-  if isCode then
-    editBox:SetFont(CODE_FONT_PATH, 12, "");
-  end
-
   frameWidget:AddChild(editBoxWidget);
 
   RunNextFrame(selectEditBoxText);
+end
+
+function Utils:GetFailedNames(players, callback)
+  local length = #players;
+  local index = 1;
+  local failed = {};
+
+  self:DisableNotifications();
+
+  NewTicker(2, function()
+    local player = players[index];
+    local playerIndex = index;
+
+    if index % 10 == 0 then
+      self:PrintStatus(L.CHECK_PROGRESS, index, length);
+    end
+
+    self:FetchGUIDByName(player.name, function(info)
+      if not info then
+        tinsert(failed, player);
+      end
+
+      if playerIndex == length then
+        self:EnableNotifications();
+        callback(failed);
+      end
+    end);
+
+    index = index + 1;
+  end, length);
 end
 
 function Utils:GetPlayerInfo(guid)
@@ -302,20 +304,12 @@ function Utils:FetchPlayerInfoByGUID(guid, callback)
   end, maxTicks);
 end
 
-function Utils:CleanupFriendList()
-  local pattern = self:SanitizePattern(AddonName);
-
-  for i = C_FriendList.GetNumFriends(), 1, -1 do
-    local info = C_FriendList.GetFriendInfoByIndex(i);
-
-    if info and info.notes and strmatch(info.notes, pattern) then
-      RemoveFriend(info.name);
-    end
-  end
-end
-
 function Utils:FetchPlayerInfoByName(name, callback)
+  self:DisableNotifications();
+
   self:FetchGUIDByName(name, function(guid)
+    Utils:EnableNotifications();
+
     self:FetchPlayerInfoByGUID(guid, callback);
   end);
 end
@@ -350,16 +344,6 @@ function Utils:FetchGUIDByName(name, callback)
       callback(info and info.guid);
     end
   end, maxTicks);
-end
-
-function Utils:FormatPlayerInfo(info)
-  return tconcat({
-    self:SystemText(format("%s: %s", L.NAME, self:PlainText(info.name))),
-    self:SystemText(format("%s: %s", L.GUID, self:PlainText(info.guid))),
-    self:SystemText(format("%s: %s", L.RACE, self:PlainText(info.raceName))),
-    self:SystemText(format("%s: %s", L.CLASS, self:ClassColor(info.className, info.class))),
-    self:SystemText(format("%s: %s", L.FACTION, self:FactionColor(info.factionName, info.faction))),
-  }, "\n");
 end
 
 function Utils:FormatPlayerEntry(info, index)
@@ -439,86 +423,16 @@ function Utils:EnableNotifications()
   self.notificationLocks = max(self.notificationLocks - 1, 0);
 end
 
-function Utils:CreateEntryByInfo(...)
-  local length = select("#", ...);
-
-  if length == 0 then
-    return;
-  end
-
-  local entry = {
-    description = "",
-    url = "",
-    category = "",
-    level = 3,
-  };
-
-  local players = {};
-
-  for i = 1, length do
-    local info = select(i, ...);
-
-    tinsert(players, {
-      name = info.name,
-      guid = info.guid,
-      class = info.class,
-      faction = info.faction,
-    });
-  end
-
-  if #players > 1 then
-    return MergeTable(entry, { players = players });
-  end
-
-  return MergeTable(entry, players[1]);
-end
-
-function Utils:GetUniquePlayers(entries)
-  local players = {};
-
-  for _, entry in ipairs(entries) do
-    if entry.players and #entry.players > 0 then
-      for _, player in ipairs(entry.players) do
-        if not players[player.guid] then
-          players[player.guid] = {
-            guid = player.guid,
-            name = player.name,
-            class = player.class,
-            faction = player.faction,
-          };
-        elseif players[player.guid].name ~= player.name then
-          self:PrintWarning(format(L.FOUND_NAME_COLLISION, player.guid, players[player.guid].name, player.name));
-        end
-      end
-    elseif entry.name then
-      if not players[entry.guid] then
-        players[entry.guid] = {
-          guid = entry.guid,
-          name = entry.name,
-          class = entry.class,
-          faction = entry.faction,
-        };
-      elseif players[entry.guid].name ~= entry.name then
-        self:PrintWarning(format(L.FOUND_NAME_COLLISION, entry.guid, players[entry.guid].name, entry.name));
-      end
-    end
-  end
-
-  return GetValuesArray(players);
-end
-
 function Utils:VersionToNumber(version)
-  local major, minor, patch = version:match(VERSION_PATTERN);
+  local major, minor, patch = version:match("(%d+)%.(%d+)%.(%d+)");
 
   return floor((major or 0) * 1e6 + (minor or 0) * 1e3 + (patch or 0));
 end
 
-function Utils:GetVersionString(version)
-  local major = floor(version / (10 ^ 4));
-  local minor = floor(version % (10 ^ 4) / (10 ^ 2));
-  local patch = version % (10 ^ 2);
+function Utils:NumerToVersion(num)
+  local major, minor, patch = num / 1e6, num % 1e6 / 1e3, num % 1e3;
 
-  return format(VERSION_FORMAT, major, minor, patch);
+  return format("%i.%i.%i", major, minor, patch);
 end
 
 function Utils:GetMetadata(key)
@@ -530,29 +444,6 @@ function Utils:GetMetadata(key)
   end
 
   return metadata;
-end
-
-function Utils:GetHash(str)
-  local counter = 1;
-  local len = strlen(str);
-
-  for i = 1, len, 3 do
-    counter = fmod(counter * 8161, 4294967279) + (strbyte(str, i) * 16776193) + ((strbyte(str, i + 1) or (len - i + 256)) * 8372226) + ((strbyte(str, i + 2) or (len - i + 256)) * 3932164);
-  end
-
-  return fmod(counter, 4294967291);
-end
-
-function Utils:GetCommandArgs(input)
-  local args = {};
-
-  for match in gmatch(input, "[^%s%p]+") do
-    if type(match) == "string" and match:len() > 0 then
-      tinsert(args, strlower(match));
-    end
-  end
-
-  return unpack(args);
 end
 
 local cachedPatterns = {}
@@ -581,28 +472,16 @@ function Utils:FactionColor(text, factionName)
   return GetFactionColor(factionName):WrapTextInColorCode(text);
 end
 
-function Utils:PlainText(text)
-  return self:WrapColor(text, "FFFFFFFF");
-end
-
 function Utils:SystemText(text)
   return self:WrapColor(text, "FFFFFF33");
 end
 
-function Utils:CautionText(text)
+function Utils:WarningText(text)
   return self:WrapColor(text, "FFFF9933");
-end
-
-function Utils:SuccessText(text)
-  return self:WrapColor(text, "FF33FF33");
 end
 
 function Utils:SpecialText(text)
   return self:WrapColor(text, "FF33FFFF");
-end
-
-function Utils:ArgsText(text)
-  return self:WrapColor(text, "FFFF33FF");
 end
 
 function Utils:DescriptionText(text)

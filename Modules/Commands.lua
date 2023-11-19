@@ -14,38 +14,6 @@ local UnitFactionGroup = UnitFactionGroup;
 local UnitIsPlayer = UnitIsPlayer;
 local UnitGUID = UnitGUID;
 local UnitName = UnitName;
-local NewTicker = C_Timer.NewTicker;
-
-local function getFailedNames(players, callback)
-  local length = #players;
-  local index = 1;
-  local failed = {};
-
-  Utils:DisableNotifications();
-
-  NewTicker(2, function()
-    local player = players[index];
-    local playerIndex = index;
-
-    if index % 10 == 0 then
-      Utils:Print(Utils:SystemText(format(L.CHECK_PROGRESS, index, length)));
-    end
-
-    Utils:FetchGUIDByName(player.name, function(info)
-      if not info then
-        tinsert(failed, player);
-      end
-
-      if playerIndex == length then
-        Utils:EnableNotifications();
-        callback(failed);
-      end
-    end);
-
-    index = index + 1;
-  end, length);
-end
-
 
 function Commands:OnInitialize()
   self.slashCommands = { "v", "sbv", "venoxis" };
@@ -65,7 +33,15 @@ function Commands:OnDisable()
 end
 
 function Commands:OnSlashCommand(input)
-  self:RunSlashCommand(Utils:GetCommandArgs(input));
+  local args = {};
+
+  for match in gmatch(input, "[^%s%p]+") do
+    if strlen(match or "") > 0 then
+      tinsert(args, strlower(match));
+    end
+  end
+
+  self:RunSlashCommand(unpack(args));
 end
 
 function Commands:RunSlashCommand(command, ...)
@@ -79,40 +55,63 @@ function Commands:RunSlashCommand(command, ...)
     if select("#", ...) > 0 then
       return self:ReportPlayers("dump", ...);
     else
-      return self:DumpEntries(Blocklist.Entries);
+      return self:DumpEntries();
     end
   elseif command == "check" then
-    return self:CheckChangedEntries(Blocklist.Entries);
+    return self:CheckChangedEntries();
   elseif command == "banned" then
-    return self:CheckBannedEntries(Blocklist.Entries);
+    return self:CheckBannedEntries();
   elseif command == "version" then
     return Utils:PrintAddonVersion();
   elseif command == "debug" then
     Networking.debug = not Networking.debug;
-    print("Networking.debug is %s", Networking.debug and "ON" or "OFF");
+    return Utils:PrintStatus("Networking.debug is %s", Networking.debug and "ON" or "OFF");
   else
-    return Utils:PrintSlashCommands();
+    return self:PrintSlashCommands();
   end
+end
+
+function Commands:PrintSlashCommands()
+  if not self.cachedCommands then
+    self.cachedCommands = {
+      self:FormatCommand("report", L.REPORT_COMMAND_1),
+      self:FormatCommand("report <Name>", L.REPORT_COMMAND_2),
+      self:FormatCommand("config", L.CONFIG_COMMAND),
+      self:FormatCommand("version", L.VERSION_COMMAND),
+    };
+  end
+
+  Utils:PrintAddonMessage(L.AVAILABLE_COMMANDS);
+  Utils:PrintMultiline(self.cachedCommands);
+end
+
+function Commands:FormatCommand(input, description)
+  local command, args = strsplit(" ", strtrim(input), 2);
+  local parts = {};
+
+  tinsert(parts, Utils:SystemText(format("/v %s", command)));
+
+  if strlen(args or "") > 0 then
+    tinsert(parts, Utils:SpecialText(args));
+  end
+
+  tinsert(parts, Utils:DescriptionText(description));
+
+  return tconcat(parts, " ");
 end
 
 function Commands:ReportPlayers(type, ...)
   if select("#", ...) > 0 then
-    local name = select(1, ...);
-
-    Utils:DisableNotifications();
+    local name = ...;
 
     Utils:FetchPlayerInfoByName(name, function(info)
       if not info then
-        Utils:PrintPlayerNotFound(name);
-      elseif type == "print" then
-        Utils:PrintMultiline(Utils:FormatPlayerInfo(info));
+        self:PrintPlayerNotFound(name);
       elseif type == "report" then
-        Utils:CreateCopyDialog(Utils:FormatPlayerInfo(info));
+        Utils:CreateCopyDialog(self:FormatPlayerInfo(info));
       elseif type == "dump" then
         Utils:CreateCopyDialog(Utils:FormatPlayerEntry(info, #Blocklist.Entries + 1), 480, 320);
       end
-
-      Utils:EnableNotifications();
     end);
   elseif UnitIsPlayer("target") then
     local playerGUID = UnitGUID("target");
@@ -120,11 +119,9 @@ function Commands:ReportPlayers(type, ...)
 
     Utils:FetchPlayerInfoByGUID(playerGUID, function(info)
       if not info then
-        Utils:PrintPlayerNotFound(playerName);
-      elseif type == "print" then
-        Utils:PrintMultiline(Utils:FormatPlayerInfo(info));
+        self:PrintPlayerNotFound(playerName);
       elseif type == "report" then
-        Utils:CreateCopyDialog(Utils:FormatPlayerInfo(info));
+        Utils:CreateCopyDialog(self:FormatPlayerInfo(info));
       elseif type == "dump" then
         Utils:CreateCopyDialog(Utils:FormatPlayerEntry(info, #Blocklist.Entries + 1), 480, 320);
       end
@@ -134,24 +131,39 @@ function Commands:ReportPlayers(type, ...)
   end
 end
 
-function Commands:CheckChangedEntries(entries)
+function Commands:FormatPlayerInfo(info)
+  return tconcat({
+    format("|cFFFFFF33%s:|r %s", L.NAME, info.name),
+    format("|cFFFFFF33%s:|r %s", L.GUID, info.guid),
+    format("|cFFFFFF33%s:|r %s", L.RACE, info.raceName),
+    format("|cFFFFFF33%s:|r %s", L.CLASS, Utils:ClassColor(info.className, info.class)),
+    format("|cFFFFFF33%s:|r %s", L.FACTION, Utils:FactionColor(info.factionName, info.faction)),
+  }, "\n");
+end
+
+function Commands:PrintPlayerNotFound(name)
+  Utils:PrintAddonMessage(L.PLAYER_NOT_FOUND_TITLE, name);
+  Utils:PrintMultiline(L.PLAYER_NOT_FOUND_REASONS);
+end
+
+function Commands:CheckChangedEntries()
   if self.checkInProgress then
     return;
   end
   self.checkInProgress = true;
-  local players = Utils:GetUniquePlayers(entries);
+  local players = Blocklist:GetUniquePlayers();
   local length = #players;
   local index = 1;
   local output = {};
 
-  Utils:PrintAddonMessage(L.CHECK_STARTED, length, length * 2);
+  Utils:PrintStatus(L.CHECK_STARTED, length, length * 2);
 
-  NewTicker(2, function()
+  C_Timer.NewTicker(2, function()
     local player = players[index];
     local playerIndex = index;
 
     if index % 10 == 0 then
-      Utils:Print(Utils:SystemText(format(L.CHECK_PROGRESS, index, length)));
+      Utils:PrintStatus(L.CHECK_PROGRESS, index, length);
     end
 
     Utils:FetchPlayerInfoByGUID(player.guid, function(info)
@@ -164,11 +176,11 @@ function Commands:CheckChangedEntries(entries)
           tinsert(output, format(L.NAME_CHANGE_COMPARE, player.name, info.name));
         end
       else
-        Utils:PrintWarning(format(L.UNKNOWN_GUID, player.guid));
+        Utils:PrintWarning(L.UNKNOWN_GUID, player.guid);
       end
 
       if playerIndex == length then
-        Utils:PrintAddonMessage(L.CHECK_FINISHED, length);
+        Utils:PrintStatus(L.CHECK_FINISHED, length);
         self.checkInProgress = false;
 
         if #output > 0 then
@@ -181,21 +193,18 @@ function Commands:CheckChangedEntries(entries)
   end, length);
 end
 
-function Commands:CheckBannedEntries(entries)
+function Commands:CheckBannedEntries()
   if self.checkInProgress then
     return;
   end
   self.checkInProgress = true;
-  local playerFaction = UnitFactionGroup("player");
-  local function FilterPredicate(player)
-    return player.faction == playerFaction;
-  end
-  local players = tFilter(Utils:GetUniquePlayers(entries), FilterPredicate, true);
+  local faction = UnitFactionGroup("player");
+  local players = Blocklist:GetUniquePlayersByPredicate(function(player) return player.faction == faction end);
   local numEntries = #players;
 
-  getFailedNames(players, function(failed)
+  Utils:GetFailedNames(players, function(failed)
     if #failed == 0 then
-      Utils:PrintAddonMessage(L.NO_BANNED_ENTRIES);
+      Utils:PrintStatus(L.NO_BANNED_ENTRIES);
       return;
     end
 
@@ -203,7 +212,7 @@ function Commands:CheckBannedEntries(entries)
     local index = 1;
     local banned = {};
 
-    NewTicker(2, function()
+    C_Timer.NewTicker(2, function()
       local player = failed[index];
       local playerIndex = index;
 
@@ -213,7 +222,7 @@ function Commands:CheckBannedEntries(entries)
         end
 
         if playerIndex == length then
-          Utils:PrintAddonMessage(L.CHECK_FINISHED, numEntries);
+          Utils:PrintStatus(L.CHECK_FINISHED, numEntries);
           self.checkInProgress = false;
 
           if #banned > 0 then
@@ -227,12 +236,12 @@ function Commands:CheckBannedEntries(entries)
   end);
 end
 
-function Commands:DumpEntries(entries)
+function Commands:DumpEntries()
   local output = {};
 
   tinsert(output, "Blocklist.Entries = {");
 
-  for i, entry in ipairs(entries) do
+  for i, entry in ipairs(Blocklist.Entries) do
     tinsert(output, Utils:FormatListItemEntry(i, entry));
   end
 

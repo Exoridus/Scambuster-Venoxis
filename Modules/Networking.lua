@@ -4,6 +4,7 @@ local LibSerialize = LibStub("LibSerialize");
 local AceLocale = LibStub("AceLocale-3.0");
 local Utils = Addon:GetModule("Utils") --[[@as Utils]];
 local Networking = Addon:NewModule("Networking", "AceEvent-3.0", "AceComm-3.0", "AceTimer-3.0");
+---@type AddonLocale
 local L = AceLocale:GetLocale(AddonName);
 
 ---@enum MessageTypes
