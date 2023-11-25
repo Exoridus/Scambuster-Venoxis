@@ -7,8 +7,7 @@ L.BLOCKLIST_NAME = "Venoxis Discord Blocklist";
 L.BLOCKLIST_PROVIDER = "Venoxis Discord";
 L.BLOCKLIST_DESCRIPTION = "Scambuster database with chars of scammers and inappropriate players on Venoxis.";
 
-L.NEW_VERSION_AVAILABLE = "A new version is available!";
-L.PLEASE_UPDATE_ASAP = "Please update as soon as possible!";
+L.UPDATE_NOTICE = "A new version is available! Please update as soon as possible!";
 
 L.AVAILABLE_COMMANDS = "Available slash commands: (/v also works)";
 L.PRINT_COMMAND_1 = "opens a copy window with character data of the player in your target.";

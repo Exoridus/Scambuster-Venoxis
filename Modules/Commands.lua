@@ -3,7 +3,6 @@ local AceLocale = LibStub("AceLocale-3.0");
 local Utils = Addon:GetModule("Utils");
 local Config = Addon:GetModule("Config");
 local Blocklist = Addon:GetModule("Blocklist");
-local Networking = Addon:GetModule("Networking");
 ---@class Commands : AceModule
 local Commands = Addon:NewModule("Commands", "AceConsole-3.0");
 ---@type AddonLocale
@@ -63,9 +62,6 @@ function Commands:RunSlashCommand(command, ...)
     return self:CheckBannedEntries();
   elseif command == "version" then
     return Utils:PrintAddonVersion();
-  elseif command == "debug" then
-    Networking.debug = not Networking.debug;
-    return Utils:PrintStatus("Networking.debug is %s", Networking.debug and "ON" or "OFF");
   else
     return self:PrintSlashCommands();
   end

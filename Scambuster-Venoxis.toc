@@ -1,25 +1,22 @@
 ## Interface: 30403
-## Title: |TInterface/Addons/Scambuster-Venoxis/Assets/Scambuster:16:16|t Scambuster-Venoxis |cFF00FF00v@project-version@|r
-## Notes: |cff666666By Exoridus|r |n|nScambuster database with chars of scammers and|ninappropriate players on Venoxis.|n|n|TInterface/Addons/Scambuster-Venoxis/Assets/Github:12:12:0:-2|t |cff82c5ffgithub.com/Exoridus|r|n|TInterface/Addons/Scambuster-Venoxis/Assets/Discord:12:12:0:-2|t |cff82c5ffExoridus|r|n|n
-## Notes-deDE: |cff666666By Exoridus|r |n|nScambuster Datenbank mit Chars von Betrügern|nund unangemessenen Spielern auf Venoxis.|n|n|TInterface/Addons/Scambuster-Venoxis/Assets/Github:12:12:0:-2|t |cff82c5ffgithub.com/Exoridus|r|n|TInterface/Addons/Scambuster-Venoxis/Assets/Discord:12:12:0:-2|t |cff82c5ffExoridus|r|n|n
-## Author: Exoridus
+## Title: |TInterface/Addons/Scambuster-Venoxis/Assets/Logo:16:16|t Scambuster-Venoxis
+## Notes: Scambuster database of scammers and inappropriate players on Venoxis.
+## Notes-deDE: Scambuster Datenbank von Betrügern und unangemessenen Spielern auf Venoxis.
+## Author: @project-author@
 ## Version: @project-version@
+## X-Revision: @project-revision@
+## Dependencies: Scambuster
+## OptionalDeps: LibStub, LibDeflate, LibSerialize, Ace3
 ## SavedVariables: ScambusterVenoxisDB
-## RequiredDeps: Scambuster
-## OptionalDeps: Ace3
-## DefaultState: enabled
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Realm: Venoxis
-## X-License: GPLv3
-## X-Embeds: LibStub, LibSerialize, LibDeflate, Ace3
-## X-Category: Chat/Communication, Raid, Party, Tradeskill, Miscellaneous, Plugins
-## X-Localizations: enUS, deDE
+## X-Category: Chat & Communication, Auction & Economy, Boss Encounters, Professions, Plugins
+## X-Credits: Ven, Venoxis Discord Community
+## X-Discord: https://discord.gg/NGtvvQYnmP
 ## X-Website: https://github.com/Exoridus/Scambuster-Venoxis
-## X-Email: contact@codexo.de
-## X-Donate: https://github.com/sponsors/Exoridus
-## X-Credits: Venoxis Discord Community
-## X-WoWI-ID: 26613
+## X-Curse-Project-ID: 0
 ## X-Wago-ID: 4N2mEdGL
+## X-WoWI-ID: 26613
 
 embeds.xml
 

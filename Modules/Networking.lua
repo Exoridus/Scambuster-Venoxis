@@ -31,7 +31,6 @@ function Networking:OnInitialize()
   self.playerName = UnitName("player");
   self.playerVersion = Utils:VersionToNumber(Utils:GetMetadata("Version"));
   self.suggestUpdate = true;
-  self.debug = false;
 end
 
 function Networking:OnEnable()
@@ -63,9 +62,6 @@ function Networking:GROUP_FORMED(_, category)
 end
 
 function Networking:TimerFeedback()
-  if self.debug then
-    print("TimerFeedback", format("0x%X", self.flags:GetFlags()));
-  end
   if self.flags:IsSet(SEND_VERSION_GUILD) then
     self:SendMessage("GUILD", MessageTypes.Version, self.playerVersion);
   end
@@ -87,10 +83,6 @@ function Networking:SendMessage(channel, messageType, ...)
   local compressed = LibDeflate:CompressDeflate(serialized);
   local encoded = LibDeflate:EncodeForWoWAddonChannel(compressed);
 
-  if self.debug then
-    DevTools_Dump("SendCommMessage", { channel, messageType, ... });
-  end
-
   self:SendCommMessage(self.commPrefix, encoded, channel);
 end
 
@@ -107,16 +99,11 @@ function Networking:OnCommReceived(_, encoded, channel, sender)
   local success, comm, data = LibSerialize:Deserialize(decompressed);
   if not (success and MessageTypes[comm]) then return end
 
-  if self.debug then
-    DevTools_Dump("OnCommReceived", { channel, sender, comm, data });
-  end
-
   if comm == MessageTypes.Version then
     local otherVersion = unpack(data);
 
     if self.playerVersion < otherVersion and self.suggestUpdate then
-      Utils:PrintAddonMessage(L.NEW_VERSION_AVAILABLE);
-      Utils:PrintAddonMessage(L.PLEASE_UPDATE_ASAP);
+      Utils:PrintAddonMessage(L.UPDATE_NOTICE);
       self.suggestUpdate = false;
     end
   end

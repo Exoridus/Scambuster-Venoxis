@@ -22,7 +22,7 @@ function Addon:OnEnable()
     name = L.BLOCKLIST_NAME,
     provider = L.BLOCKLIST_PROVIDER,
     description = L.BLOCKLIST_DESCRIPTION,
-    url = Utils:GetMetadata("X-Website"),
+    url = Utils:GetMetadata("X-Discord"),
     realm_data = { ["Venoxis"] = Blocklist.Entries },
   });
 end
