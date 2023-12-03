@@ -1,10 +1,8 @@
 local AddonName, Addon = ...;
 local AceGUI = LibStub("AceGUI-3.0");
-local AceLocale = LibStub("AceLocale-3.0");
 ---@class Utils : AceModule
 local Utils = Addon:NewModule("Utils");
----@type AddonLocale
-local L = AceLocale:GetLocale(AddonName);
+local L = Addon.L;
 local type, select, ipairs, assert, tostring, tconcat = type, select, ipairs, assert, tostring, table.concat;
 local strmatch, gmatch, gsub, format, tinsert = strmatch, gmatch, gsub, format, tinsert;
 local GetPlayerInfoByGUID = GetPlayerInfoByGUID;
@@ -458,6 +456,16 @@ function Utils:SanitizePattern(pattern)
   end
 
   return cachedPatterns[pattern];
+end
+
+function Utils:SplitList(str)
+  local list = {};
+
+  for item in gmatch(str, "([^%p%s]+)") do
+    tinsert(list, item);
+  end
+
+  return list;
 end
 
 function Utils:WrapColor(text, color)

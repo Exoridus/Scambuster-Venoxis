@@ -1,12 +1,10 @@
-local AddonName, Addon = ...;
-local AceLocale = LibStub("AceLocale-3.0");
-local Utils = Addon:GetModule("Utils");
-local Config = Addon:GetModule("Config");
-local Blocklist = Addon:GetModule("Blocklist");
+local _, Addon = ...;
+local Utils = Addon:GetModule("Utils") --[[@as Utils]];
+local Config = Addon:GetModule("Config") --[[@as Config]];
+local Blocklist = Addon:GetModule("Blocklist") --[[@as Blocklist]];
 ---@class Commands : AceModule
 local Commands = Addon:NewModule("Commands", "AceConsole-3.0");
----@type AddonLocale
-local L = AceLocale:GetLocale(AddonName);
+local L = Addon.L;
 local select, ipairs, tconcat = select, ipairs, table.concat;
 local format, tinsert = format, tinsert;
 local UnitFactionGroup = UnitFactionGroup;

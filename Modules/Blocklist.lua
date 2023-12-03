@@ -1,11 +1,8 @@
-local AddonName, Addon = ...;
-local AceLocale = LibStub("AceLocale-3.0");
+local _, Addon = ...;
 local Utils = Addon:GetModule("Utils") --[[@as Utils]];
 ---@class Blocklist : AceModule
 local Blocklist = Addon:NewModule("Blocklist");
----@type AddonLocale
-local L = AceLocale:GetLocale(AddonName);
-local sort, strlower = sort, strlower;
+local L = Addon.L;
 
 function Blocklist.SortComparator(a, b)
   local nameA = a and (a.players and a.players[1] or a).name;

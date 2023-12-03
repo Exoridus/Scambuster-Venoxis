@@ -1,20 +1,25 @@
 ## Interface: 30403
 ## Title: |TInterface/Addons/Scambuster-Venoxis/Assets/Logo:16:16|t Scambuster-Venoxis
-## Notes: Scambuster database of scammers and inappropriate players on Venoxis.
-## Notes-deDE: Scambuster Datenbank von Betrügern und unangemessenen Spielern auf Venoxis.
-## Author: @project-author@
+## Notes: List of scammers and antisocial players on the WoW Classic Realm Venoxis, managed by the Venoxis Discord.
+## Notes-deDE: Liste von Betrügern und unsozialen Spielern auf dem WoW Classic Realm Venoxis, verwaltet vom Venoxis Discord.
+## Author: Exoridus
 ## Version: @project-version@
 ## X-Revision: @project-revision@
+## X-Date: @project-date-iso@
 ## Dependencies: Scambuster
-## OptionalDeps: LibStub, LibDeflate, LibSerialize, Ace3
+## OptionalDeps: LibStub, LibDeflate, LibSerialize, Ace3, AceGUI-3.0_SFX-Widgets
 ## SavedVariables: ScambusterVenoxisDB
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Realm: Venoxis
-## X-Category: Chat & Communication, Auction & Economy, Boss Encounters, Professions, Plugins
 ## X-Credits: Ven, Venoxis Discord Community
+## X-License: GPLv3
+## X-Localizations: enUS, deDE
+## X-Category: Chat & Communication, Auction & Economy, Boss Encounters, Professions, Plugins
 ## X-Discord: https://discord.gg/NGtvvQYnmP
 ## X-Website: https://github.com/Exoridus/Scambuster-Venoxis
-## X-Curse-Project-ID: 0
+## X-Feedback: https://github.com/Exoridus/Scambuster-Venoxis/issues/new/choose
+## X-Donate: https://github.com/sponsors/Exoridus
+## X-Curse-Project-ID: 831364
 ## X-Wago-ID: 4N2mEdGL
 ## X-WoWI-ID: 26613
 

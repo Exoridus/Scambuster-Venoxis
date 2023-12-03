@@ -1,19 +1,19 @@
 local AddonName, Addon = ...;
 local AceAddon = LibStub("AceAddon-3.0");
-local AceLocale = LibStub("AceLocale-3.0");
 local Scambuster = AceAddon:GetAddon("Scambuster") --[[@as Scambuster]];
----@type AddonLocale
-local L = AceLocale:GetLocale(AddonName);
+local L = LibStub("AceLocale-3.0"):GetLocale(AddonName) --[[@as AddonLocale]];
 
 ---@class Addon : AceAddon
 Addon = AceAddon:NewAddon(Addon, AddonName);
+Addon.L = L;
+
+Scambuster.defaults.profile.require_guid_match = true;
+Scambuster.defaults.profile.match_all_incidents = false;
+Scambuster.defaults.profile.use_group_chat_alert = false;
+Scambuster.defaults.profile.alert_lockout_seconds = 10000;
 
 function Addon:OnInitialize()
-  if GetRealmName() == "Venoxis" then
-    Scambuster.RegisterCallback(self, "SCAMBUSTER_LIST_CONSTRUCTION", "RegisterProvider");
-  elseif self:IsEnabled() then
-    self:SetEnabledState(false);
-  end
+  Scambuster.RegisterCallback(self, "SCAMBUSTER_LIST_CONSTRUCTION", "RegisterProvider");
 end
 
 function Addon:RegisterProvider()

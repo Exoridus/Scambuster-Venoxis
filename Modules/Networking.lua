@@ -1,11 +1,10 @@
-local AddonName, Addon = ...;
+local _, Addon = ...;
 local LibDeflate = LibStub("LibDeflate");
 local LibSerialize = LibStub("LibSerialize");
-local AceLocale = LibStub("AceLocale-3.0");
 local Utils = Addon:GetModule("Utils") --[[@as Utils]];
+---@class Networking : AceModule
 local Networking = Addon:NewModule("Networking", "AceEvent-3.0", "AceComm-3.0", "AceTimer-3.0");
----@type AddonLocale
-local L = AceLocale:GetLocale(AddonName);
+local L = Addon.L;
 
 ---@enum MessageTypes
 local MessageTypes = {

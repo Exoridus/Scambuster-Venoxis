@@ -5,5 +5,6 @@
 .install
 .lua
 .luarocks
+.luacheckcache
 .luarc.json
 CHANGELOG.md

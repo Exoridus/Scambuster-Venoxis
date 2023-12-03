@@ -12,7 +12,7 @@ jobs:
       - name: Install and run luacheck
         uses: nebularg/actions-luacheck@v1
         with:
-          args: --no-color
+          args: --no-color --no-cache --quiet
           annotate: warning
 
   package_and_release:
