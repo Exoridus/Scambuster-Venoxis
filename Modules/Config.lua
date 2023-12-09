@@ -1,11 +1,16 @@
+---@type AddonName, Addon
 local AddonName, Addon = ...;
 local AceAddon = LibStub("AceAddon-3.0");
 local AceConfig = LibStub("AceConfig-3.0");
 local AceConfigDialog = LibStub("AceConfigDialog-3.0");
 local AceDB = LibStub("AceDB-3.0");
 local AceDBOptions = LibStub("AceDBOptions-3.0");
-local Utils = Addon:GetModule("Utils") --[[@as Utils]];
+local Utils = Addon:GetModule("Utils");
 ---@class Config : AceModule
+---@field db AceDBObject-3.0
+---@field defaults table
+---@field options table
+---@field opts table
 local Config = Addon:NewModule("Config");
 local L = Addon.L;
 
@@ -16,7 +21,6 @@ Config.defaults = {
       debugMode = false,
     },
     overrides = {
-      overrideScambuster = true,
       enableGUIDMatching = true, -- require_guid_match false
       disableAllMatching = true, -- match_all_incidents true
       extendAlertLockout = true, -- alert_lockout_seconds 900
@@ -32,20 +36,37 @@ Config.options = {
   args = {},
 };
 
+---@param info table
+---@return table?
 function Config.GetArg(info)
   return info.arg;
 end
 
+---@param info table
+---@return any
 function Config.GetOption(info)
-  return Config.db.profile[info[#info - 1]][info[#info]];
+  ---@diagnostic disable-next-line: no-unknown
+  local parent = info[#info - 1];
+  ---@diagnostic disable-next-line: no-unknown
+  local option = info[#info];
+  print("GetOption", parent, option, #info);
+  DevTools_Dump(info);
+  DevTools_Dump(Config.db.profile[parent][option]);
+  return Config.db.profile[parent][option];
 end
 
+---@param info table
+---@param value any
 function Config.SetOption(info, value)
-  Config.db.profile[info[#info - 1]][info[#info]] = value;
-end
-
-function Config.NoOp()
-  -- Intentionally left empty
+  ---@diagnostic disable-next-line: no-unknown
+  local parent = info[#info - 1];
+  ---@diagnostic disable-next-line: no-unknown
+  local option = info[#info];
+  print("SetOption", parent, option, value, #info);
+  DevTools_Dump(info);
+  DevTools_Dump(Config.db.profile[parent][option]);
+  ---@diagnostic disable-next-line: no-unknown
+  Config.db.profile[parent][option] = value;
 end
 
 function Config:OnInitialize()
@@ -68,7 +89,7 @@ function Config:OnInitialize()
 end
 
 function Config:OnEnable()
-  local Scambuster = AceAddon:GetAddon("Scambuster") --[[@as Scambuster]];
+  local Scambuster = AceAddon:GetAddon("Scambuster");
 
   Scambuster.db.RegisterCallback(self, "OnProfileChanged", "OnScambusterChanged");
   Scambuster.db.RegisterCallback(self, "OnProfileCopied", "OnScambusterChanged");
@@ -108,129 +129,109 @@ end
 function Config:ApplyOverrides()
 end
 
-function Config:OpenOptionsFrame()
+function Config:ToggleOptionsFrame()
   AceConfigDialog:Open(AddonName);
 end
 
 function Config:SetupAbout()
   local options = {
     type = "group",
-    name = L["About"],
+    name = L.ABOUT,
+    inline = true,
+    get = self.GetArg,
+    set = nop,
     args = {
-      Head = {
-        type = "header",
-        name = Utils:GetMetadata("Title"),
+      Version = {
+        type = "input",
+        name = L.VERSION,
+        arg = Utils:GetMetadata("Version"),
         order = 1,
         disabled = true,
-        dialogControl = "SFX-Header",
+        dialogControl = "SFX-Info",
       },
-      Desc = {
-        type = "description",
-        name = Utils:GetMetadata("Notes"),
+      Revision = {
+        type = "input",
+        name = L.REVISION,
+        arg = Utils:GetMetadata("X-Revision"),
         order = 2,
-        fontSize = "medium",
+        disabled = true,
+        dialogControl = "SFX-Info",
       },
-      Info = {
-        type = "group",
-        name = "",
+      Date = {
+        type = "input",
+        name = L.DATE,
+        arg = Utils:GetMetadata("X-Date"),
         order = 3,
-        inline = true,
-        get = self.GetArg,
-        set = self.NoOp,
-        args = {
-          Version = {
-            type = "input",
-            name = L["Version"],
-            arg = Utils:GetMetadata("Version"),
-            order = 1,
-            disabled = true,
-            dialogControl = "SFX-Info",
-          },
-          Revision = {
-            type = "input",
-            name = L["Revision"],
-            arg = Utils:GetMetadata("X-Revision"),
-            order = 2,
-            disabled = true,
-            dialogControl = "SFX-Info",
-          },
-          Date = {
-            type = "input",
-            name = L["Date"],
-            arg = Utils:GetMetadata("X-Date"),
-            order = 3,
-            disabled = true,
-            dialogControl = "SFX-Info",
-          },
-          Author = {
-            type = "input",
-            name = L["Author"],
-            arg = Utils:GetMetadata("Author"),
-            order = 4,
-            disabled = true,
-            dialogControl = "SFX-Info",
-          },
-          Credits = {
-            type = "input",
-            name = L["Credits"],
-            arg = Utils:GetMetadata("X-Credits"),
-            order = 5,
-            disabled = true,
-            dialogControl = "SFX-Info",
-          },
-          License = {
-            type = "input",
-            name = L["License"],
-            arg = Utils:GetMetadata("X-License"),
-            order = 6,
-            disabled = true,
-            dialogControl = "SFX-Info",
-          },
-          Localizations = {
-            type = "input",
-            name = L["Localizations"],
-            arg = Utils:GetMetadata("X-Localizations"),
-            order = 7,
-            disabled = true,
-            dialogControl = "SFX-Info",
-          },
-          Category = {
-            type = "input",
-            name = L["Category"],
-            arg = Utils:GetMetadata("X-Category"),
-            order = 8,
-            disabled = true,
-            dialogControl = "SFX-Info",
-          },
-          Discord = {
-            type = "input",
-            name = L["Discord"],
-            arg = Utils:GetMetadata("X-Discord"),
-            order = 9,
-            dialogControl = "SFX-Info-URL",
-          },
-          Website = {
-            type = "input",
-            name = L["Website"],
-            arg = Utils:GetMetadata("X-Website"),
-            order = 10,
-            dialogControl = "SFX-Info-URL",
-          },
-          Feedback = {
-            type = "input",
-            name = L["Feedback"],
-            arg = Utils:GetMetadata("X-Feedback"),
-            order = 11,
-            dialogControl = "SFX-Info-URL",
-          },
-          Donate = {
-            type = "input",
-            name = L["Donate"],
-            arg = Utils:GetMetadata("X-Donate"),
-            order = 12,
-            dialogControl = "SFX-Info-URL",
-          },
-        },
+        disabled = true,
+        dialogControl = "SFX-Info",
+      },
+      Author = {
+        type = "input",
+        name = L.AUTHOR,
+        arg = Utils:GetMetadata("Author"),
+        order = 4,
+        disabled = true,
+        dialogControl = "SFX-Info",
+      },
+      Credits = {
+        type = "input",
+        name = L.CREDITS,
+        arg = Utils:GetMetadata("X-Credits"),
+        order = 5,
+        disabled = true,
+        dialogControl = "SFX-Info",
+      },
+      License = {
+        type = "input",
+        name = L.LICENSE,
+        arg = Utils:GetMetadata("X-License"),
+        order = 6,
+        disabled = true,
+        dialogControl = "SFX-Info",
+      },
+      Localizations = {
+        type = "input",
+        name = L.LOCALIZATIONS,
+        arg = Utils:GetMetadata("X-Localizations"),
+        order = 7,
+        disabled = true,
+        dialogControl = "SFX-Info",
+      },
+      Category = {
+        type = "input",
+        name = L.CATEGORY,
+        arg = Utils:GetMetadata("X-Category"),
+        order = 8,
+        disabled = true,
+        dialogControl = "SFX-Info",
+      },
+      Discord = {
+        type = "input",
+        name = L.DISCORD,
+        arg = Utils:GetMetadata("X-Discord"),
+        order = 9,
+        dialogControl = "SFX-Info-URL",
+      },
+      Website = {
+        type = "input",
+        name = L.WEBSITE,
+        arg = Utils:GetMetadata("X-Website"),
+        order = 10,
+        dialogControl = "SFX-Info-URL",
+      },
+      Feedback = {
+        type = "input",
+        name = L.FEEDBACK,
+        arg = Utils:GetMetadata("X-Feedback"),
+        order = 11,
+        dialogControl = "SFX-Info-URL",
+      },
+      Donate = {
+        type = "input",
+        name = L.DONATE,
+        arg = Utils:GetMetadata("X-Donate"),
+        order = 12,
+        dialogControl = "SFX-Info-URL",
       },
     },
   };
@@ -243,31 +244,31 @@ end
 function Config:SetupSettings()
   local options = {
     type = "group",
-    name = L["Settings"],
+    name = L.SETTINGS,
     get = self.GetOption,
     set = self.SetOption,
     args = {
       h1 = {
         type = "header",
-        name = L["Settings"],
+        name = L.SETTINGS_HEAD,
         order = 0,
         disabled = true,
         dialogControl = "SFX-Header",
       },
       d1 = {
         type = "description",
-        name = L["This section will allow you to adjust settings that affect working with Masque's API."],
+        name = L.SETTINGS_DESC,
         order = 1,
         fontSize = "medium",
       },
       welcomeMessage = {
         type = "toggle",
-        name = L["Welcome Message"],
+        name = L.WELCOME_MESSAGE,
         order = 2.1,
       },
       debugMode = {
         type = "toggle",
-        name = L["Debug Mode"],
+        name = L.DEBUG_MODE,
         order = 2.2,
       },
       d2 = {
@@ -277,95 +278,92 @@ function Config:SetupSettings()
       },
       purge = {
         type = "execute",
-        name = L["Clean Database"],
-        desc = L["Click to purge the settings of all unused add-ons and groups."],
+        name = L.PURGE_DATABASE,
+        desc = L.PURGE_DATABASE_DESC,
         func = function(i)
           DevTools_Dump("Purge " .. i)
         end,
         order = -1,
         confirm = true,
-        confirmText = L["This action cannot be undone. Continue?"],
+        confirmText = L.PURGE_DATABASE_CONFIRM,
       },
     },
   };
 
   self.options.args.settings = options;
 
-  AceConfigDialog:AddToBlizOptions(AddonName, L["Settings"], AddonName, "settings");
+  AceConfigDialog:AddToBlizOptions(AddonName, L.SETTINGS, AddonName, "settings");
 end
 
 function Config:SetupOverrides()
   local options = {
     type = "group",
-    name = L["Overrides"],
+    name = L.OVERRIDES,
     get = self.GetOption,
     set = self.SetOption,
     args = {
       h1 = {
         type = "header",
-        name = L["Overrides"],
+        name = L.OVERRIDES,
         order = 1,
         disabled = true,
         dialogControl = "SFX-Header",
       },
       d1 = {
         type = "description",
-        name = L["Overrides Desc"],
+        name = L.OVERRIDES_DESC,
         order = 1.1,
         fontSize = "medium",
       },
-      overrideScambuster = {
-        type = "toggle",
-        order = 1.2,
-        name = L["Override Scambuster"],
-      },
       h2 = {
         type = "header",
-        name = ">>>"..L["Overrides"],
+        name = ">>>"..L.OVERRIDES,
         order = 2,
         dialogControl = "SFX-Header",
       },
       enableGUIDMatching = {
         type = "toggle",
         order = 2.1,
-        name = L["GUID Matching"],
+        name = L.REQUIRE_GUID_MATCH,
       },
       disableAllMatching = {
         type = "toggle",
         order = 2.2,
-        name = L["Name Matching"],
+        name = L.MATCH_ALL_INCIDENTS,
       },
       extendAlertLockout = {
         type = "toggle",
         order = 2.3,
-        name = L["Alert Lockout"],
+        name = L.ALERT_LOCKOUT_SECONDS,
       },
       disableGroupAlerts = {
         type = "toggle",
         order = 2.4,
-        name = L["Group/Raid chat"],
+        name = L.USE_GROUP_CHAT_ALERT,
       },
     },
   };
 
   self.options.args.overrides = options;
 
-  AceConfigDialog:AddToBlizOptions(AddonName, L["Overrides"], AddonName, "overrides");
+  AceConfigDialog:AddToBlizOptions(AddonName, L.OVERRIDES, AddonName, "overrides");
 end
 
 function Config:SetupProfiles()
   local options = AceDBOptions:GetOptionsTable(self.db);
 
-  options.name = L["Profiles"];
+  options.name = L.PROFILES;
   options.order = -1;
 
+  --[[
   for _, arg in pairs(options.args) do
     if arg and arg.type == "description" then
       arg.fontSize = "medium";
     end
   end
+  ]]--
 
   self.options.args.profiles = options;
 
-  AceConfigDialog:AddToBlizOptions(AddonName, L["Profiles"], AddonName, "profiles");
+  AceConfigDialog:AddToBlizOptions(AddonName, L.PROFILES, AddonName, "profiles");
 end

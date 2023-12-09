@@ -1,7 +1,8 @@
 ## Interface: 30403
-## Title: |TInterface/Addons/Scambuster-Venoxis/Assets/Logo:16:16|t Scambuster-Venoxis
+## Title: Scambuster-Venoxis
 ## Notes: List of scammers and antisocial players on the WoW Classic Realm Venoxis, managed by the Venoxis Discord.
 ## Notes-deDE: Liste von Betrügern und unsozialen Spielern auf dem WoW Classic Realm Venoxis, verwaltet vom Venoxis Discord.
+## IconTexture: Interface/Addons/Scambuster-Venoxis/Assets/Logo
 ## Author: Exoridus
 ## Version: @project-version@
 ## X-Revision: @project-revision@

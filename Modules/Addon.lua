@@ -1,9 +1,11 @@
+---@type AddonName, Addon
 local AddonName, Addon = ...;
 local AceAddon = LibStub("AceAddon-3.0");
-local Scambuster = AceAddon:GetAddon("Scambuster") --[[@as Scambuster]];
-local L = LibStub("AceLocale-3.0"):GetLocale(AddonName) --[[@as AddonLocale]];
+local Scambuster = AceAddon:GetAddon("Scambuster");
+---@type AddonLocale
+local L = LibStub("AceLocale-3.0"):GetLocale(AddonName);
 
----@class Addon : AceAddon
+---@class Addon: AceAddon
 Addon = AceAddon:NewAddon(Addon, AddonName);
 Addon.L = L;
 
@@ -17,13 +19,13 @@ function Addon:OnInitialize()
 end
 
 function Addon:RegisterProvider()
-  local Utils = self:GetModule("Utils") --[[@as Utils]];
-  local Blocklist = self:GetModule("Blocklist") --[[@as Blocklist]];
+  local Utils = self:GetModule("Utils");
+  local Blocklist = self:GetModule("Blocklist");
 
   Scambuster:register_case_data({
-    name = L.BLOCKLIST_NAME,
-    provider = L.BLOCKLIST_PROVIDER,
-    description = L.BLOCKLIST_DESCRIPTION,
+    name = "Venoxis Discord Blocklist",
+    provider = Utils:GetMetadata("X-Discord"),
+    description = Utils:GetMetadata("Notes", true),
     url = Utils:GetMetadata("X-Discord"),
     realm_data = { Venoxis = Blocklist.Entries },
   });

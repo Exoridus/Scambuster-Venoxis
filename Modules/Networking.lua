@@ -1,13 +1,14 @@
+---@type AddonName, Addon
 local _, Addon = ...;
 local LibDeflate = LibStub("LibDeflate");
 local LibSerialize = LibStub("LibSerialize");
-local Utils = Addon:GetModule("Utils") --[[@as Utils]];
----@class Networking : AceModule
+local Utils = Addon:GetModule("Utils");
+---@class Networking: AceModule, AceEvent-3.0, AceComm-3.0, AceTimer-3.0
 local Networking = Addon:NewModule("Networking", "AceEvent-3.0", "AceComm-3.0", "AceTimer-3.0");
 local L = Addon.L;
 
----@enum MessageTypes
-local MessageTypes = {
+---@enum MessageID
+local MessageID = {
 	Version = 1,
 };
 
@@ -19,13 +20,13 @@ local Channels = {
   GUILD = true,
 };
 
----@enum Flags
 local SEND_VERSION_GUILD = 0x01;
 local SEND_VERSION_GROUP = 0x02;
 local SEND_VERSION_INSTANCE = 0x04;
 
 function Networking:OnInitialize()
-  self.flags = CreateFlags();
+  self.flags = CreateFromMixins(FlagsMixin);
+  self.flags:OnLoad();
   self.commPrefix = "SBV";
   self.playerName = UnitName("player");
   self.playerVersion = Utils:VersionToNumber(Utils:GetMetadata("Version"));
@@ -62,23 +63,23 @@ end
 
 function Networking:TimerFeedback()
   if self.flags:IsSet(SEND_VERSION_GUILD) then
-    self:SendMessage("GUILD", MessageTypes.Version, self.playerVersion);
+    self:Send("GUILD", MessageID.Version, self.playerVersion);
   end
   if self.flags:IsSet(SEND_VERSION_GROUP) then
-    self:SendMessage("RAID", MessageTypes.Version, self.playerVersion);
+    self:Send("RAID", MessageID.Version, self.playerVersion);
   end
   if self.flags:IsSet(SEND_VERSION_INSTANCE) then
-    self:SendMessage("INSTANCE_CHAT", MessageTypes.Version, self.playerVersion);
+    self:Send("INSTANCE_CHAT", MessageID.Version, self.playerVersion);
   end
 
   self.flags:ClearAll();
 end
 
 ---@param channel Channels
----@param messageType MessageTypes
----@param ... any
-function Networking:SendMessage(channel, messageType, ...)
-	local serialized = LibSerialize:Serialize(messageType, {...});
+---@param messageID MessageID
+---@param ... unknown
+function Networking:Send(channel, messageID, ...)
+	local serialized = LibSerialize:Serialize(messageID, {...});
   local compressed = LibDeflate:CompressDeflate(serialized);
   local encoded = LibDeflate:EncodeForWoWAddonChannel(compressed);
 
@@ -90,15 +91,26 @@ end
 ---@param channel Channels
 ---@param sender string
 function Networking:OnCommReceived(_, encoded, channel, sender)
-  if not Channels[channel] or sender == self.playerName then return end
+  if not Channels[channel] or sender == self.playerName then
+    return
+  end
   local decoded = LibDeflate:DecodeForWoWAddonChannel(encoded);
-  if not decoded then return end
+  if not decoded then
+    return
+  end
   local decompressed = LibDeflate:DecompressDeflate(decoded);
-  if not decompressed then return end
-  local success, comm, data = LibSerialize:Deserialize(decompressed);
-  if not (success and MessageTypes[comm]) then return end
+  if not decompressed then
+    return
+  end
+  ---@type boolean, MessageID|string, table?
+  local success, id, data = LibSerialize:Deserialize(decompressed);
+  if not success then return end
 
-  if comm == MessageTypes.Version then
+  ---@cast id -string
+  ---@cast data -nil
+
+  if id == MessageID.Version then
+    ---@type number
     local otherVersion = unpack(data);
 
     if self.playerVersion < otherVersion and self.suggestUpdate then

@@ -1,6 +1,12 @@
+---@type AddonName, Addon
 local AddonName, Addon = ...;
 local AceGUI = LibStub("AceGUI-3.0");
 ---@class Utils : AceModule
+---@field notificationsFilter fun(chatFrame: table, event: string, msg: string, ...: any): boolean, ...
+---@field notificationLocks integer
+---@field cachedMetadata table<string, string>
+---@field cachedPatterns table<string, string>
+---@field playerInfos table<string, table>
 local Utils = Addon:NewModule("Utils");
 local L = Addon.L;
 local type, select, ipairs, assert, tostring, tconcat = type, select, ipairs, assert, tostring, table.concat;
@@ -11,8 +17,6 @@ local RunNextFrame = RunNextFrame;
 local GetFactionColor = GetFactionColor;
 local GetClassColorObj = GetClassColorObj;
 local WrapTextInColorCode = WrapTextInColorCode;
-local MuteSoundFile = MuteSoundFile;
-local UnmuteSoundFile = UnmuteSoundFile;
 local ContainsMessageGroup = ChatFrame_ContainsMessageGroup;
 local AddMessageEventFilter = ChatFrame_AddMessageEventFilter;
 local RemoveMessageEventFilter = ChatFrame_RemoveMessageEventFilter;
@@ -77,7 +81,14 @@ local RaceList = {
 };
 
 function Utils:OnInitialize()
-  local notifications = {
+  self.notificationLocks = 0;
+  self.cachedMetadata = {};
+  self.cachedPatterns = {};
+  self.playerInfos = {};
+end
+
+function Utils:OnEnable()
+  self.notifications = {
     self:SanitizePattern(ERR_FRIEND_ADDED_S),
     self:SanitizePattern(ERR_FRIEND_REMOVED_S),
     self:SanitizePattern(ERR_FRIEND_NOT_FOUND),
@@ -88,7 +99,7 @@ function Utils:OnInitialize()
 
   self.notificationsFilter = function(chatFrame, _, msg, ...)
     if ContainsMessageGroup(chatFrame, "SYSTEM") then
-      for _, pattern in ipairs(notifications) do
+      for _, pattern in ipairs(self.notifications) do
         if strmatch(msg, pattern) then
           return true;
         end
@@ -97,16 +108,14 @@ function Utils:OnInitialize()
 
     return false, msg, ...;
   end
-
-  self.notificationLocks = 0;
-  self.cachedMetadata = {};
-  self.playerInfos = {};
 end
 
 function Utils:OnDisable()
   self:EnableNotifications();
 end
 
+---@param message string
+---@param ... any
 function Utils:Print(message, ...)
   local chatFrame = SELECTED_CHAT_FRAME or DEFAULT_CHAT_FRAME;
   local chatMessage = tostring(message);
@@ -118,6 +127,7 @@ function Utils:Print(message, ...)
   end
 end
 
+---@param ... string|string[]
 function Utils:PrintMultiline(...)
   local length = select("#", ...);
 
@@ -136,6 +146,8 @@ function Utils:PrintMultiline(...)
   end
 end
 
+---@param message string
+---@param ...? string|number
 function Utils:PrintAddonMessage(message, ...)
   local chatPrefix = self:AddonText(AddonName);
   local chatMessage = tostring(message);
@@ -148,7 +160,7 @@ function Utils:PrintAddonMessage(message, ...)
 end
 
 ---@param message string
----@param ... (string|number|nil)
+---@param ...? string|number
 function Utils:PrintWarning(message, ...)
   local chatMessage = tostring(message);
 
@@ -160,7 +172,7 @@ function Utils:PrintWarning(message, ...)
 end
 
 ---@param message string
----@param ... (string|number|nil)
+---@param ...? string|number
 function Utils:PrintStatus(message, ...)
   local chatMessage = tostring(message);
 
@@ -171,10 +183,9 @@ function Utils:PrintStatus(message, ...)
   self:Print(self:SystemText(chatMessage));
 end
 
-function Utils:PrintAddonVersion()
-  self:PrintAddonMessage(format("v%s", self:GetMetadata("Version")));
-end
-
+---@param text string
+---@param width? integer
+---@param height? integer
 function Utils:CreateCopyDialog(text, width, height)
   local frameWidget = AceGUI:Create("Frame") --[[@as AceGUIFrame]];
 
@@ -218,6 +229,8 @@ function Utils:CreateCopyDialog(text, width, height)
   RunNextFrame(selectEditBoxText);
 end
 
+---@param players Scambuster.PlayerInfo[]
+---@param callback fun(failed: Scambuster.PlayerInfo[])
 function Utils:GetFailedNames(players, callback)
   local length = #players;
   local index = 1;
@@ -248,6 +261,8 @@ function Utils:GetFailedNames(players, callback)
   end, length);
 end
 
+---@param guid string
+---@return table?
 function Utils:GetPlayerInfo(guid)
   if not guid then
     return;
@@ -275,6 +290,8 @@ function Utils:GetPlayerInfo(guid)
   return self.playerInfos[guid];
 end
 
+---@param guid string
+---@param callback fun(info: table?)
 function Utils:FetchPlayerInfoByGUID(guid, callback)
   if not guid then
     callback(nil);
@@ -302,6 +319,8 @@ function Utils:FetchPlayerInfoByGUID(guid, callback)
   end, maxTicks);
 end
 
+---@param name string
+---@param callback fun(info: table?)
 function Utils:FetchPlayerInfoByName(name, callback)
   self:DisableNotifications();
 
@@ -312,7 +331,14 @@ function Utils:FetchPlayerInfoByName(name, callback)
   end);
 end
 
+---@param name string
+---@param callback fun(guid: string?)
 function Utils:FetchGUIDByName(name, callback)
+  if name == UnitName("player") then
+    callback(UnitGUID("player"));
+    return;
+  end
+
   local info = GetFriendInfo(name);
 
   if info and strmatch(info.notes, self:SanitizePattern(AddonName)) then
@@ -344,12 +370,18 @@ function Utils:FetchGUIDByName(name, callback)
   end, maxTicks);
 end
 
+---@param info Scambuster.PlayerInfo
+---@param index integer
+---@return string?
 function Utils:FormatPlayerEntry(info, index)
   if info and index then
     return LIST_ENTRY:format(index, info.name, info.guid, info.class, info.faction, "", "", "", 3, "");
   end
 end
 
+---@param entry Scambuster.PlayerInfo
+---@param template string
+---@return string
 function Utils:FormatAliases(entry, template)
   if not entry or type(entry.aliases) ~= "table" or #entry.aliases == 0 then
     return "";
@@ -364,6 +396,9 @@ function Utils:FormatAliases(entry, template)
   return format(template, tconcat(escaped, ", "));
 end
 
+---@param index integer
+---@param entry Scambuster.Entry
+---@return string
 function Utils:FormatListItemEntry(index, entry)
   if entry.players then
     local players = {};
@@ -388,6 +423,8 @@ function Utils:FormatListItemEntry(index, entry)
       tconcat(players, "\n")
     );
   end
+
+  ---@cast entry -Scambuster.GroupEntry
 
   return LIST_ENTRY:format(
     index,
@@ -421,19 +458,30 @@ function Utils:EnableNotifications()
   self.notificationLocks = max(self.notificationLocks - 1, 0);
 end
 
+---@param version string
+---@return number
 function Utils:VersionToNumber(version)
   local major, minor, patch = version:match("(%d+)%.(%d+)%.(%d+)");
 
   return floor((major or 0) * 1e6 + (minor or 0) * 1e3 + (patch or 0));
 end
 
-function Utils:NumerToVersion(num)
-  local major, minor, patch = num / 1e6, num % 1e6 / 1e3, num % 1e3;
+---@param version number
+---@return string
+function Utils:NumberToVersion(version)
+  local major, minor, patch = version / 1e6, version % 1e6 / 1e3, version % 1e3;
 
   return format("%i.%i.%i", major, minor, patch);
 end
 
-function Utils:GetMetadata(key)
+---@param key string
+---@param localized boolean?
+---@return string
+function Utils:GetMetadata(key, localized)
+  if localized == true then
+    return self:GetMetadata(format("%s-%s", key, GetLocale())) or self:GetMetadata(key);
+  end
+
   local metadata = self.cachedMetadata[key];
 
   if not metadata then
@@ -444,20 +492,25 @@ function Utils:GetMetadata(key)
   return metadata;
 end
 
-local cachedPatterns = {}
+---@param pattern string
+---@return string
 function Utils:SanitizePattern(pattern)
-  if not cachedPatterns[pattern] then
-    local result = pattern;
-    result = gsub(result, "([%+%-%*%(%)%?%[%]%^%.])", "%%%1");
-    result = gsub(result, "%d%$", "");
-    result = gsub(result, "(%%%a)", "(%1+)");
-    result = gsub(result, "%%s%+", ".+");
-    cachedPatterns[pattern] = result;
+  local cached = self.cachedPatterns[pattern];
+
+  if not cached then
+    cached = pattern;
+    cached = gsub(cached, "([%+%-%*%(%)%?%[%]%^%.])", "%%%1");
+    cached = gsub(cached, "%d%$", "");
+    cached = gsub(cached, "(%%%a)", "(%1+)");
+    cached = gsub(cached, "%%s%+", ".+");
+    self.cachedPatterns[pattern] = cached;
   end
 
-  return cachedPatterns[pattern];
+  return cached;
 end
 
+---@param str string
+---@return string[]
 function Utils:SplitList(str)
   local list = {};
 
@@ -468,34 +521,53 @@ function Utils:SplitList(str)
   return list;
 end
 
+---@param text string
+---@param color string
+---@return string
 function Utils:WrapColor(text, color)
   return WrapTextInColorCode(tostring(text), assert(color));
 end
 
+---@param text string
+---@param className string
+---@return string
 function Utils:ClassColor(text, className)
   return GetClassColorObj(className):WrapTextInColorCode(text);
 end
 
+---@param text string
+---@param factionName string
+---@return string
 function Utils:FactionColor(text, factionName)
   return GetFactionColor(factionName):WrapTextInColorCode(text);
 end
 
+---@param text string
+---@return string
 function Utils:SystemText(text)
   return self:WrapColor(text, "FFFFFF33");
 end
 
+---@param text string
+---@return string
 function Utils:WarningText(text)
   return self:WrapColor(text, "FFFF9933");
 end
 
+---@param text string
+---@return string
 function Utils:SpecialText(text)
   return self:WrapColor(text, "FF33FFFF");
 end
 
+---@param text string
+---@return string
 function Utils:DescriptionText(text)
   return self:WrapColor(text, "FFEFEFEF");
 end
 
+---@param text string
+---@return string
 function Utils:AddonText(text)
   return self:WrapColor(text, "FF33FF99");
 end

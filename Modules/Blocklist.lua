@@ -1,9 +1,14 @@
+---@type AddonName, Addon
 local _, Addon = ...;
-local Utils = Addon:GetModule("Utils") --[[@as Utils]];
----@class Blocklist : AceModule
-local Blocklist = Addon:NewModule("Blocklist");
+local Utils = Addon:GetModule("Utils");
 local L = Addon.L;
 
+---@class Blocklist: AceModule
+local Blocklist = Addon:NewModule("Blocklist");
+
+---@param a Scambuster.Entry
+---@param b Scambuster.Entry
+---@return boolean
 function Blocklist.SortComparator(a, b)
   local nameA = a and (a.players and a.players[1] or a).name;
   local nameB = b and (b.players and b.players[1] or b).name;
@@ -29,7 +34,9 @@ function Blocklist:Sort()
   sort(self.Entries, self.SortComparator);
 end
 
+---@return Scambuster.PlayerInfo[]
 function Blocklist:GetUniquePlayers()
+  ---@type { [string]: Scambuster.PlayerInfo }
   local players = {};
 
   for _, entry in ipairs(self.Entries) do
@@ -63,10 +70,13 @@ function Blocklist:GetUniquePlayers()
   return GetValuesArray(players);
 end
 
-function Blocklist:GetUniquePlayersByPredicate(FilterPredicate)
-  return tFilter(self:GetUniquePlayers(), FilterPredicate, true);
+---@param predicate function
+---@return Scambuster.PlayerInfo[]
+function Blocklist:GetUniquePlayersByPredicate(predicate)
+  return tFilter(self:GetUniquePlayers(), predicate, true);
 end
 
+---@type Scambuster.Entry[]
 Blocklist.Entries = {
   [1] = {
     name = "Alcyona",

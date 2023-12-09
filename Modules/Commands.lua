@@ -1,16 +1,15 @@
+---@type AddonName, Addon
 local _, Addon = ...;
-local Utils = Addon:GetModule("Utils") --[[@as Utils]];
-local Config = Addon:GetModule("Config") --[[@as Config]];
-local Blocklist = Addon:GetModule("Blocklist") --[[@as Blocklist]];
----@class Commands : AceModule
+local Utils = Addon:GetModule("Utils");
+local Config = Addon:GetModule("Config");
+local Blocklist = Addon:GetModule("Blocklist");
+---@class Commands : AceModule, AceConsole-3.0
 local Commands = Addon:NewModule("Commands", "AceConsole-3.0");
 local L = Addon.L;
 local select, ipairs, tconcat = select, ipairs, table.concat;
 local format, tinsert = format, tinsert;
 local UnitFactionGroup = UnitFactionGroup;
 local UnitIsPlayer = UnitIsPlayer;
-local UnitGUID = UnitGUID;
-local UnitName = UnitName;
 
 function Commands:OnInitialize()
   self.slashCommands = { "v", "sbv", "venoxis" };
@@ -43,7 +42,7 @@ end
 
 function Commands:RunSlashCommand(command, ...)
   if command == "config" then
-    return Config:OpenOptionsFrame(...);
+    return Config:ToggleOptionsFrame();
   elseif command == "print" then
     return self:ReportPlayers("print", ...);
   elseif command == "report" then
@@ -59,85 +58,47 @@ function Commands:RunSlashCommand(command, ...)
   elseif command == "banned" then
     return self:CheckBannedEntries();
   elseif command == "version" then
-    return Utils:PrintAddonVersion();
+    return self:PrintAddonVersion();
   else
     return self:PrintSlashCommands();
   end
 end
 
+function Commands:PrintAddonVersion()
+  Utils:PrintAddonMessage(format("v%s", Utils:GetMetadata("Version")));
+end
+
 function Commands:PrintSlashCommands()
-  if not self.cachedCommands then
-    self.cachedCommands = {
-      self:FormatCommand("report", L.REPORT_COMMAND_1),
-      self:FormatCommand("report <Name>", L.REPORT_COMMAND_2),
-      self:FormatCommand("config", L.CONFIG_COMMAND),
-      self:FormatCommand("version", L.VERSION_COMMAND),
-    };
-  end
-
   Utils:PrintAddonMessage(L.AVAILABLE_COMMANDS);
-  Utils:PrintMultiline(self.cachedCommands);
+  Utils:PrintMultiline(L.COMMANDS);
 end
 
-function Commands:FormatCommand(input, description)
-  local command, args = strsplit(" ", strtrim(input), 2);
-  local parts = {};
-
-  tinsert(parts, Utils:SystemText(format("/v %s", command)));
-
-  if strlen(args or "") > 0 then
-    tinsert(parts, Utils:SpecialText(args));
-  end
-
-  tinsert(parts, Utils:DescriptionText(description));
-
-  return tconcat(parts, " ");
-end
-
+---@param type "print"|"report"|"dump"
+---@param ... string
 function Commands:ReportPlayers(type, ...)
-  if select("#", ...) > 0 then
-    local name = ...;
+  local name = (...) or (UnitIsPlayer("target") and UnitName("target")) or "";
 
-    Utils:FetchPlayerInfoByName(name, function(info)
-      if not info then
-        self:PrintPlayerNotFound(name);
-      elseif type == "report" then
-        Utils:CreateCopyDialog(self:FormatPlayerInfo(info));
-      elseif type == "dump" then
-        Utils:CreateCopyDialog(Utils:FormatPlayerEntry(info, #Blocklist.Entries + 1), 480, 320);
-      end
-    end);
-  elseif UnitIsPlayer("target") then
-    local playerGUID = UnitGUID("target");
-    local playerName = UnitName("target");
-
-    Utils:FetchPlayerInfoByGUID(playerGUID, function(info)
-      if not info then
-        self:PrintPlayerNotFound(playerName);
-      elseif type == "report" then
-        Utils:CreateCopyDialog(self:FormatPlayerInfo(info));
-      elseif type == "dump" then
-        Utils:CreateCopyDialog(Utils:FormatPlayerEntry(info, #Blocklist.Entries + 1), 480, 320);
-      end
-    end);
-  else
+  if not name or name == "" then
     Utils:PrintAddonMessage(L.ENTER_PLAYER_NAME);
+    return;
   end
-end
 
-function Commands:FormatPlayerInfo(info)
-  return tconcat({
-    format("|cFFFFFF33%s:|r %s", L.NAME, info.name),
-    format("|cFFFFFF33%s:|r %s", L.GUID, info.guid),
-    format("|cFFFFFF33%s:|r %s", L.RACE, info.raceName),
-    format("|cFFFFFF33%s:|r %s", L.CLASS, Utils:ClassColor(info.className, info.class)),
-    format("|cFFFFFF33%s:|r %s", L.FACTION, Utils:FactionColor(info.factionName, info.faction)),
-  }, "\n");
-end
-
-function Commands:PrintPlayerNotFound(name)
-  Utils:PrintAddonMessage(L.PLAYER_NOT_FOUND_TITLE, name);
-  Utils:PrintMultiline(L.PLAYER_NOT_FOUND_REASONS);
+  Utils:FetchPlayerInfoByName(name, function(info)
+    if not info then
+      Utils:PrintMultiline(L.PLAYER_NOT_FOUND, name);
+    elseif type == "dump" then
+      Utils:CreateCopyDialog(format(L.PLAYER_ENTRY, info.name, info.guid, info.class, info.faction), 480, 320);
+    else
+      Utils:CreateCopyDialog(format(
+        L.PLAYER_REPORT,
+        info.name,
+        info.guid,
+        info.raceName,
+        Utils:ClassColor(info.className, info.class),
+        Utils:FactionColor(info.factionName, info.faction)
+      ));
+    end
+  end);
 end
 
 function Commands:CheckChangedEntries()
@@ -220,7 +181,7 @@ function Commands:CheckBannedEntries()
           self.checkInProgress = false;
 
           if #banned > 0 then
-            Utils:CreateCopyDialog(tconcat(banned, "\n"), 480, 320, true);
+            Utils:CreateCopyDialog(tconcat(banned, "\n"), 480, 320);
           end
         end
       end);
@@ -241,5 +202,5 @@ function Commands:DumpEntries()
 
   tinsert(output, "};");
 
-  Utils:CreateCopyDialog(tconcat(output, "\n"), 800, 600, true);
+  Utils:CreateCopyDialog(tconcat(output, "\n"), 800, 600);
 end
