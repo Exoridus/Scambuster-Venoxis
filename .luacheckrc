@@ -37487,6 +37487,7 @@ read_globals = {
 	"class",
 	"color",
 	"cooldown",
+	"currencyRegion",
 	"day",
 	"enable",
 	"enumerate_regions",
