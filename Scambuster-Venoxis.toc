@@ -1,4 +1,4 @@
-## Interface: 30403
+## Interface: 50500
 ## Title: Scambuster-Venoxis
 ## Notes: List of scammers and antisocial players on the WoW Classic Realm Venoxis, managed by the Venoxis Discord.
 ## Notes-deDE: Liste von Betrügern und unsozialen Spielern auf dem WoW Classic Realm Venoxis, verwaltet vom Venoxis Discord.

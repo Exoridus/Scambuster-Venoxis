@@ -4,8 +4,8 @@
 [submodule "BlizzardInterfaceResources"]
 	path = .types/.submodules/BlizzardInterfaceResources
 	url = https://github.com/Ketho/BlizzardInterfaceResources.git
-	branch = wrath
+	branch = mists
 [submodule "BlizzardInterfaceCode"]
 	path = .types/.submodules/BlizzardInterfaceCode
-	url = https://github.com/tomrus88/BlizzardInterfaceCode.git
-	branch = wrath
+	url = https://github.com/Gethe/wow-ui-source.git
+	branch = classic

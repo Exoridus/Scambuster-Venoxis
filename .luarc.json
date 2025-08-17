@@ -1,94 +1,119 @@
 {
   "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
-  "addonManager.enable": true,
-  "codeLens.enable": false,
-  "completion.autoRequire": true,
-  "completion.callSnippet": "Replace",
-  "completion.displayContext": 5,
-  "completion.enable": true,
-  "completion.keywordSnippet": "Replace",
-  "completion.showParams": true,
-  "completion.showWord": "Enable",
-  "completion.workspaceWord": true,
-  "diagnostics.enable": true,
-  "diagnostics.groupFileStatus": {
-    "ambiguity": "Any",
-    "await": "Any",
-    "codestyle": "None",
-    "duplicate": "Any",
-    "global": "Any",
-    "luadoc": "Any",
-    "redefined": "Any",
-    "strict": "Any",
-    "strong": "Any",
-    "type-check": "Any",
-    "unbalanced": "Any",
-    "unused": "Any"
+  "runtime": {
+      "version": "Lua 5.1"
   },
-  "diagnostics.groupSeverity": {
-    "ambiguity": "Error",
-    "await": "Error",
-    "codestyle": "Error",
-    "duplicate": "Error",
-    "global": "Error",
-    "luadoc": "Error",
-    "redefined": "Error",
-    "strict": "Error",
-    "strong": "Error",
-    "type-check": "Error",
-    "unbalanced": "Error",
-    "unused": "Error"
+  "workspace": {
+    "maxPreload": 5000,
+    "preloadFileSize": 2000,
+    "checkThirdParty": false,
+    "useGitIgnore": true,
+    "ignoreSubmodules": false,
+    "library": [
+      ".types/.submodules/BlizzardInterfaceResources/Resources/LuaEnum.lua",
+      ".types/.submodules/BlizzardInterfaceResources/Resources/GlobalStrings/deDE.lua",
+      ".types/.submodules/BlizzardInterfaceCode/",
+      ".types/API/",
+      ".types/Libs/",
+      ".types/*.lua"
+    ],
+    "ignoreDir": [
+      ".git",
+      ".github",
+      ".idea",
+      ".vscode",
+      ".release"
+    ]
   },
-  "diagnostics.ignoredFiles": "Opened",
-  "diagnostics.libraryFiles": "Opened",
-  "diagnostics.workspaceDelay": 3000,
-  "diagnostics.workspaceEvent": "OnSave",
-  "diagnostics.workspaceRate": 100,
-  "format.enable": false,
-  "hint.arrayIndex": "Enable",
-  "hint.await": true,
-  "hint.enable": true,
-  "hint.paramName": "Disable",
-  "hint.paramType": false,
-  "hint.semicolon": "Disable",
-  "hint.setType": false,
-  "hover.enable": true,
-  "hover.enumsLimit": 5,
-  "hover.expandAlias": true,
-  "hover.previewFields": 50,
-  "hover.viewNumber": true,
-  "hover.viewString": true,
-  "hover.viewStringMax": 1000,
-  "runtime.version": "Lua 5.1",
-  "semantic.annotation": false,
-  "semantic.enable": false,
-  "semantic.keyword": false,
-  "semantic.variable": false,
-  "signatureHelp.enable": true,
-  "type.castNumberToInteger": false,
-  "type.weakNilCheck": false,
-  "type.weakUnionCheck": false,
-  "window.progressBar": true,
-  "window.statusBar": true,
-  "workspace.checkThirdParty": false,
-  "workspace.ignoreDir": [
-    ".git",
-    ".github",
-    ".idea",
-    ".vscode",
-    ".release"
-  ],
-  "workspace.ignoreSubmodules": true,
-  "workspace.library": [
-    ".types/.submodules/vscode-wow-api/EmmyLua/",
-    ".types/.submodules/BlizzardInterfaceResources/Resources/LuaEnum.lua",
-    ".types/.submodules/BlizzardInterfaceResources/Resources/GlobalStrings/deDE.lua",
-    ".types/.submodules/BlizzardInterfaceCode/",
-    ".types/API/",
-    ".types/Libs/",
-    ".types/*.lua"
-  ],
-  "workspace.maxPreload": 5000,
-  "workspace.preloadFileSize": 2000,
-  "workspace.useGitIgnore": true
+  "diagnostics": {
+    "enable": true,
+    "ignoredFiles": "Opened",
+    "libraryFiles": "Opened",
+    "workspaceDelay": 3000,
+    "workspaceEvent": "OnSave",
+    "workspaceRate": 100,
+    "groupFileStatus": {
+      "ambiguity": "Any",
+      "await": "Any",
+      "codestyle": "None",
+      "duplicate": "Any",
+      "global": "Any",
+      "luadoc": "Any",
+      "redefined": "Any",
+      "strict": "Any",
+      "strong": "Any",
+      "type-check": "Any",
+      "unbalanced": "Any",
+      "unused": "Any"
+    },
+    "groupSeverity": {
+      "ambiguity": "Error",
+      "await": "Error",
+      "codestyle": "Error",
+      "duplicate": "Error",
+      "global": "Error",
+      "luadoc": "Error",
+      "redefined": "Error",
+      "strict": "Error",
+      "strong": "Error",
+      "type-check": "Error",
+      "unbalanced": "Error",
+      "unused": "Error"
+    }
+  },
+  "completion": {
+    "autoRequire": true,
+    "callSnippet": "Replace",
+    "displayContext": 5,
+    "enable": true,
+    "keywordSnippet": "Replace",
+    "showParams": true,
+    "showWord": "Enable",
+    "workspaceWord": true
+  },
+  "hint": {
+    "arrayIndex": "Enable",
+    "await": true,
+    "enable": true,
+    "paramName": "Disable",
+    "paramType": false,
+    "semicolon": "Disable",
+    "setType": false
+  },
+  "hover": {
+    "enable": true,
+    "enumsLimit": 5,
+    "expandAlias": true,
+    "previewFields": 50,
+    "viewNumber": true,
+    "viewString": true,
+    "viewStringMax": 1000
+  },
+  "semantic": {
+    "annotation": false,
+    "enable": false,
+    "keyword": false,
+    "variable": false
+  },
+  "type": {
+    "castNumberToInteger": false,
+    "weakNilCheck": false,
+    "weakUnionCheck": false
+  },
+  "format": {
+    "enable": false
+  },
+  "codeLens": {
+    "enable": false
+  },
+  "window": {
+    "progressBar": true,
+    "statusBar": true
+  },
+  "addonManager": {
+    "enable": true
+  },
+  "signatureHelp": {
+    "enable": true
+  }
 }

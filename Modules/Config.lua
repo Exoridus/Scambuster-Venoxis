@@ -91,9 +91,9 @@ end
 function Config:OnEnable()
   local Scambuster = AceAddon:GetAddon("Scambuster");
 
-  Scambuster.db.RegisterCallback(self, "OnProfileChanged", "OnScambusterChanged");
-  Scambuster.db.RegisterCallback(self, "OnProfileCopied", "OnScambusterChanged");
-  Scambuster.db.RegisterCallback(self, "OnProfileReset", "OnScambusterChanged");
+  Scambuster.db.RegisterCallback(self, "OnProfileChanged", "OnProfileChanged");
+  Scambuster.db.RegisterCallback(self, "OnProfileCopied", "OnProfileCopied");
+  Scambuster.db.RegisterCallback(self, "OnProfileReset", "OnProfileReset");
 
   if not self.opts.overrides.overrideScambuster then
     return;
@@ -121,8 +121,13 @@ function Config:OnProfileChanged(...)
   DevTools_Dump({ ... });
 end
 
-function Config:OnScambusterChanged(...)
-  DevTools_Dump("OnScambusterChanged");
+function Config:OnProfileCopied(...)
+  DevTools_Dump("OnProfileCopied");
+  DevTools_Dump({ ... });
+end
+
+function Config:OnProfileReset(...)
+  DevTools_Dump("OnProfileReset");
   DevTools_Dump({ ... });
 end
 
@@ -343,6 +348,15 @@ function Config:SetupOverrides()
       },
     },
   };
+
+  --local category, layout = Settings.RegisterVerticalLayoutCategory("Overrides");
+  --
+  --local setting = Settings.RegisterAddOnSetting(category, L.REQUIRE_GUID_MATCH, "enableGUIDMatching", type(defaultValue), true);
+  --
+  --Settings.CreateCheckBox(category, setting)
+  --Settings.SetOnValueChangedCallback(variable, OnSettingChanged)
+  --
+  --Settings.RegisterAddOnCategory(category)
 
   self.options.args.overrides = options;
 
